@@ -1,0 +1,124 @@
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #ffffff;
+    position: relative;
+}
+
+.login-content {
+    display: flex;
+    width: 90%;
+}
+
+.left-section, .right-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.side-image {
+    width: 100%;
+}
+
+.floating-box {
+    position: relative;
+    width: 100%;
+    max-width: 550px;
+    padding: 20px;
+    background-color: white;
+    border: 2px solid #b40b0b;
+    border-radius: 10px;
+    box-shadow: 20px 20px 38px -15px rgba(0,0,0,0.78);
+    -webkit-box-shadow: 20px 20px 38px -15px rgba(0,0,0,0.78);
+    -moz-box-shadow: 20px 20px 38px -15px rgba(0,0,0,0.78);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-image {
+    width: 340px;
+    height: auto;
+    margin-bottom: 30px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 30px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #b40b0b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: darkred;
+}
+
+.error-login, .error-login1 {
+    color: #b40b0b;
+    font-size: 0.9rem;
+}
+
+.texto-con-opacidad {
+    opacity: 0.6;
+    font-size: 1rem;
+    margin: 10px 0;
+}
+
+
+.container, .container1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container1 a {
+    color: #b40b0b;
+    text-decoration: none;
+}
+
+.container1 a:hover {
+    text-decoration: underline;
+}
+
+.googleButton{
+    background-color: #ac4242;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.googleButton .googleLogo{
+    color: white;
+    scale: 1.25;
+    margin-right: 15px;
+}
+
+.button-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 16px;
+}
