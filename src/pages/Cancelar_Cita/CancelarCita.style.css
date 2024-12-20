@@ -1,0 +1,56 @@
+/* Contenedor de la barra lateral */
+.cancelar-cita-red-sidebar {
+    background-color: #ffffff; /* Fondo rojo */
+    color: white;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: flex-start; /* Alinea los elementos al principio del contenedor */
+}
+
+/* Botones de la barra lateral */
+.cancelar-cita-button {
+    width: 100%;
+    max-width: 300px;
+    padding: 18px;
+    font-size: 18px;
+    text-align: center;
+    background-color: #cccecd;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.cancelar-cita-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.cancelar-cita-button:active {
+    background-color: rgb(238, 192, 192);
+    transform: scale(0.98);
+}
+
+
+.cancelar-cita-button:hover {
+    background-color: #cccecd; /* Verde al pasar el mouse */
+    color: white;
+}
+
+.cancelar-cita-button:focus {
+    outline: none; /* Elimina el borde azul */
+}
+
+
+/* Contenido principal */
+.cancelar-cita-content {
+    padding: 1px;
+}
+
+.cancelar-cita-table {
+    margin-top: 1px;
+}

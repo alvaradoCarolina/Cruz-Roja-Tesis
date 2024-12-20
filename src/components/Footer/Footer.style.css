@@ -1,0 +1,81 @@
+/* Contacto.css */
+.contacto-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    overflow: auto;
+    min-height: 70vh;
+}
+
+.contact-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 12000px;
+}
+
+.contact-info, .suscribe {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 48%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.contact-info h2, .suscribe h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.contact-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-info li {
+    margin-bottom: 10px;
+}
+
+.suscribe-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.suscribe-form label {
+    margin-bottom: 0;
+}
+
+.suscribe-form input {
+    margin-bottom: 0;
+    background-color: black;
+}
+
+.footer {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-links span {
+    margin-bottom: 0;
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer-links span:hover {
+    text-decoration: underline;
+}

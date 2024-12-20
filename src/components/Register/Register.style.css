@@ -1,0 +1,139 @@
+.register-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(117, 1, 1, 0.1);
+    max-width: 1000px;
+    margin: 5rem auto;
+}
+
+.register-form {
+    flex: 1;
+    margin-right: 2rem;
+}
+
+.register-form h1, .register-form h2 {
+    margin-bottom: 4rem;
+}
+
+.register-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.register-form input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+}
+
+.register-form button {
+    width: 100%;
+    padding: 0rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+}
+
+.register-form button {
+    background-color: rgba(227, 4, 30, 0.939);
+    border: none;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    font-size: 15px;
+    padding: 11px;
+}
+
+.register-form .error {
+    color: #B3261E;
+    margin-bottom: 1rem;
+}
+.register-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-image img {
+    max-width: 103%;
+    border-radius: 70px;
+    height: 500px; /* Asegúrate de que la altura se ajuste proporcionalmente */
+    max-height: 500px; /* Ajusta esto a la altura que desees */
+}
+
+.register-form input[type="text"],
+.register-form input[type="email"],
+.register-form input[type="password"] {
+    background-color: #fff; /* Cambia esto al color que desees */
+    border: 2px solid #ccc;
+    padding: 1px;
+    font-size: 16px;
+    color: #000000;
+    border-radius: 5px;
+    padding: 8px 1px;
+    margin-bottom: 2px;
+}
+
+.google-signin:hover {
+    background-color: #B40B0B;
+}
+
+.register-form button:hover {
+    background-color: #B40B0B;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.google-signin {
+    width: 48%; /* Ajusta el porcentaje según sea necesario */
+    font-size: 1.5rem; /* Ajusta el tamaño de la fuente según lo necesites */
+    padding: 15px 30px; /* Ajusta el tamaño del padding según lo necesites */
+    border-radius: 8px; /* Ajusta el radio de borde si es necesario */
+    text-align: center; /* Asegúrate de que el texto esté centrado */
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 1px 85px;
+}
+
+.google-signin{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 37px; /* Ajusta la altura según sea necesario */
+}
+
+.ingreso-1 {
+    color: #000000;
+    font-size: 13px;
+}
+
+.ingreso-1:hover {
+    color: #B40B0B;
+    text-decoration: underline;
+}
+
+.error {
+    color: #B40B0B; /* O cualquier color que prefieras */
+    font-size: 14px; /* Ajusta el tamaño de la fuente según sea necesario */
+    margin: 0; /* Elimina márgenes para que no haya espacio adicional */
+    padding: 0; /* Elimina el padding para que no haya espacio adicional */
+}
+
+.register-form select {
+    width: 100%; /* Asegura que el campo select ocupe el ancho completo */
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 1px;
+    border: 1px solid #bab5b5;
+    border-radius: 5px;
+    font-size: 14px; /* Ajusta el tamaño de la fuente según lo que necesites */
+}

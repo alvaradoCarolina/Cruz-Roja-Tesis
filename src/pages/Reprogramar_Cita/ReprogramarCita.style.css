@@ -1,0 +1,74 @@
+/* ReprogramarCita.css */
+.reprogramar-cita-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.reprogramar-cita-main-content {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.reprogramar-cita-top-bar {
+    background-color: #b41a1a;
+    padding: 4px;
+    text-align: center;
+}
+
+.reprogramar-cita-top-bar h2 {
+    font-size: 24px;
+}
+
+.reprogramar-cita-appointment-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.reprogramar-cita-content {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.custom-date-picker {
+    width: 100%;
+    height: 30px;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.programar-cita-available-slot.selected {
+    background-color: rgba(255, 0, 64, 0.665);
+}
+
+.reprogramar-cita-table {
+    margin-top: 20px;
+    width: 99%;
+    border-collapse: collapse;
+}
+
+.reprogramar-cita-table thead th {
+    background-color: #cccecd;
+    color: rgb(0, 0, 0);
+    border: none;
+    font-weight: normal;
+    font-size: 20px;
+    border: none;
+}
+
+.reprogramar-cita-table tbody tr td {
+    background-color: white;
+    border: none;
+}
+
+.reprogramar-cita-ml-2 {
+    margin-left: 100px;
+    background-color: rgb(238, 192, 192);
+    border: black;
+}
+
+.reprogramar-cita-formDay {
+    font-weight: bold;
+    font-size: 18px;
+}
