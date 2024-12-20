@@ -5,7 +5,7 @@ import './recoverypassword.style.css';
 import img3 from '../../assets/images/img3.png';
 import { FaArrowLeft } from 'react-icons/fa';
 
-const RecoverPassword = () => {
+const RecoveryPassword = () => {
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
@@ -81,4 +81,4 @@ const RecoverPassword = () => {
     );
 };
 
-export default RecoverPassword;
+export default RecoveryPassword;

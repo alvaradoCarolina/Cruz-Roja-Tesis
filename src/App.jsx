@@ -8,7 +8,7 @@ import { Routes, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Home from './components/Home';
 import Register from './components/Register';
-import RecoverPassword from './components/Recovery_Password';
+import RecoveryPassword from './components/Recovery_Password';
 import ProgramarCita from './pages/Programar_Cita';
 import VerCitas from './pages/Ver_Citas';
 import ReprogramarCita from './pages/Reprogramar_Cita';
@@ -24,7 +24,7 @@ function App() {
             <Route exact path="/" element={<Login />} />
             <Route path="/home" element={<Home />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/recuperar-password" element={<RecoverPassword />} />
+            <Route path="/recuperar-password" element={<RecoveryPassword />} />
             <Route path="/cita/programar" element={<ProgramarCita />} />
             <Route path="/cita/ver" element={<VerCitas />} />
             <Route path="/cita/reprogramar" element={<ReprogramarCita />} />
