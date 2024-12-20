@@ -1,1 +1,1 @@
-export {default} from './RecoveryPassword';
+export {default} from './recoverypassword';
