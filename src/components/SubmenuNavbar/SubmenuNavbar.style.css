@@ -1,29 +1,211 @@
-/* NavbarConSubmenu.css */
+/* Estilo general del navbar */
 .custom-navbar {
-    background-color: #b40b0b;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.logo-navbar-con-submenu {
-    height: 90px;
+.menu-toggle{
+    display: none;
 }
 
-.submenu-container-navbar-con-submenu {
-    position: absolute;
-    background-color: #b40b0b;
-    border: 1px solid #b40b0b;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    top: 60px;
-    right: 20px;
-    z-index: 1000;
+/* Contenedor de los elementos */
+.navbar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
 }
 
-.submenu-container-navbar-con-submenu a {
-    color: #b40b0b;
+/* Logo del navbar */
+.navbar-logo img {
+    height: 50px;
+}
+
+/* Enlaces del navbar */
+.navbar-links {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    gap: 21px;
+}
+
+/* Estilo para cada enlace */
+.nav-item {
     text-decoration: none;
+    color: black;
+    font-weight: bold;
+    transition: color 0.3s;
 }
 
-.submenu-container-navbar-con-submenu a:hover {
-    color: #b40b0b;
+/* Hover en enlaces */
+.nav-item:hover {
+    transition: .3s ease-in-out all;
+    color: #800000;
+    text-decoration: 2px underline #b41a1a;
+}
+
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    color: black;
+}
+
+.dropdown-toggle:hover{
+    color: white;
+}
+
+/* Dropdown menú */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    z-index: 1000;
+    display: block;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+/* Ocultar el dropdown si no está visible */
+.dropdown-menu.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: black;
+    font-weight: normal;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #800000;
+}
+
+.exit_button{
+    width: fit-content;
+    padding: 12px 24px;
+    border-radius: 16px;
+}
+
+/* Logout botón a la derecha */
+.nav-logout {
+    margin-left: auto;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-logout .exitIcon{
+    margin-right: 10px;
+}
+
+/* Media query para pantallas pequeñas */
+@media screen and (max-width: 800px) {
+    /* Contenedor principal del navbar */
+    .navbar-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* Logo */
+    .navbar-logo img {
+        height: 30px;
+        margin: 10px;
+    }
+
+    /* Mostrar el icono de menú (hamburguesa) */
+    .menu-toggle {
+        display: block;
+        font-size: 30px;
+        color: black;
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 1100;
+        width: fit-content;
+        scale: 0.75;
+    }
+
+    /* Mostrar el menú cuando está abierto */
+    .navbar-links {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 20px;
+        background-color: #fff;
+        margin-top: 10px;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        z-index: 1000;
+        transform: translateX(-200%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .navbar-links.open {
+        transform: translateY(0);
+    }
+
+    .nav-item {
+        width: 100%;
+        padding: 10px;
+        text-align: left;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: block;
+        margin-top: 10px;
+        padding: 0;
+        background-color: #fff;
+    }
+
+    .dropdown-item {
+        width: 100%;
+        padding: 10px;
+        text-align: left;
+        color: #b40b0b;
+    }
+
+    .exit_button {
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+    }
+
+    /* Cambiar el icono de menú a 'X' cuando el menú está abierto */
+    .menu-toggle.open {
+        color: black; /* Cambia el color del ícono */
+    }
 }

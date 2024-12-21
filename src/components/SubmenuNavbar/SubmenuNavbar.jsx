@@ -1,92 +1,73 @@
 import React, { useState } from 'react';
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
-import styled from 'styled-components';
-import logo from '../../assets/images/logo.png';
-import Sidebar from '../Sidebar';
-import './SubmenuNavbar.style.css';
 import { auth } from '../../services/firebaseConfig.js';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/images/logo_cre_trans.png';
+import './SubmenuNavbar.style.css';
+import { AiOutlineLogout } from 'react-icons/ai';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { IoMdClose } from 'react-icons/io';
 
 const NavbarConSubmenu = () => {
-    const [submenuVisible, setSubmenuVisible] = useState(false);
-    const [showSidebar, setShowSidebar] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false); // Estado para el dropdown
     const navigate = useNavigate();
-
-    const handleMouseEnter = () => {
-        setSubmenuVisible(true);
-    };
-
-    const handleMouseLeave = () => {
-        setSubmenuVisible(false);
-    };
-
-    const handleSidebarToggle = () => {
-        setShowSidebar(!showSidebar);
-    };
 
     const handleLogout = async () => {
         try {
-            // Cerrar sesión en Firebase
             await signOut(auth);
-            console.log("Sesión cerrada");
-
-            // Esperar 5 segundos y redirigir al login
+            console.log('Sesión cerrada');
             setTimeout(() => {
-                // Redirigir al login
                 navigate('/');
             }, 3000);
         } catch (error) {
-            console.error("Error al cerrar sesión:", error);
+            console.error('Error al cerrar sesión:', error);
         }
     };
 
-    const StyledNavLink = styled(Nav.Link)`
-    font-size: 18px;
-    font-weight: bold;
-    margin-right: 15px;
-  `;
-
-    const StyledNavDropdownItem = styled(NavDropdown.Item)`
-    font-size: 18px;
-    font-weight: bold;
-  `;
-
     return (
-        <>
-            <Navbar bg="light" expand="lg" className="custom-navbar">
-                <Container>
-                    <Navbar.Brand href="/home">
-                        <img src={logo} alt="Logo" className="logo-navbar-con-submenu" />
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="ml-auto">
-                            <StyledNavLink href="/home">Inicio</StyledNavLink>
-                            <StyledNavLink href="/informacion">Aprende Sobre Donación</StyledNavLink>
-                            <StyledNavLink href="/contacto">Contacto</StyledNavLink>
+        <header className="custom-navbar">
+            <div className="navbar-container">
+                {/* Logo */}
+                <a href="/home" className="navbar-logo">
+                    <img src={logo} alt="Logo" />
+                </a>
 
-                            <NavDropdown
-                                className='ml-auto'
-                                title={<strong>Perfil</strong>}
-                                id="basic-nav-dropdown"
-                                onMouseEnter={handleMouseEnter}
-                                onMouseLeave={handleMouseLeave}
-                            >
-                                <StyledNavDropdownItem href="/programarcita" onClick={handleSidebarToggle}>Citas</StyledNavDropdownItem>
-                                <NavDropdown.Divider />
-                                <StyledNavDropdownItem href="/formulariodonacion">Llenar Formulario</StyledNavDropdownItem>
-                                <NavDropdown.Divider />
-                                <StyledNavDropdownItem href="/actualizardatos">Actualizar Datos</StyledNavDropdownItem>
-                                <NavDropdown.Divider />
-                            </NavDropdown>
-                            <StyledNavLink href="#!" onClick={handleLogout}>Salir</StyledNavLink>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-            {showSidebar && <Sidebar />}
-        </>
+                {/* Solo se muestra en móvil el icono de menú */}
+                <button
+                    className={`menu-toggle ${menuOpen ? 'open' : ''}`}
+                    onClick={() => setMenuOpen(!menuOpen)}
+                >
+                    {menuOpen ? <IoMdClose /> : <GiHamburgerMenu />}
+                </button>
+
+                {/* Menú de navegación, visible solo en móvil */}
+                <nav className={`navbar-links ${menuOpen ? 'open' : ''}`}>
+                    <a href="/home" className="nav-item">Inicio</a>
+                    <a href="/informacion" className="nav-item">Aprende Sobre Donación</a>
+                    <div className="dropdown">
+                        <button
+                            className="dropdown-toggle"
+                            onClick={() => setDropdownOpen(!dropdownOpen)}
+                        >
+                            Perfil
+                        </button>
+                        <div className={`dropdown-menu ${dropdownOpen ? '' : 'hidden'}`}>
+                            <a href="/programarcita" className="dropdown-item">Citas</a>
+                            <a href="/formulariodonacion" className="dropdown-item">Llenar Formulario</a>
+                            <a href="/actualizardatos" className="dropdown-item">Actualizar Datos</a>
+                        </div>
+                    </div>
+                    {/* Botón de logout */}
+                    <button className="exit_button">
+                        <a href="#!" onClick={handleLogout} className="nav-logout">
+                            <AiOutlineLogout className="exitIcon" />
+                            Salir
+                        </a>
+                    </button>
+                </nav>
+            </div>
+        </header>
     );
 };
 
