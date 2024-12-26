@@ -1,56 +1,50 @@
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Navbar from "../SubmenuNavbar";
-import "./Home.style.css";
-import carrucel1 from '../../assets/images/carrucel1.png';
-import carrucel2 from '../../assets/images/carrucel2.png';
-import carrucel3 from '../../assets/images/carrucel3.png';
-import home1 from '../../assets/images/info4.png'
-import home2 from '../../assets/images/home1.png'
 import Footer from '../Footer';
+import "./Home.style.css";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+import carrucel1 from '../../assets/images/1_1.png';
+import carrucel2 from '../../assets/images/Banner_principal_responsive-2-1.png';
 
 const Home = () => {
-    const [currentSlide, setCurrentSlide] = useState(0); // Hook para el carrusel
-    const images = [carrucel1, carrucel2, carrucel3
-    ];
-
-    // Cambiar la imagen cada 3 segundos
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % images.length);
-        }, 5000); // Cambia cada 3 segundos
-
-        return () => clearInterval(intervalId); // Limpiar el intervalo al desmontar
-    }, [images.length]);
 
     return (
-        <div className="App">
+        <div className="layout">
             <Navbar />
-            {/* Carrusel */}
-            <div className="carousel-container">
-                <div className="carousel" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-                    {images.map((src, index) => (
-                        <img key={index} src={src} alt={`Imagen ${index + 1}`} className="carousel-image" />
-                    ))}
-                </div>
-            </div>
 
-            {/* Secciones debajo del carrusel */}
-            <div className="sections-container">
-                <div className="section">
-                    <img src={home1} alt="Sección 1" />
-                </div>
-                <div className="section">
-                    <img src={carrucel2} alt="Sección 1" />
-                </div>
-                <div className="section">
-                    <img src={home2} alt="Sección 1" />
-                </div>
-            </div>
+            <main className="main">
+                {/* Seccion del carrusel */}
+                <section className="carousel-section">
+                    <Carousel autoPlay={true} showArrows={false} showThumbs={false} showStatus={false} infiniteLoop={true}>
+                        <div>
+                            <img src={carrucel1} alt="" />
+                        </div>
+                        <div>
+                            <img src={carrucel2} alt="" />
+                        </div>
+                    </Carousel>
+                </section>
+
+                <section className="compose-section">
+                    {/* Seccion de Mision */}
+                    <aside className="mision-section">
+                        <h1>Misión</h1>
+                        Este es una mision
+                    </aside>
+
+                    {/* Seccion de Visión */}
+                    <aside className="vision-section">
+                        <h1>Visión</h1>
+                        Esta es mi vision
+                    </aside>
+                </section>
+            </main>
+
             <Footer />
         </div>
     );
 };
-
 
 export default Home;

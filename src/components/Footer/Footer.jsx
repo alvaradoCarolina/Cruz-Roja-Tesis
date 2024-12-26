@@ -6,12 +6,12 @@ import {FaXTwitter} from "react-icons/fa6";
 
 const Footer = () => {
     return (
-        <>
-            <div className="contacto-container">
-                <section className="logo-stack">
+        <footer className="contacto-container">
+            <main className="main-content-footer">
+                <section className="logo-stack grow-1">
                     <img src={logo_stack} alt="logo stack"/>
                 </section>
-                <section className="contacto-info">
+                <section className="contacto-info .grow-1">
                     <h2 className="title">Contacto</h2>
                     <ul>
                         <li><strong>Teléfono:</strong> (+593 2) 2582 482</li>
@@ -49,7 +49,7 @@ const Footer = () => {
                     </div>
                 </section>
 
-                <section className="map-info">
+                <section className="map-info .grow-1">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7898307783794!2d-78.50608572414394!3d-0.21652309978134557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91d59a214b2c1c8f%3A0xbe846faa316e92da!2sCruz%20Roja%20Ecuatoriana%20-%20Sede%20Central!5e0!3m2!1ses!2sec!4v1734748094238!5m2!1ses!2sec"
                         style={{border: 0}}
@@ -59,12 +59,10 @@ const Footer = () => {
                         title="Google Maps Embed"
                     ></iframe>
                 </section>
-            </div>
+            </main>
 
-            <footer className="footer">
-                <span>CRE© 2024 Todos los derechos reservados</span>
-            </footer>
-        </>
+            <span className="copyright-span">CRE© 2024 Todos los derechos reservados</span>
+        </footer>
     );
 };
 

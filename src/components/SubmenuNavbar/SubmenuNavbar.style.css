@@ -6,6 +6,7 @@
     align-items: center;
     padding: 10px 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 .menu-toggle{
@@ -123,7 +124,7 @@
 }
 
 /* Media query para pantallas pequeñas */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
     /* Contenedor principal del navbar */
     .navbar-container {
         display: flex;
