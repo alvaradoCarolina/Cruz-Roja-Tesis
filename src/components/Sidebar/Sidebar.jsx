@@ -24,10 +24,10 @@ const Sidebar = () => {
                 <Row>
                     <Col md={7} className="cancelar-cita-red-sidebar">
                         <div className="cancelar-cita-appointment-menu">
-                            <Button className="cancelar-cita-button mb-4" href="/programarcita">Programar Cita</Button>
-                            <Button className="cancelar-cita-button mb-4" href="/vercitas">Ver Citas</Button>
-                            <Button className="cancelar-cita-button mb-4" href="/reprogramarcita">Editar Citas</Button>
-                            <Button className="cancelar-cita-button mb-4" href="/cancelarcita">Cancelar Cita</Button>
+                            <Button className="cancelar-cita-button mb-4" href="/cita/programar">Programar Cita</Button>
+                            <Button className="cancelar-cita-button mb-4" href="/cita/ver">Ver Citas</Button>
+                            <Button className="cancelar-cita-button mb-4" href="/cita/reprogramar">Editar Citas</Button>
+                            <Button className="cancelar-cita-button mb-4" href="/cita/cancelar">Cancelar Cita</Button>
                         </div>
                     </Col>
                 </Row>
