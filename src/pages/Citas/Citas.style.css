@@ -1,0 +1,118 @@
+/* src/pages/Citas.style.css */
+.citas-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+    height: calc(100vh - 60px); /* Ajusta para que no solape con el navbar */
+}
+
+.citas-left-panel {
+    background-image: url('../../assets/images/Banner_principal_responsive-2-1.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+}
+
+.citas-left-panel h1 {
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
+}
+
+.citas-left-panel p{
+    color: white;
+    text-align: center;
+}
+
+.citas-right-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Define dos columnas */
+    grid-template-rows: auto auto; /* Define dos filas */
+    gap: 20px;
+    justify-items: center;
+    align-items: center;
+}
+
+.citas-item {
+    background-color: #B3261E;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.3s, color 0.3s;
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    height: 100%; /* Asegura que ocupe todo el alto */
+    flex-direction: column;
+    aspect-ratio: 1/1;
+}
+
+.citas-item a{
+    text-decoration: none;
+}
+
+.citas-item:hover {
+    background-color: #a53434;
+    cursor: pointer;
+    color: #fff;
+}
+
+.citas-item .cita-compose-item{
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.compose-icon{
+    width: 128px;
+    filter: invert();
+}
+
+@media screen and (max-width: 1000px) {
+    .citas-container {
+        grid-template-columns: 1fr; /* Cambia a una columna en pantallas pequeñas */
+    }
+
+    .citas-right-panel {
+        grid-template-columns: 1fr; /* Los elementos se apilan en columna */
+    }
+
+    .citas-item {
+        aspect-ratio: auto;
+    }
+
+    .compose-icon {
+        width: 50px;
+        filter: invert();
+        margin-right: 10px; /* Espacio entre el icono y el texto */
+    }
+
+    .citas-item .cita-compose-item {
+        text-decoration: none;
+        color: white;
+        display: flex;
+        flex-direction: row;
+        justify-content: center; /* Centra el contenido horizontalmente */
+        align-items: center; /* Centra el contenido verticalmente */
+    }
+
+    .cita-compose-item p {
+        margin: 0; /* Elimina el margen del texto */
+        font-size: 16px;
+    }
+}

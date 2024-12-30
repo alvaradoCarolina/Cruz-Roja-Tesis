@@ -17,6 +17,7 @@ import FormularioDonacion from './pages/Formulario_Donacion';
 import ActualizarDatos from './pages/Actualizar_Datos';
 import Footer from './components/Footer';
 import Informacion from './pages/Informacion';
+import Citas from './pages/Citas';
 
 function App() {
     return (
@@ -25,12 +26,17 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/recuperar-password" element={<RecoveryPassword />} />
-            <Route path="/cita/programar" element={<ProgramarCita />} />
-            <Route path="/cita/ver" element={<VerCitas />} />
-            <Route path="/cita/reprogramar" element={<ReprogramarCita />} />
-            <Route path="/cita/cancelar" element={<CancelarCita />} />
+
+            {/* Ruta padre para Citas */}
+            <Route path="/cita" element={<Citas />}>
+                <Route path="programar" element={<ProgramarCita />} />
+                <Route path="ver" element={<VerCitas />} />
+                <Route path="reprogramar" element={<ReprogramarCita />} />
+                <Route path="cancelar" element={<CancelarCita />} />
+            </Route>
+
             <Route path="/donacion/formulario" element={<FormularioDonacion />} />
-            <Route path='/usuario/actualizar_datos' element={<ActualizarDatos />} />
+            <Route path="/usuario/actualizar_datos" element={<ActualizarDatos />} />
             <Route path="/contacto" element={<Footer />} />
             <Route path="/informacion" element={<Informacion />} />
         </Routes>
