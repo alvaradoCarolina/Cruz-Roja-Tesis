@@ -1,0 +1,15 @@
+{
+  "rewrites": [
+    { "source": "/home", "destination": "/" },
+    { "source": "/register", "destination": "/" },
+    { "source": "/recuperar-password", "destination": "/" },
+    { "source": "/cita/programar", "destination": "/" },
+    { "source": "/cita/ver", "destination": "/" },
+    { "source": "/cita/reprogramar", "destination": "/" },
+    { "source": "/cita/cancelar", "destination": "/" },
+    { "source": "/donacion/formulario", "destination": "/" },
+    { "source": "/usuario/actualizar_datos", "destination": "/" },
+    { "source": "/contacto", "destination": "/" },
+    { "source": "/informacion", "destination": "/" }
+  ]
+}
