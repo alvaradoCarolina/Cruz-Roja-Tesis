@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../services/firebaseConfig.js";
 import {
@@ -7,23 +7,38 @@ import {
     signInWithPopup,
 } from "firebase/auth";
 import { sendMail } from "../../services/mailerService.js";
-import logo from "../../assets/images/logo.png";
-import img2 from "../../assets/images/img2.png";
 import { FaGoogle } from "react-icons/fa";
 import './Login.style.css';
 import Loader from '../Loader';
+import logo_cruz_roja from "../../assets/images/LOGOS-PARA-WEB-MARZO-02.png";
+import Swal from "sweetalert2";
+import "@material/web/button/filled-button.js";
+import "@material/web/button/filled-tonal-button.js";
+import "@material/web/textfield/outlined-text-field.js";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [isSwalActive, setIsSwalActive] = useState(false); // Estado para controlar Swal
     const navigate = useNavigate();
     const googleProvider = new GoogleAuthProvider();
 
     const handleLogin = async () => {
         if (!email || !password) {
             setError("Correo y contraseña son obligatorios.");
+            setIsLoading(false); // Cerramos el Loader antes de mostrar Swal
+            setIsSwalActive(true); // Activamos el control de Swal
+
+            await Swal.fire({
+                title: "Error",
+                text: "Correo y contraseña son obligatorios.",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+            });
+
+            setIsSwalActive(false); // Desactivamos el control de Swal después de cerrar
             return;
         }
 
@@ -35,20 +50,27 @@ const Login = () => {
             const userName = user.displayName || "Usuario";
             const currentDateTime = new Date().toLocaleString();
 
-            // Enviar correo después del login exitoso
             await sendMail(email, "login_email", { userName, email, currentDateTime });
-
             navigate("/home");
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
-            setError("Error al iniciar sesión.");
+            setIsLoading(false); // Cerramos el Loader antes de mostrar Swal
+            setIsSwalActive(true); // Activamos el control de Swal
+
+            await Swal.fire({
+                title: "Error al iniciar sesión",
+                text: "Usuario o contraseña incorrectos. Por favor verifica tus datos.",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+            });
+
+            setIsSwalActive(false); // Desactivamos el control de Swal después de cerrar
         } finally {
             setIsLoading(false);
         }
     };
 
     const handleGoogleSignIn = async () => {
-
         setIsLoading(true);
 
         try {
@@ -58,65 +80,76 @@ const Login = () => {
             const userName = user.displayName || "Usuario";
             const currentDateTime = new Date().toLocaleString();
 
-            // Enviar correo después del login exitoso con Google
             await sendMail(user.email, "login_google", { userName, email: user.email, currentDateTime });
-
             navigate("/home");
         } catch (error) {
             console.error("Error al iniciar sesión con Google:", error);
-            setError("Error al iniciar sesión.");
-        }
-        finally {
-            setIsLoading(false);
+            setIsLoading(false); // Cerramos el Loader antes de mostrar Swal
+            setIsSwalActive(true); // Activamos el control de Swal
+
+            await Swal.fire({
+                title: "Error al iniciar sesión",
+                text: "Usuario o contraseña incorrectos. Por favor verifica tus datos.",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+            });
+
+            setIsSwalActive(false); // Desactivamos el control de Swal después de cerrar
         }
     };
 
     const handleRegister = () => {
-        navigate('/register'); // Redirige a la ruta "/registro"
+        navigate('/register');
     };
-
 
     return (
         <div className="login-container">
-            {isLoading && <Loader title="Iniciando sesión" />} {/* Mostrar Loader mientras carga */}
-            {!isLoading && ( /* Mostrar contenido solo si no está cargando */
+            {isLoading && !isSwalActive && <Loader title="Iniciando sesión" />}
+            {!isLoading && (
                 <div className="login-content">
-                    <div className="left-section">
-                        <img src={img2} alt="Imagen lado izquierdo" className="side-image" />
-                    </div>
+                    <aside className="aside-info">
+                        <img src={logo_cruz_roja} alt="logo cruz-roja" className="logo_register" />
+                        <h1>Iniciar Sesión</h1>
+                        <p>Accede a los servicios de nuestro sistema mediante el ingreso en el aplicativo de donación.</p>
+                    </aside>
+
                     <div className="right-section">
                         <div className="floating-box login-form">
-                            <img src={logo} alt="logo" className="header-image" />
-                            <h4>BIENVENIDO DE VUELTA</h4>
-                            <input
+                            <h4>Ingresa con tu correo y contraseña</h4>
+                            <md-outlined-text-field
+                                label="Correo electrónico"
                                 type="email"
-                                placeholder="Correo electrónico"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                disabled={isLoading} // Deshabilitar input mientras carga
-                            />
-                            <input
+                                onInput={(e) => setEmail(e.target.value)}
+                                required
+                            ></md-outlined-text-field>
+                            <md-outlined-text-field
+                                label="Contraseña"
                                 type="password"
-                                placeholder="Contraseña"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                disabled={isLoading} // Deshabilitar input mientras carga
-                            />
-                            <button onClick={handleLogin} disabled={isLoading}> {/* Deshabilitar botón */}
+                                onInput={(e) => setPassword(e.target.value)}
+                                required
+                            ></md-outlined-text-field>
+
+                            <md-filled-button onClick={handleLogin}>
                                 Iniciar Sesión
-                            </button>
-                            <button
+                            </md-filled-button>
+
+                            <hr className="login-hr"/>
+
+                            <md-filled-button
+                                className="google-signin"
                                 onClick={handleGoogleSignIn}
-                                className="googleButton"
-                                disabled={isLoading} // Deshabilitar botón
                             >
-                                <span className="googleLogo"><FaGoogle /></span>
-                                Iniciar con Google
-                            </button>
-                            <p className="button-section">
+                                <span>Iniciar con <FaGoogle className="GIcon"/></span>
+                            </md-filled-button>
+
+                            <span className="button-section">
                                 ¿Aún no tienes cuenta?
-                                <button onClick={handleRegister} disabled={isLoading}>Registrate</button>
-                            </p>
+                                <button onClick={handleRegister}>
+                                    Registrate
+                                </button>
+                            </span>
                         </div>
                     </div>
                 </div>

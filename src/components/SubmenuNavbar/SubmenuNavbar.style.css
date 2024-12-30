@@ -1,6 +1,6 @@
 /* Estilo general del navbar */
 .custom-navbar {
-    background-color: #fff;
+    background-color: #efefef;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -104,8 +104,10 @@
 
 .exit_button{
     width: fit-content;
-    padding: 12px 24px;
+    padding: 5px 20px;
     border-radius: 16px;
+    background-color: #b40b0b;
+    border: none;
 }
 
 /* Logout botón a la derecha */
