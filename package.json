@@ -23,7 +23,8 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^7.0.2",
     "styled-components": "^6.1.13",
-    "swiper": "^11.1.15"
+    "swiper": "^11.1.15",
+    "toldo": "^0.1.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
