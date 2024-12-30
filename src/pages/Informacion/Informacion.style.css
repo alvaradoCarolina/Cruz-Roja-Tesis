@@ -1,86 +1,236 @@
-/* Informacion.css */
-.info-cruz-roja-container {
-    background-color: #f9f9f9;
-    font-family: Arial, sans-serif;
-}
-
-.info-cruz-roja-main {
-    padding: 20px;
-}
-
-.info-cruz-roja-header {
-    background-color: #c82333;
-    color: white;
-    text-align: center;
-    padding: 30px 0;
-    margin-bottom: 20px;
-}
-
-.info-cruz-roja-header h1 {
-    font-size: 3rem;
-    margin: 0;
-}
-
-.info-cruz-roja-section {
-    margin-bottom: 40px;
-}
-
-.info-cruz-roja-image-box {
-    text-align: center;
-}
-
-.info-cruz-roja-image-red-box {
-    background-color: #c82333;
-    padding: 50px;
-    display: inline-block;
-    border-radius: 80px;
-}
-
-.info-cruz-roja-image-red-box img {
-    border-radius: 80px;
-    max-width: 100%;
-}
-
-.info-cruz-roja-title {
-    margin-top: 1px;
-    font-size: 3rem;
-    color: #ffffff;
-    text-align: center;
-}
-
-.info-cruz-roja-content h2 {
-    color: #c82333;
-    margin-bottom: 15px;
-    font-size: 2rem;
-}
-
-.info-cruz-roja-content ul {
-    padding-left: 20px;
-    font-size: 1.2rem;
-}
-
-.info-cruz-roja-content ul li {
-    margin-bottom: 10px;
-    padding: 8px;
-}
-
-.info-cruz-roja-section-centered {
+.main-component {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 60vh; /* Altura de la sección */
-    background-color: #f4f4f4;
-    padding: 20px;
 }
 
-.info-cruz-roja-centered-content {
+.info-header {
+    grid-column: span 2; /* Ocupa toda la fila superior */
     text-align: center;
-    font-size: 1.5rem;
-    color: #333;
+    background-color: #b41a1a;
+    color: white;
+    padding: 24px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    width: 100%;
+    margin-bottom: 50px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 }
 
-.Footer {
-    text-align: center;
-    padding: 20px;
+.info-content{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales */
+    grid-template-rows: auto auto; /* Ajusta las filas según su contenido */
+    gap: 80px; /* Espaciado entre elementos */
+    padding: 25px;
+}
+
+.donacion-component,
+.myth-section,
+.razones-section{
+    position: relative;
+    z-index: 50;
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0, rgba(255, 255, 255, 0.8) -6px -2px 16px 0;
+}
+
+.donacion-text{
+    margin-bottom: -10px;
+    margin-top: 10px;
+}
+
+.donacion-component {
     align-items: center;
+    grid-column: 1 / 2; /* Ocupa la primera columna */
+    justify-items: center;
+    background-color: #f5f5f5;
+    padding: 10px 20px;
+    border-radius: 16px;
+    border: 2px solid #B3261E;
+}
+
+.donacion-list li{
+    margin-top: -8px;
+    font-size: 1.10em;
+    padding: 3px 0;
+}
+
+.myth-section {
+    grid-column: 2 / 3; /* Ocupa la segunda columna */
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 16px;
+    border: 2px solid #B3261E;
+}
+
+.myth-content {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en filas */
+    gap: 20px; /* Espaciado entre elementos */
+    list-style: none; /* Elimina los puntos de la lista */
+    padding: 0; /* Elimina el padding predeterminado */
+    margin-top: 25px; /* Elimina el margen predeterminado */
+    color: white;
+}
+
+.myth-content li {
+    display: flex;
+    flex-direction: column; /* Asegura que cada item tenga un diseño en columna */
+    flex: 1 1 calc(50% - 20px); /* Ocupa la mitad del ancho con margen */
+    box-sizing: border-box; /* Incluye padding y border en el cálculo del ancho */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 12px; /* Espaciado interno */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    text-align: left;
+}
+
+.myth-content li:nth-child(1) {
+    background-color: #dd4343; /* Rojo claro */
+}
+
+.myth-content li:nth-child(2) {
+    background-color: #d83e3e; /* Rojo más oscuro */
+}
+
+.myth-content li:nth-child(3) {
+    background-color: #ba2b2b; /* Rojo medio */
+}
+
+.myth-content li:nth-child(4) {
+    background-color: #b41a1a; /* Rojo oscuro */
+}
+
+.myth-content li span {
+    font-weight: bold; /* Destaca la pregunta */
+    margin-bottom: 8px; /* Espaciado inferior */
+}
+
+.myth-content li p {
+    margin: 0; /* Elimina el margen predeterminado */
+    font-size: 0.9em; /* Ajusta el tamaño del texto */
+    color: white;
+}
+
+.razones-section {
+    grid-column: span 2; /* Ocupa ambas columnas (fila completa) */
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.razones-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas en pantallas grandes */
+    gap: 16px; /* Espaciado entre los elementos */
+    list-style: none; /* Elimina los puntos de la lista */
+    padding: 0;
+    margin-top: 25px;
+}
+
+.razones-content li {
+    background-color: #f5f5f5; /* Fondo claro */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    font-size: 0.9em; /* Tamaño del texto */
+    text-align: left; /* Alineación del texto */
+}
+
+.title-compose{
+    position: absolute;
+    z-index: 90;
+    background: #b41a1a;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    top: -40px;
+    right: 18px;
+}
+
+.title-compose-mobile{
+    display: none;
+}
+
+@media screen and (max-width: 1000px) {
+
+    .info-header{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .info-header h1 {
+        font-size: 1.20em;
+        padding: 20px;
+    }
+
+    .info-content {
+        margin-top: -30px;
+        grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+        grid-template-rows: auto; /* Ajusta el contenido automáticamente */
+        gap: 50px;
+        margin-bottom: 15px;
+    }
+
+    .info-header,
+    .donacion-component,
+    .myth-section,
+    .razones-section {
+        grid-column: span 1; /* Cada sección ocupa todo el ancho */
+        font-size: 1.25em;
+        padding: 0;
+    }
+
+    .myth-section{
+        border: none;
+        box-shadow: none;
+        background-color: white;
+    }
+
+    .title-compose{
+        display: none;
+    }
+
+    .title-compose-mobile{
+        display: flex;
+        width: 100%;
+        background-color: #b41a1a;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .title-compose-mobile h1{
+        font-weight: bold;
+    }
+
+    .donacion-list li{
+        font-size: 0.75em;
+        padding: 8px 0;
+    }
+
+    .myth-content li {
+        flex: 1 1 100%; /* Cada item ocupa el ancho completo */
+        text-align: center;
+    }
+
+    .myth-content li p{
+        text-align: center;
+    }
+
+    .razones-section{
+        background-color: white;
+        box-shadow: none;
+    }
+
+    .razones-content {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+        gap: 20px;
+    }
 }

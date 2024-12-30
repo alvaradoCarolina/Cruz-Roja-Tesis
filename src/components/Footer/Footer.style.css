@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .contacto-container {
     display: flex;
     background-color: #b41a1a;
@@ -87,8 +91,8 @@
 }
 
 .map-info iframe {
-    width: 95%;
-    height: 325px;
+    width: 100%;
+    height: 400px;
     aspect-ratio: 1/1;
     border-radius: 16px;
 }
@@ -98,35 +102,49 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
-        width: auto;
-        height: auto;
+        align-items: stretch;
+        width: 100%;
     }
 
     .main-content-footer {
-        flex-direction: column; /* Coloca los elementos en columna */
+        flex-direction: column;
         width: 100%;
-        justify-content: center; /* Alinea los elementos de manera centrada */
+        justify-content: center;
+        align-items: center;
     }
 
     .logo-stack,
     .contacto-info,
     .map-info {
-        width: 100%; /* Cada sección ocupa el 100% del ancho en pantallas pequeñas */
-        height: auto; /* Adapta la altura a su contenido */
-        margin-bottom: 20px; /* Espaciado entre los elementos */
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        box-sizing: border-box;
     }
 
     .logo-stack img {
-        max-width: 100%; /* Asegura que el logo se ajuste bien */
-    }
-
-    .map-info iframe {
-        height: 100%; /* El iframe ocupa todo el alto disponible dentro de su contenedor */
-        aspect-ratio: 1/1; /* Mantiene la proporción */
+        scale: 0.5;
+        max-width: 100%;
     }
 
     .contacto-info ul {
         text-align: center;
+        padding: 0;
+    }
+
+    .map-info iframe {
+        width: 100%;
+        height: auto;
+        aspect-ratio: auto;
+        max-height: 300px;
+    }
+
+    .social-info ul li {
+        scale: 1.2;
+        transition: 0.3s ease-in-out;
+    }
+
+    .social-info ul li:hover {
+        scale: 1.4;
     }
 }
