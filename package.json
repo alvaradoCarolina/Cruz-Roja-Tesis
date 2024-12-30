@@ -10,7 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@glidejs/glide": "^3.7.1",
+    "@material/web": "^2.2.0",
+    "@mui/icons-material": "^6.3.0",
+    "@mui/material": "^6.3.0",
+    "@mui/styled-engine-sc": "^6.3.0",
     "bootstrap": "^5.3.3",
     "emailjs-com": "^3.2.0",
     "firebase": "^11.1.0",
@@ -23,6 +29,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^7.0.2",
     "styled-components": "^6.1.13",
+    "sweetalert2": "^11.15.3",
     "swiper": "^11.1.15",
     "toldo": "^0.1.4"
   },
