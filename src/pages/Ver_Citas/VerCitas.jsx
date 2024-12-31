@@ -23,7 +23,6 @@ const VerCitas = () => {
 
     return (
         <div className="ver-citas-container">
-            <CustomNavbar />
             <Container fluid className="ver-citas-main-content">
                 <Row className="ver-citas-top-bar">
                     <Col md={16}>
@@ -31,7 +30,6 @@ const VerCitas = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Sidebar />
                     <Col md={3} className="ver-citas-content">
                         <Table bordered className="ver-citas-table">
                             <thead>

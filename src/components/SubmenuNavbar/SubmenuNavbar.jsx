@@ -65,7 +65,7 @@ const NavbarConSubmenu = () => {
                                 Perfil
                             </button>
                             <div className={`dropdown-menu ${dropdownOpen ? '' : 'hidden'}`}>
-                                <a href="/cita/programar" className="dropdown-item">Citas</a>
+                                <a href="/cita" className="dropdown-item">Citas</a>
                                 <a href="/donacion/formulario" className="dropdown-item">Llenar Formulario</a>
                                 <a href="/usuario/actualizar_datos" className="dropdown-item">Actualizar Datos</a>
                             </div>

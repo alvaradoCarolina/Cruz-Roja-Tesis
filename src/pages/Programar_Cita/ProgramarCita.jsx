@@ -1,151 +1,192 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Form, Table } from 'react-bootstrap';
-import CustomNavbar from '../../components/SubmenuNavbar';
-import Sidebar from '../../components/Sidebar';
-import './ProgramarCita.style.css';
-import { db } from '../../services/firebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth'
+import React, { useState, useEffect } from "react";
+import {
+    Box,
+    Stepper,
+    Step,
+    StepLabel,
+    Button,
+    TextField,
+    Select,
+    MenuItem,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow,
+    useMediaQuery,
+    FormControl,
+    InputLabel,
+} from "@mui/material";
+import Swal from "sweetalert2";
+import CustomNavbar from "../../components/SubmenuNavbar";
+import "./ProgramarCita.style.css";
+import { db } from "../../services/firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const ProgramarCita = () => {
-    const [selectedDay, setSelectedDay] = useState('');
-    const [selectedTime, setSelectedTime] = useState('');
-    const [selectedLocation, setSelectedLocation] = useState('');
-    const [usersName, setUsersName] = useState('');
+    const [activeStep, setActiveStep] = useState(0);
+    const [selectedDay, setSelectedDay] = useState("");
+    const [selectedTime, setSelectedTime] = useState("");
+    const [selectedLocation, setSelectedLocation] = useState("");
+    const [usersName, setUsersName] = useState("");
     const [usersEmail, setUsersEmail] = useState("");
+
+    const isMobile = useMediaQuery("(max-width:1000px)");
+    const steps = ["Seleccionar sede", "Seleccionar día y hora", "Confirmar cita"];
 
     useEffect(() => {
         const auth = getAuth();
-        const users = auth.currentUser;
-        if (users) {
-            setUsersName(users.displayName);  // Capturamos el nombre
-            setUsersEmail(users.email);
+        const user = auth.currentUser;
+        if (user) {
+            setUsersName(user.displayName);
+            setUsersEmail(user.email);
         }
     }, []);
 
-    const handleDayChange = (event) => {
-        setSelectedDay(event.target.value);
-    };
-
-    const handleTimeClick = (time) => {
-        setSelectedTime(time);
-    };
-
-    const handleLocationChange = (event) => {
-        setSelectedLocation(event.target.value);
-    };
-
-    const handleSchedule = async () => {
-        if (!selectedDay || !selectedTime || !selectedLocation) {
-            alert("Por favor, seleccione todos los campos.");
+    const handleNext = () => {
+        if (activeStep === 0 && !selectedLocation) {
+            Swal.fire("Error", "Debes seleccionar una sede.", "error");
             return;
         }
+        if (activeStep === 1 && (!selectedDay || !selectedTime)) {
+            Swal.fire("Error", "Debes seleccionar un día y una hora.", "error");
+            return;
+        }
+        setActiveStep((prev) => prev + 1);
+    };
+
+    const handleBack = () => {
+        setActiveStep((prev) => prev - 1);
+    };
+
+    const handleConfirm = async () => {
         try {
             await addDoc(collection(db, "citas"), {
                 day: selectedDay,
                 time: selectedTime,
                 location: selectedLocation,
-                usersEmail: usersEmail,
-                usersName:usersName
+                usersEmail,
+                usersName,
             });
-            alert("Cita agendada correctamente");
-            setSelectedDay('');
-            setSelectedTime('');
-            setSelectedLocation('');
-        } catch (e) {
-            console.error("Error al agendar la cita: ", e);
-            alert("Error al agendar la cita: " + e.message);
+            Swal.fire("Éxito", "Cita registrada correctamente.", "success");
+            setSelectedDay("");
+            setSelectedTime("");
+            setSelectedLocation("");
+            setActiveStep(0);
+        } catch (error) {
+            Swal.fire("Error", "No se pudo registrar la cita: " + error.message, "error");
         }
     };
 
-    const handleCancel = () => {
-        setSelectedDay('');
-        setSelectedTime('');
-        setSelectedLocation('');
-    };
-
     return (
-        <div className="programar-cita-container">
-            <CustomNavbar />
-            <Container fluid className="programar-cita-main-content">
-                <Row className="programar-cita-top-bar justify-content-center">
-                    <Col md={4}>
-                        <Form.Control as="select" value={selectedLocation} onChange={handleLocationChange}>
-                            <option value="">Seleccione un lugar de donación</option>
-                            <option value="Centro 1">CCI</option>
-                            <option value="Centro 2">Alameda</option>
-                            <option value="Centro 3">Recreo</option>
-                        </Form.Control>
-                    </Col>
-                </Row>
-                <Row>
-                    <Sidebar />
-                    <Col md={9} className="programar-cita-content">
-                        <Form>
-                            <Row>
-                                <Col md={3}>
-                                    <Form.Group controlId="programar-cita-formDay" className='programar-cita-formDay'>
-                                        <Form.Label>SELECCIONE UN DIA DE DONACION</Form.Label>
-                                        <input
-                                            type="date"
-                                            value={selectedDay}
-                                            onChange={handleDayChange}
-                                            className="programar-cita-day-selector"
-                                        />
-                                    </Form.Group>
-                                </Col>
-                                <Col md={6}>
-                                    <Form.Group controlId="programar-cita-formTime">
-                                        <Form.Label className='programar-cita-formDay'>HORARIO DE RESERVA</Form.Label>
-                                        <Table bordered className="programar-cita-table">
-                                            <thead>
-                                            <tr>
-                                                <th>Hora</th>
-                                                <th>Lunes</th>
-                                                <th>Martes</th>
-                                                <th>Miércoles</th>
-                                                <th>Jueves</th>
-                                                <th>Viernes</th>
-                                                <th>Sábado</th>
-                                                <th>Domingo</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {Array.from({ length: 9 }, (_, i) => 9 + i ).map((hour) => (
-                                                <tr key={hour}>
-                                                    <td>{`${hour}:00 `}</td>
-                                                    {['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'].map(day => (
-                                                        <td key={day}>
-                                                            <div
-                                                                className={`programar-cita-available-slot ${
-                                                                    selectedTime === `${day} ${hour}:00` ? 'selected' : ''
-                                                                }`}
-                                                                onClick={() => handleTimeClick(`${day} ${hour}:00`)}
-                                                            >
-                                                                Disponible
-                                                            </div>
-                                                        </td>
-                                                    ))}
-                                                </tr>
+        <>
+            <header className="header-compose">
+                Programación de Cita
+            </header>
+            <div className="compose-container">
+                <Box sx={{width: "100%", maxWidth: "800px", margin: "0 auto", padding: ""}}>
+                    <Stepper activeStep={activeStep} orientation={isMobile ? "vertical" : "horizontal"}>
+                        {steps.map((label) => (
+                            <Step key={label}>
+                                <StepLabel>{label}</StepLabel>
+                            </Step>
+                        ))}
+                    </Stepper>
+
+                    <Box sx={{mt: 2}}>
+                        {activeStep === 0 && (
+                            <FormControl fullWidth>
+                                <InputLabel id="location-label">Seleccionar sede</InputLabel>
+                                <Select
+                                    labelId="location-label"
+                                    value={selectedLocation}
+                                    onChange={(e) => setSelectedLocation(e.target.value)}
+                                >
+                                    <MenuItem value="CCI">CCI</MenuItem>
+                                    <MenuItem value="Alameda">Alameda</MenuItem>
+                                    <MenuItem value="Recreo">Recreo</MenuItem>
+                                </Select>
+                            </FormControl>
+                        )}
+
+                        {activeStep === 1 && (
+                            <Box>
+                                <TextField
+                                    label="Seleccionar día"
+                                    type="date"
+                                    fullWidth
+                                    InputLabelProps={{shrink: true}}
+                                    value={selectedDay}
+                                    onChange={(e) => setSelectedDay(e.target.value)}
+                                    sx={{mb: 2}}
+                                />
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Hora</TableCell>
+                                            {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((day) => (
+                                                <TableCell key={day}>{day}</TableCell>
                                             ))}
-                                            </tbody>
-                                        </Table>
-                                    </Form.Group>
-                                </Col>
-                            </Row>
-                            <Row className="mt-3 justify-content-center">
-                                <Col md={3}>
-                                    <Button variant="success" onClick={handleSchedule} block className="programar-cita-ml-2">REGISTRAR CITA</Button>
-                                </Col>
-                                <Col md={3}>
-                                    <Button variant="danger" onClick={handleCancel} block className="programar-cita-ml-2">CANCELAR</Button>
-                                </Col>
-                            </Row>
-                        </Form>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {Array.from({length: 9}, (_, i) => 9 + i).map((hour) => (
+                                            <TableRow key={hour}>
+                                                <TableCell>{`${hour}:00`}</TableCell>
+                                                {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((day) => (
+                                                    <TableCell
+                                                        key={day}
+                                                        onClick={() => setSelectedTime(`${day} ${hour}:00`)}
+                                                        sx={{
+                                                            cursor: "pointer",
+                                                            backgroundColor: selectedTime === `${day} ${hour}:00` ? "#1976d2" : "transparent",
+                                                            color: selectedTime === `${day} ${hour}:00` ? "#fff" : "inherit",
+                                                        }}
+                                                    >
+                                                        Disponible
+                                                    </TableCell>
+                                                ))}
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Box>
+                        )}
+
+                        {activeStep === 2 && (
+                            <Box>
+                                <h3>Confirmar cita</h3>
+                                <p>
+                                    <strong>Sede:</strong> {selectedLocation}
+                                </p>
+                                <p>
+                                    <strong>Día:</strong> {selectedDay}
+                                </p>
+                                <p>
+                                    <strong>Hora:</strong> {selectedTime}
+                                </p>
+                                <Button variant="contained" color="success" onClick={handleConfirm}>
+                                    Confirmar
+                                </Button>
+                            </Box>
+                        )}
+                    </Box>
+
+                    <Box sx={{display: "flex", justifyContent: "space-between", mt: 2}}>
+                        <Button disabled={activeStep === 0} onClick={handleBack}>
+                            Atrás
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={activeStep === steps.length - 1 ? handleConfirm : handleNext}
+                        >
+                            {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
+                        </Button>
+                    </Box>
+                </Box>
+            </div>
+        </>
     );
 };
 

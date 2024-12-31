@@ -3,8 +3,9 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    padding: 20px;
-    height: calc(100vh - 60px); /* Ajusta para que no solape con el navbar */
+    padding: 30px;
+    height: fit-content; /* Ajusta para que no solape con el navbar */
+    position: relative;
 }
 
 .citas-left-panel {
@@ -81,6 +82,51 @@
 .compose-icon{
     width: 128px;
     filter: invert();
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 0 10px;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 100%;
+    height: fit-content;
+    max-height: 90%;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;  /* Ajustar para que esté más cerca de la esquina */
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #b41a1a;
+    font-weight: bold;
+    background: white;
+    border-radius: 50%;  /* Hace que el borde sea redondeado */
+    aspect-ratio: 1 / 1;  /* Hace que el botón sea perfectamente circular */
+    width: 30px;  /* Ajusta el tamaño del círculo */
+    height: 30px;  /* Mantiene el tamaño del círculo */
+    display: flex;
+    justify-content: center;
+    align-items: center;  /* Centra el texto dentro del círculo */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  /* Agrega una sombra sutil para resaltar */
 }
 
 @media screen and (max-width: 1000px) {

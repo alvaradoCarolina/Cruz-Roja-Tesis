@@ -39,7 +39,6 @@ const ReprogramarCita = () => {
 
     return (
         <div className="reprogramar-cita-container">
-            <CustomNavbar />
             <Container fluid className="reprogramar-cita-main-content">
                 <Row className="reprogramar-cita-top-bar">
                     <Col md={12}>
@@ -47,7 +46,6 @@ const ReprogramarCita = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Sidebar />
                     <Col md={9} className="reprogramar-cita-content">
                         <h4>Selecciona una Cita </h4>
                         <Table bordered className="reprogramar-cita-table">

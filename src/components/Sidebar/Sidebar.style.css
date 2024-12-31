@@ -7,8 +7,9 @@
     display: flex;
     flex-direction: column;
     align-items: center; /* Centra los elementos horizontalmente */
-    justify-content: flex-start; /* Alinea los elementos al principio del contenedor */
+    justify-content: center; /* Alinea los elementos al principio del contenedor */
 }
+
 
 /* Botones de la barra lateral */
 .cancelar-cita-button {
@@ -30,4 +31,10 @@
 
 .cancelar-cita-button:focus {
     outline: none; /* Elimina el borde azul */
+}
+
+@media screen and (max-width: 1000px) {
+
+
+
 }

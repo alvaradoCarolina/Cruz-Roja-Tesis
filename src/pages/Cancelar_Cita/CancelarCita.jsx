@@ -36,7 +36,6 @@ const CancelarCita = () => {
 
     return (
         <div className="cancelar-cita-container">
-            <CustomNavbar />
             <Container fluid className="cancelar-cita-main-content">
                 <Row className="reprogramar-cita-top-bar">
                     <Col md={12}>
@@ -44,7 +43,6 @@ const CancelarCita = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Sidebar />
 
                     <Col md={8} className="cancelar-cita-content">
 
