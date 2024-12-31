@@ -6,7 +6,7 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
 } from "firebase/auth";
-import { sendMail } from "../../services/mailerService.js";
+import { sendLoginEmail } from "../../services/mailerService.js"; // Asegúrate de que esta importación sea correcta
 import { FaGoogle } from "react-icons/fa";
 import './Login.style.css';
 import Loader from '../Loader';
@@ -50,7 +50,9 @@ const Login = () => {
             const userName = user.displayName || "Usuario";
             const currentDateTime = new Date().toLocaleString();
 
-            await sendMail(email, "login_email", { userName, email, currentDateTime });
+            // Enviar el correo de inicio de sesión
+            await sendLoginEmail(user.email, { userName, email: user.email, currentDateTime });
+
             navigate("/home");
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
@@ -80,7 +82,9 @@ const Login = () => {
             const userName = user.displayName || "Usuario";
             const currentDateTime = new Date().toLocaleString();
 
-            await sendMail(user.email, "login_google", { userName, email: user.email, currentDateTime });
+            // Enviar el correo de inicio de sesión con Google
+            await sendLoginEmail(user.email, { userName, email: user.email, currentDateTime });
+
             navigate("/home");
         } catch (error) {
             console.error("Error al iniciar sesión con Google:", error);

@@ -5,7 +5,6 @@ import {
     Step,
     StepLabel,
     Button,
-    TextField,
     Select,
     MenuItem,
     Table,
@@ -16,13 +15,15 @@ import {
     useMediaQuery,
     FormControl,
     InputLabel,
+    TextField,
+    TablePagination,
 } from "@mui/material";
 import Swal from "sweetalert2";
-import CustomNavbar from "../../components/SubmenuNavbar";
-import "./ProgramarCita.style.css";
 import { db } from "../../services/firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, query, getDocs, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { sendAppointmentEmail } from "../../services/mailerService.js"; // Asegúrate de importar la función correctamente
+import "./ProgramarCita.style.css";
 
 const ProgramarCita = () => {
     const [activeStep, setActiveStep] = useState(0);
@@ -31,17 +32,38 @@ const ProgramarCita = () => {
     const [selectedLocation, setSelectedLocation] = useState("");
     const [usersName, setUsersName] = useState("");
     const [usersEmail, setUsersEmail] = useState("");
+    const [bookedSlots, setBookedSlots] = useState([]); // Guardar los horarios ocupados
+    const [weekendError, setWeekendError] = useState(""); // Estado para el error de fines de semana
+    const [message, setMessage] = useState("Antes de continuar, selecciona un día para agendar tu cita:"); // Mensaje de fecha
+
+    const [page, setPage] = useState(0); // Estado para la página actual
+    const [rowsPerPage, setRowsPerPage] = useState(10); // Número de elementos por página
 
     const isMobile = useMediaQuery("(max-width:1000px)");
     const steps = ["Seleccionar sede", "Seleccionar día y hora", "Confirmar cita"];
 
     useEffect(() => {
+        // Obtener el usuario autenticado
         const auth = getAuth();
         const user = auth.currentUser;
         if (user) {
             setUsersName(user.displayName);
-            setUsersEmail(user.email);
+            setUsersEmail(user.email);  // Obtener el correo electrónico
         }
+    }, []);
+
+    useEffect(() => {
+        // Consultar las citas ocupadas
+        const fetchBookedSlots = async () => {
+            const q = query(collection(db, "citas"));
+            const querySnapshot = await getDocs(q);
+            const slots = [];
+            querySnapshot.forEach((doc) => {
+                slots.push(doc.data());
+            });
+            setBookedSlots(slots);
+        };
+        fetchBookedSlots();
     }, []);
 
     const handleNext = () => {
@@ -62,6 +84,7 @@ const ProgramarCita = () => {
 
     const handleConfirm = async () => {
         try {
+            // Registrar la cita en Firebase
             await addDoc(collection(db, "citas"), {
                 day: selectedDay,
                 time: selectedTime,
@@ -69,23 +92,101 @@ const ProgramarCita = () => {
                 usersEmail,
                 usersName,
             });
-            Swal.fire("Éxito", "Cita registrada correctamente.", "success");
+
+            // Enviar el correo de confirmación
+            const additionalInfo = {
+                userName: usersName,
+                selectedDay: selectedDay,
+                selectedTime: selectedTime,
+                selectedLocation: selectedLocation,
+            };
+
+            // Asegúrate de pasar el correo del usuario aquí
+            await sendAppointmentEmail(usersEmail, additionalInfo);
+
+            // Mostrar el mensaje de éxito
+            await Swal.fire("Éxito", "Cita registrada correctamente y correo enviado.", "success");
+
+            // Limpiar los campos
             setSelectedDay("");
             setSelectedTime("");
             setSelectedLocation("");
             setActiveStep(0);
         } catch (error) {
-            Swal.fire("Error", "No se pudo registrar la cita: " + error.message, "error");
+            await Swal.fire("Error", "No se pudo registrar la cita: " + error.message, "error");
+        }
+    };
+
+    // Verificar si el horario está ocupado
+    const isSlotBooked = (time) => {
+        return bookedSlots.some(
+            (slot) => slot.day === selectedDay && slot.time === time
+        );
+    };
+
+    // Generar las horas entre las 9 AM y 4 PM con intervalos de 15 minutos
+    const generateTimeSlots = () => {
+        const slots = [];
+        const hours = [9, 10, 11, 1, 2, 3, 4]; // Excluir el rango de 12-2 PM
+        hours.forEach((hour) => {
+            for (let min = 0; min < 60; min += 15) {
+                const time = `${hour}:${min === 0 ? "00" : min}`;
+                slots.push(time);
+            }
+        });
+        return slots;
+    };
+
+    // Verificar si la fecha seleccionada es un día laboral
+    const isWeekday = (date) => {
+        const day = new Date(date).getDay();
+        return day >= 1 && day <= 5; // Lunes a Viernes
+    };
+
+    // Función para cambiar de página
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    // Función para cambiar el número de filas por página
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0); // Resetea la página cuando cambian las filas por página
+    };
+
+    // Obtener los elementos de la página actual
+    const paginatedSlots = generateTimeSlots().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+    const handleDateChange = (e) => {
+        const day = e.target.value;
+        const date = new Date(day);
+
+        const dayOfWeek = date.toLocaleString("es-ES", { weekday: "long" }); // Día de la semana
+        const dayOfMonth = date.getDate(); // Día del mes
+        const month = date.toLocaleString("es-ES", { month: "long" }); // Mes
+        const year = date.getFullYear(); // Año
+
+        // Verificar si es fin de semana
+        if (!isWeekday(day)) {
+            setWeekendError("No se puede agendar una cita los fines de semana");
+            setSelectedDay(""); // Reseteamos la fecha
+        } else {
+            setWeekendError("");
+            setSelectedDay(day); // Actualizamos la fecha seleccionada
+
+            // Formateamos la fecha en el formato deseado
+            const formattedDate = `${dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1)}, ${dayOfMonth} - ${month.charAt(0).toUpperCase() + month.slice(1)} - ${year}`;
+
+            // Actualizamos el mensaje con la fecha formateada
+            setMessage(formattedDate);
         }
     };
 
     return (
         <>
-            <header className="header-compose">
-                Programación de Cita
-            </header>
+            <header className="header-compose">Programación de Cita</header>
             <div className="compose-container">
-                <Box sx={{width: "100%", maxWidth: "800px", margin: "0 auto", padding: ""}}>
+                <Box sx={{ width: "100%", maxWidth: "800px", margin: "0 auto" }}>
                     <Stepper activeStep={activeStep} orientation={isMobile ? "vertical" : "horizontal"}>
                         {steps.map((label) => (
                             <Step key={label}>
@@ -94,7 +195,7 @@ const ProgramarCita = () => {
                         ))}
                     </Stepper>
 
-                    <Box sx={{mt: 2}}>
+                    <Box sx={{ mt: 2 }}>
                         {activeStep === 0 && (
                             <FormControl fullWidth>
                                 <InputLabel id="location-label">Seleccionar sede</InputLabel>
@@ -110,79 +211,103 @@ const ProgramarCita = () => {
                             </FormControl>
                         )}
 
-                        {activeStep === 1 && (
+                        {activeStep === 1 && selectedLocation && (
                             <Box>
+                                {message && <Box sx={{ mb: 2, color: "gray" }}><p className="advice-message">{message}</p></Box>}
+
                                 <TextField
                                     label="Seleccionar día"
                                     type="date"
                                     fullWidth
-                                    InputLabelProps={{shrink: true}}
+                                    InputLabelProps={{ shrink: true }}
                                     value={selectedDay}
-                                    onChange={(e) => setSelectedDay(e.target.value)}
-                                    sx={{mb: 2}}
+                                    onChange={handleDateChange}
+                                    sx={{ mb: 2 }}
+                                    inputProps={{ min: new Date().toISOString().split("T")[0] }} // No permite seleccionar fechas pasadas
                                 />
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Hora</TableCell>
-                                            {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((day) => (
-                                                <TableCell key={day}>{day}</TableCell>
-                                            ))}
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {Array.from({length: 9}, (_, i) => 9 + i).map((hour) => (
-                                            <TableRow key={hour}>
-                                                <TableCell>{`${hour}:00`}</TableCell>
-                                                {["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"].map((day) => (
+
+                                {weekendError && (
+                                    <Box sx={{ mb: 2, color: "red" }}>
+                                        <p>{weekendError}</p>
+                                    </Box>
+                                )}
+
+                                {selectedDay && (
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Hora</TableCell>
+                                                <TableCell>Disponibilidad</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {paginatedSlots.map((time) => (
+                                                <TableRow key={time}>
+                                                    <TableCell>{time}</TableCell>
                                                     <TableCell
-                                                        key={day}
-                                                        onClick={() => setSelectedTime(`${day} ${hour}:00`)}
+                                                        onClick={() => {
+                                                            if (!isSlotBooked(time)) {
+                                                                setSelectedTime(time);
+                                                            }
+                                                        }}
                                                         sx={{
                                                             cursor: "pointer",
-                                                            backgroundColor: selectedTime === `${day} ${hour}:00` ? "#1976d2" : "transparent",
-                                                            color: selectedTime === `${day} ${hour}:00` ? "#fff" : "inherit",
+                                                            backgroundColor: selectedTime === time ? "blue" : isSlotBooked(time) ? "red" : "#fff", // Azul si es la hora seleccionada, rojo si está ocupada
+                                                            color: selectedTime === time ? "white" : isSlotBooked(time) ? "white" : "black", // Texto blanco cuando está seleccionada o ocupada
+                                                            textDecoration: "none", // Eliminar subrayado
                                                         }}
                                                     >
-                                                        Disponible
+                                                        {isSlotBooked(time) ? "Ocupado" : "Disponible"}
                                                     </TableCell>
-                                                ))}
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                )}
+
+                                <TablePagination
+                                    rowsPerPageOptions={[10, 25, 50]}
+                                    component="div"
+                                    count={generateTimeSlots().length}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                />
                             </Box>
                         )}
 
                         {activeStep === 2 && (
                             <Box>
-                                <h3>Confirmar cita</h3>
-                                <p>
-                                    <strong>Sede:</strong> {selectedLocation}
-                                </p>
-                                <p>
-                                    <strong>Día:</strong> {selectedDay}
-                                </p>
-                                <p>
-                                    <strong>Hora:</strong> {selectedTime}
-                                </p>
-                                <Button variant="contained" color="success" onClick={handleConfirm}>
-                                    Confirmar
+                                <p>Confirmar cita:</p>
+                                <p>Sede: {selectedLocation}</p>
+                                <p>Día: {selectedDay}</p>
+                                <p>Hora: {selectedTime}</p>
+
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleConfirm}
+                                    sx={{ mt: 2 }}
+                                >
+                                    Confirmar cita
                                 </Button>
                             </Box>
                         )}
-                    </Box>
 
-                    <Box sx={{display: "flex", justifyContent: "space-between", mt: 2}}>
-                        <Button disabled={activeStep === 0} onClick={handleBack}>
-                            Atrás
-                        </Button>
-                        <Button
-                            variant="contained"
-                            onClick={activeStep === steps.length - 1 ? handleConfirm : handleNext}
-                        >
-                            {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
-                        </Button>
+                        <Box sx={{ mt: 3 }}>
+                            <Button
+                                variant="outlined"
+                                onClick={handleBack}
+                                disabled={activeStep === 0}
+                                sx={{ mr: 2 }}
+                            >
+                                Volver
+                            </Button>
+                            <Button variant="contained" onClick={handleNext}>
+                                {activeStep === steps.length - 1 ? "Confirmar" : "Siguiente"}
+                            </Button>
+                        </Box>
                     </Box>
                 </Box>
             </div>

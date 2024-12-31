@@ -14,3 +14,20 @@
 .compose-container{
     padding: 25px;
 }
+
+.confirmed-box{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    padding: 25px;
+    border-radius: 10px;
+    border: 2px solid #b41a1a;
+    margin: 50px 0;
+}
+
+.advice-message{
+    font-size: 1em;
+    text-align: center;
+    color: #b41a1a;
+}
