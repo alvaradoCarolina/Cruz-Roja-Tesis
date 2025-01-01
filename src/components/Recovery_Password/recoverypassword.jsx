@@ -1,20 +1,24 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, fetchSignInMethodsForEmail, sendPasswordResetEmail } from "firebase/auth";
+import Swal from 'sweetalert2'; // Importamos SweetAlert
 import './recoverypassword.style.css';
-import img3 from '../../assets/images/img3.png';
+import '@material/web/field/outlined-field.js'
 import { FaArrowLeft } from 'react-icons/fa';
+import logo_cruz_roja from "../../assets/images/LOGOS-PARA-WEB-MARZO-02.png";
 
 const RecoveryPassword = () => {
     const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
-    const [error, setError] = useState("");
     const navigate = useNavigate();
     const auth = getAuth(); // Obtén la instancia de auth
 
     const handleRecoverPassword = async () => {
         if (!email) {
-            setError("* Por favor ingresa un correo electrónico");
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Por favor ingresa un correo electrónico',
+            });
             return;
         }
 
@@ -24,27 +28,42 @@ const RecoveryPassword = () => {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
             if (!emailRegex.test(formattedEmail)) {
-                setError("* Ingresa un correo electrónico válido");
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: 'Ingresa un correo electrónico válido',
+                });
                 return;
             }
 
             const signInMethods = await fetchSignInMethodsForEmail(auth, formattedEmail);
             if (signInMethods.length === 0) {
-                setError("* El correo no está registrado! Por favor regístrate primero.");
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: 'El correo no está registrado! Por favor regístrate primero.',
+                });
                 return;
             }
 
             // Si el correo existe, envía el correo de recuperación de contraseña
             await sendPasswordResetEmail(auth, formattedEmail);
-            setMessage("Se ha enviado un correo para recuperar tu contraseña.");
-            setError("");
+            Swal.fire({
+                icon: 'success',
+                title: 'Correo enviado',
+                text: 'Se ha enviado un correo para recuperar tu contraseña.',
+            });
+
             // Redirigir después de 5 segundos
             setTimeout(() => {
                 navigate('/');
             }, 5000);
         } catch (error) {
-            setError("Error al enviar el correo: " + error.message);
-            setMessage("");
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: `Error al enviar el correo: ${error.message}`,
+            });
         }
     };
 
@@ -54,28 +73,28 @@ const RecoveryPassword = () => {
 
     return (
         <div className="recover-password-wrapper">
-            <div className="recover-container">
-                <button className="recover-back-button" onClick={handleBack}>
-                    <FaArrowLeft/>
-                </button>
-            </div>
-            <div className="recover-left-side">
-                <h1 className="recover-title">Recuperar Contraseña</h1>
-                {message && <p className="recover-message">{message}</p>}
-                {error && <p className="recover-error">{error}</p>}
-                <label htmlFor="email" className="recover-label">Correo Electrónico</label>
-                <input
-                    className="recover-input"
-                    id="email"
-                    type="email"
-                    placeholder="Ingresa tu correo electrónico"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <button className="recover-button" onClick={handleRecoverPassword}>Enviar Correo</button>
-            </div>
+            <button className="recover-back-button" onClick={handleBack}>
+                <FaArrowLeft/>
+            </button>
+
+            <aside className="aside-info">
+                <img src={logo_cruz_roja} alt="logo cruz-roja" className="logo_register"/>
+                <h1>Recuperar contraseña</h1>
+                <p>Ingresa el correo electrónico asociado a tu cuenta para obtener el correo de recuperación.</p>
+            </aside>
+
             <div className="recover-right-side">
-                <img src={img3} alt="Imagen de recuperación" />
+                <md-outlined-text-field
+                    label="Correo electrónico"
+                    type="email"
+                    value={email}
+                    onInput={(e) => setEmail(e.target.value)}
+                    required
+                ></md-outlined-text-field>
+                <br/>
+                <md-filled-button onClick={handleRecoverPassword}>
+                    Iniciar Sesión
+                </md-filled-button>
             </div>
         </div>
     );

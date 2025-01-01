@@ -119,6 +119,10 @@ const Login = () => {
         navigate('/register');
     };
 
+    const handleRecoveryPassword = () => {
+        navigate('/recuperar-password');
+    };
+
     return (
         <div className="login-container">
             {isLoading && !isSwalActive && <Loader title="Iniciando sesión" />}
@@ -151,6 +155,13 @@ const Login = () => {
                             <md-filled-button onClick={handleLogin}>
                                 Iniciar Sesión
                             </md-filled-button>
+
+                            <span className="button-section">
+                                ¿Has olvidado tu contraseña?
+                                <button onClick={handleRecoveryPassword}>
+                                    Recuperar
+                                </button>
+                            </span>
 
                             <hr className="login-hr"/>
 
