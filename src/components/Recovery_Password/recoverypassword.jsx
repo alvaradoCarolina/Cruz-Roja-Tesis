@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAuth, fetchSignInMethodsForEmail, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import Swal from 'sweetalert2'; // Importamos SweetAlert
 import './recoverypassword.style.css';
-import '@material/web/field/outlined-field.js'
+import '@material/web/field/outlined-field.js';
 import { FaArrowLeft } from 'react-icons/fa';
 import logo_cruz_roja from "../../assets/images/LOGOS-PARA-WEB-MARZO-02.png";
 
@@ -23,7 +23,7 @@ const RecoveryPassword = () => {
         }
 
         try {
-            // Verifica si el correo existe en Firebase Authentication
+            // Formateamos el correo para quitar espacios y poner en minúsculas
             const formattedEmail = email.trim().toLowerCase();
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -36,17 +36,7 @@ const RecoveryPassword = () => {
                 return;
             }
 
-            const signInMethods = await fetchSignInMethodsForEmail(auth, formattedEmail);
-            if (signInMethods.length === 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '¡Error!',
-                    text: 'El correo no está registrado! Por favor regístrate primero.',
-                });
-                return;
-            }
-
-            // Si el correo existe, envía el correo de recuperación de contraseña
+            // Enviar el correo de recuperación de contraseña directamente
             await sendPasswordResetEmail(auth, formattedEmail);
             Swal.fire({
                 icon: 'success',
@@ -59,11 +49,20 @@ const RecoveryPassword = () => {
                 navigate('/');
             }, 5000);
         } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: '¡Error!',
-                text: `Error al enviar el correo: ${error.message}`,
-            });
+            // Manejamos posibles errores al enviar el correo de recuperación
+            if (error.code === 'auth/user-not-found') {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: 'El correo no está registrado. Por favor regístrate primero.',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: `Error al enviar el correo: ${error.message}`,
+                });
+            }
         }
     };
 
@@ -93,7 +92,7 @@ const RecoveryPassword = () => {
                 ></md-outlined-text-field>
                 <br/>
                 <md-filled-button onClick={handleRecoverPassword}>
-                    Iniciar Sesión
+                    Recuperar contraseña
                 </md-filled-button>
             </div>
         </div>
