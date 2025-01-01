@@ -13,12 +13,10 @@
 
 .reprogramar-cita-top-bar {
     background-color: #b41a1a;
-    padding: 4px;
+    padding: 10px;
     text-align: center;
-}
-
-.reprogramar-cita-top-bar h2 {
-    font-size: 24px;
+    border-bottom-right-radius: 14px;
+    border-bottom-left-radius: 14px;
 }
 
 .reprogramar-cita-appointment-menu {

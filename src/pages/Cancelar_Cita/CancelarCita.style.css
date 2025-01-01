@@ -1,14 +1,10 @@
 /* Contenedor de la barra lateral */
-.cancelar-cita-red-sidebar {
-    background-color: #ffffff; /* Fondo rojo */
-    color: white;
-    height: 100%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra los elementos horizontalmente */
-    justify-content: flex-start; /* Alinea los elementos al principio del contenedor */
+.reprogramar-cita-top-bar{
+    padding: 14px;
+    border-bottom-right-radius: 14px;
+    border-bottom-left-radius: 14px;
 }
+
 
 /* Botones de la barra lateral */
 .cancelar-cita-button {

@@ -108,6 +108,12 @@
     }
 }
 
+.non-scheudle-phrase{
+    text-align: center;
+    font-size: 1.5em;
+    color: #B3261E;
+}
+
 
 @media screen and (max-width: 1000px) {
     .register-container {

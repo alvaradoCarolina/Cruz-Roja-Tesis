@@ -1,32 +1,21 @@
 import emailjs from "emailjs-com";
 
-// Función para enviar correo de inicio de sesión exitoso
-export const sendLoginEmail = async (toEmail, additionalInfo) => {
+export const sendCancelScheduleEmail = async ({ to_email, subject, userName, day, time, location, cancellationTime }) => {
+    const templateParams = {
+        to_email: to_email,
+        subject: subject,
+        userName: userName,
+        day: day,
+        time: time,
+        location: location,
+        cancellationTime: cancellationTime
+    };
+
     try {
-        const serviceID = "service_68q7jwd";  // Service ID de EmailJS
-        const templateID = "template_3pavaxn";  // Template ID para login_email
-
-        // Los parámetros del template que EmailJS va a utilizar
-        const templateParams = {
-            to_email: toEmail,
-            subject: "Inicio de Sesión Exitoso",
-            userName: additionalInfo.userName,
-            email: additionalInfo.email,
-            dateTime: new Date().toLocaleString(),
-        };
-
-        // Enviar el correo usando EmailJS
-        const response = await emailjs.send(serviceID, templateID, templateParams, "hmlB-rwpZPHqc6FjN");  // Reemplaza por tu Public Key
-
-        console.log("Correo de inicio de sesión enviado exitosamente");
-        if (response.status === 200) {
-            console.log("El correo se envió correctamente.");
-        } else {
-            console.log("Hubo un problema con el envío del correo.");
-        }
+        await emailjs.send('service_68q7jwd', 'template_0fkqtkg', templateParams, 'hmlB-rwpZPHqc6FjN');
+        console.log("Correo enviado con éxito.");
     } catch (error) {
-        console.error("Error enviando correo de inicio de sesión:", error.message);
-        throw error;
+        console.error("Error al enviar el correo:", error);
     }
 };
 

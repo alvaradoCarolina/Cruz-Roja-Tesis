@@ -32,6 +32,7 @@ const ProgramarCita = () => {
     const [selectedLocation, setSelectedLocation] = useState("");
     const [usersName, setUsersName] = useState("");
     const [usersEmail, setUsersEmail] = useState("");
+    const [userId, setUserId] = useState("");  // Almacenar el ID del usuario
     const [bookedSlots, setBookedSlots] = useState([]); // Guardar los horarios ocupados
     const [weekendError, setWeekendError] = useState(""); // Estado para el error de fines de semana
     const [message, setMessage] = useState("Antes de continuar, selecciona un día para agendar tu cita:"); // Mensaje de fecha
@@ -49,6 +50,7 @@ const ProgramarCita = () => {
         if (user) {
             setUsersName(user.displayName);
             setUsersEmail(user.email);  // Obtener el correo electrónico
+            setUserId(user.uid);  // Obtener el ID del usuario
         }
     }, []);
 
@@ -91,6 +93,7 @@ const ProgramarCita = () => {
                 location: selectedLocation,
                 usersEmail,
                 usersName,
+                userId, // Aquí agregamos el ID del usuario
             });
 
             // Enviar el correo de confirmación

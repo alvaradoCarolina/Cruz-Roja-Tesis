@@ -6,7 +6,6 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
 } from "firebase/auth";
-import { sendLoginEmail } from "../../services/mailerService.js"; // Asegúrate de que esta importación sea correcta
 import { FaGoogle } from "react-icons/fa";
 import './Login.style.css';
 import Loader from '../Loader';
@@ -47,11 +46,18 @@ const Login = () => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-            const userName = user.displayName || "Usuario";
-            const currentDateTime = new Date().toLocaleString();
 
-            // Enviar el correo de inicio de sesión
-            await sendLoginEmail(user.email, { userName, email: user.email, currentDateTime });
+            // Verificamos si el usuario ya tiene un proveedor
+            if (user.providerData.length > 1) {
+                await Swal.fire({
+                    title: "Error",
+                    text: "Este usuario ya está registrado con otro proveedor. No puedes iniciar sesión con otro servicio.",
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                });
+                setIsLoading(false);
+                return;
+            }
 
             navigate("/home");
         } catch (error) {
@@ -79,11 +85,17 @@ const Login = () => {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
 
-            const userName = user.displayName || "Usuario";
-            const currentDateTime = new Date().toLocaleString();
-
-            // Enviar el correo de inicio de sesión con Google
-            await sendLoginEmail(user.email, { userName, email: user.email, currentDateTime });
+            // Verificamos si el usuario ya tiene un proveedor
+            if (user.providerData.length > 1) {
+                await Swal.fire({
+                    title: "Error",
+                    text: "Este usuario ya está registrado con otro proveedor. No puedes iniciar sesión con otro servicio.",
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                });
+                setIsLoading(false);
+                return;
+            }
 
             navigate("/home");
         } catch (error) {
@@ -93,7 +105,7 @@ const Login = () => {
 
             await Swal.fire({
                 title: "Error al iniciar sesión",
-                text: "Usuario o contraseña incorrectos. Por favor verifica tus datos.",
+                text: "Hubo un error al iniciar sesión con Google.",
                 icon: "error",
                 confirmButtonText: "Aceptar",
             });
@@ -101,6 +113,7 @@ const Login = () => {
             setIsSwalActive(false); // Desactivamos el control de Swal después de cerrar
         }
     };
+
 
     const handleRegister = () => {
         navigate('/register');
