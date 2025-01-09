@@ -4,7 +4,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './services/firebaseConfig';
 
 // Componentes
-import ProtectedRoute from './components/ProtectedRoute';
+import AuthVerification from './middlewares/auth/AuthVerification';  // Cambié el nombre del componente aquí
 import Login from './components/Login';
 import Home from './components/Home';
 import Register from './components/Register';
@@ -15,8 +15,6 @@ import ReprogramarCita from './pages/Reprogramar_Cita';
 import CancelarCita from './pages/Cancelar_Cita';
 import FormularioDonacion from './pages/Formulario_Donacion';
 import ActualizarDatos from './pages/Actualizar_Datos';
-import Footer from './components/Footer';
-import Informacion from './pages/Informacion';
 import Citas from './pages/Citas';
 
 function App() {
@@ -40,17 +38,17 @@ function App() {
             <Route
                 path="/home"
                 element={
-                    <ProtectedRoute isAuthenticated={isAuthenticated}>
+                    <AuthVerification isAuthenticated={isAuthenticated}>  {/* Aquí se hace el cambio */}
                         <Home />
-                    </ProtectedRoute>
+                    </AuthVerification>
                 }
             />
             <Route
                 path="/cita"
                 element={
-                    <ProtectedRoute isAuthenticated={isAuthenticated}>
+                    <AuthVerification isAuthenticated={isAuthenticated}>  {/* Aquí se hace el cambio */}
                         <Citas />
-                    </ProtectedRoute>
+                    </AuthVerification>
                 }>
                 <Route path="programar" element={<ProgramarCita />} />
                 <Route path="ver" element={<VerCitas />} />
@@ -60,17 +58,17 @@ function App() {
             <Route
                 path="/donacion/formulario"
                 element={
-                    <ProtectedRoute isAuthenticated={isAuthenticated}>
+                    <AuthVerification isAuthenticated={isAuthenticated}>  {/* Aquí se hace el cambio */}
                         <FormularioDonacion />
-                    </ProtectedRoute>
+                    </AuthVerification>
                 }
             />
             <Route
                 path="/usuario/actualizar_datos"
                 element={
-                    <ProtectedRoute isAuthenticated={isAuthenticated}>
+                    <AuthVerification isAuthenticated={isAuthenticated}>  {/* Aquí se hace el cambio */}
                         <ActualizarDatos />
-                    </ProtectedRoute>
+                    </AuthVerification>
                 }
             />
         </Routes>
