@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import AuthVerification from './middlewares/auth/AuthVerification';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './services/firebaseConfig';
 
-// Views
+// Componentes
+import ProtectedRoute from './components/ProtectedRoute';
 import Login from './components/Login';
 import Home from './components/Home';
 import Register from './components/Register';
@@ -15,11 +15,19 @@ import ReprogramarCita from './pages/Reprogramar_Cita';
 import CancelarCita from './pages/Cancelar_Cita';
 import FormularioDonacion from './pages/Formulario_Donacion';
 import ActualizarDatos from './pages/Actualizar_Datos';
+import Footer from './components/Footer';
+import Informacion from './pages/Informacion';
 import Citas from './pages/Citas';
 
 function App() {
-    // Estado de autenticación simulado (reemplaza con tu lógica real)
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setIsAuthenticated(!!user); // Si hay un usuario, actualizamos el estado
+        });
+        return unsubscribe; // Nos desuscribimos al desmontar
+    }, []);
 
     return (
         <Routes>
@@ -32,67 +40,39 @@ function App() {
             <Route
                 path="/home"
                 element={
-                    <AuthVerification isAuthenticated={isAuthenticated}>
+                    <ProtectedRoute isAuthenticated={isAuthenticated}>
                         <Home />
-                    </AuthVerification>
-                }
-            />
-            <Route
-                path="/donacion/formulario"
-                element={
-                    <AuthVerification isAuthenticated={isAuthenticated}>
-                        <FormularioDonacion />
-                    </AuthVerification>
-                }
-            />
-            <Route
-                path="/usuario/actualizar_datos"
-                element={
-                    <AuthVerification isAuthenticated={isAuthenticated}>
-                        <ActualizarDatos />
-                    </AuthVerification>
+                    </ProtectedRoute>
                 }
             />
             <Route
                 path="/cita"
                 element={
-                    <AuthVerification isAuthenticated={isAuthenticated}>
+                    <ProtectedRoute isAuthenticated={isAuthenticated}>
                         <Citas />
-                    </AuthVerification>
+                    </ProtectedRoute>
                 }>
-                <Route
-                    path="programar"
-                    element={
-                        <AuthVerification isAuthenticated={isAuthenticated}>
-                            <ProgramarCita />
-                        </AuthVerification>
-                    }
-                />
-                <Route
-                    path="ver"
-                    element={
-                        <AuthVerification isAuthenticated={isAuthenticated}>
-                            <VerCitas />
-                        </AuthVerification>
-                    }
-                />
-                <Route
-                    path="reprogramar"
-                    element={
-                        <AuthVerification isAuthenticated={isAuthenticated}>
-                            <ReprogramarCita />
-                        </AuthVerification>
-                    }
-                />
-                <Route
-                    path="cancelar"
-                    element={
-                        <ActualizarDatos isAuthenticated={isAuthenticated}>
-                            <CancelarCita />
-                        </ActualizarDatos>
-                    }
-                />
+                <Route path="programar" element={<ProgramarCita />} />
+                <Route path="ver" element={<VerCitas />} />
+                <Route path="reprogramar" element={<ReprogramarCita />} />
+                <Route path="cancelar" element={<CancelarCita />} />
             </Route>
+            <Route
+                path="/donacion/formulario"
+                element={
+                    <ProtectedRoute isAuthenticated={isAuthenticated}>
+                        <FormularioDonacion />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/usuario/actualizar_datos"
+                element={
+                    <ProtectedRoute isAuthenticated={isAuthenticated}>
+                        <ActualizarDatos />
+                    </ProtectedRoute>
+                }
+            />
         </Routes>
     );
 }

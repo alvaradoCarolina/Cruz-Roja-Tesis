@@ -59,6 +59,7 @@ const Login = () => {
                 return;
             }
 
+            // Redirigir a /home solo si el inicio de sesión es exitoso
             navigate("/home");
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
