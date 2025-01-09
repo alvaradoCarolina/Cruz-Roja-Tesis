@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { auth } from '../../services/firebaseConfig.js';
 import { signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Importa Link
 import logo from '../../assets/images/logo_cre_trans.png';
 import './SubmenuNavbar.style.css';
 import { AiOutlineLogout } from 'react-icons/ai';
@@ -11,7 +11,6 @@ import Loader from "../Loader";
 
 const NavbarConSubmenu = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false); // Estado para el loader
     const navigate = useNavigate();
 
@@ -41,9 +40,9 @@ const NavbarConSubmenu = () => {
             <header className="custom-navbar">
                 <div className="navbar-container">
                     {/* Logo */}
-                    <a href="/home" className="navbar-logo">
+                    <Link to="/home" className="navbar-logo">
                         <img src={logo} alt="Logo" />
-                    </a>
+                    </Link>
 
                     {/* Icono de menú para móvil */}
                     <button
@@ -55,21 +54,12 @@ const NavbarConSubmenu = () => {
 
                     {/* Menú de navegación */}
                     <nav className={`navbar-links ${menuOpen ? 'open' : ''}`}>
-                        <a href="/home" className="nav-item">Inicio</a>
-                        <a href="/informacion" className="nav-item">Aprende Sobre Donación</a>
-                        <div className="dropdown">
-                            <button
-                                className="dropdown-toggle"
-                                onClick={() => setDropdownOpen(!dropdownOpen)}
-                            >
-                                Perfil
-                            </button>
-                            <div className={`dropdown-menu ${dropdownOpen ? '' : 'hidden'}`}>
-                                <a href="/cita" className="dropdown-item">Citas</a>
-                                <a href="/donacion/formulario" className="dropdown-item">Llenar Formulario</a>
-                                <a href="/usuario/actualizar_datos" className="dropdown-item">Actualizar Datos</a>
-                            </div>
-                        </div>
+                        <Link to="/home" className="nav-item">Inicio</Link>
+                        <Link to="/informacion" className="nav-item">Aprende Sobre Donación</Link>
+                        <Link to="/cita" className="nav-item">Citas</Link>
+                        <Link to="/donacion/formulario" className="nav-item">Formulario de Donación</Link>
+                        <Link to="/usuario/actualizar_datos" className="nav-item">Actualizar Datos</Link>
+
                         {/* Botón de logout */}
                         <button className="exit_button">
                             <a href="#!" onClick={handleLogout} className="nav-logout">

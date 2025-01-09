@@ -1,10 +1,11 @@
+// src/App.js
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './services/firebaseConfig';
 
 // Componentes
-import AuthVerification from './middlewares/auth/AuthVerification';  // Cambié el nombre del componente aquí
+import AuthVerification from './middlewares/auth/AuthVerification'; // Importar AuthVerification
 import Login from './components/Login';
 import Home from './components/Home';
 import Register from './components/Register';
@@ -16,6 +17,7 @@ import CancelarCita from './pages/Cancelar_Cita';
 import FormularioDonacion from './pages/Formulario_Donacion';
 import ActualizarDatos from './pages/Actualizar_Datos';
 import Citas from './pages/Citas';
+import Informacion from './pages/Informacion'
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -38,7 +40,7 @@ function App() {
             <Route
                 path="/home"
                 element={
-                    <AuthVerification isAuthenticated={isAuthenticated}>  {/* Aquí se hace el cambio */}
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
                         <Home />
                     </AuthVerification>
                 }
@@ -46,7 +48,7 @@ function App() {
             <Route
                 path="/cita"
                 element={
-                    <AuthVerification isAuthenticated={isAuthenticated}>  {/* Aquí se hace el cambio */}
+                    <AuthVerification isAuthenticated={isAuthenticated}>
                         <Citas />
                     </AuthVerification>
                 }>
@@ -58,7 +60,7 @@ function App() {
             <Route
                 path="/donacion/formulario"
                 element={
-                    <AuthVerification isAuthenticated={isAuthenticated}>  {/* Aquí se hace el cambio */}
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
                         <FormularioDonacion />
                     </AuthVerification>
                 }
@@ -66,8 +68,16 @@ function App() {
             <Route
                 path="/usuario/actualizar_datos"
                 element={
-                    <AuthVerification isAuthenticated={isAuthenticated}>  {/* Aquí se hace el cambio */}
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
                         <ActualizarDatos />
+                    </AuthVerification>
+                }
+            />
+            <Route
+                path="/informacion"
+                element={
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
+                        <Informacion />
                     </AuthVerification>
                 }
             />

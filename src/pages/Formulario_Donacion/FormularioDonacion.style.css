@@ -3,14 +3,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
 }
 
 .formulario-donacion-main-content {
     background-color: #f8f9fa;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 25px;
+    width: 100%;
 }
 
 .formulario-donacion-top-bar {
@@ -34,31 +34,31 @@
 
 .suscribe-form label {
     display: block;
-    margin: 10px 0;
+    margin: 15px 0 5px 0; /* Aumento el margen superior para separarlo más de los elementos anteriores */
 }
 
 .suscribe-form input,
 .suscribe-form select {
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
+    padding: 12px; /* Aumento el padding para hacer los campos más amplios */
+    margin-top: 8px; /* Aumento el espacio superior entre el label y el input */
     border: 1px solid #ddd;
     border-radius: 5px;
 }
 
 .suscribe-form .form-check {
-    margin: 10px 0;
+    margin: 15px 0; /* Aumento el margen entre las opciones de checkbox o radio */
 }
 
 .suscribe-form .form-buttons {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 30px; /* Aumento el margen superior para separar los botones del contenido */
 }
 
 .suscribe-form button {
     width: 48%;
-    padding: 10px;
+    padding: 12px;
     background-color: #b40b0b;
     color: white;
     border: none;
@@ -72,4 +72,24 @@
 
 .suscribe-form .form-buttons .mr-2 {
     margin-right: 10px;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px; /* Aumento el margen superior */
+}
+
+.form-buttons md-outlined-button,
+.form-buttons md-filled-button {
+    flex: 1; /* Cada botón ocupa el 50% del ancho del contenedor */
+    margin: 0 10px; /* Espaciado entre los botones */
+}
+
+.form-input{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 5px;
+    flex-direction: column;
 }

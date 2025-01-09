@@ -6,6 +6,11 @@ import './FormularioDonacion.style.css';
 import { db } from '../../services/firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 import Swal from 'sweetalert2';
+import Footer from '../../components/Footer';
+import "@material/web/button/filled-button.js";
+import "@material/web/button/outlined-button.js";
+import "@material/web/button/filled-tonal-button.js";
+import "@material/web/textfield/outlined-text-field.js";
 
  const FormularioDonacion = () => {
      const navigate = useNavigate();
@@ -38,6 +43,10 @@ import Swal from 'sweetalert2';
          const { name, value } = e.target;
          setFormData({ ...formData, [name]: value });
      };
+
+     const handleNavigation = () => {
+         return navigate("/home");
+     }
 
      const handleSubmit = async (e) => {
          e.preventDefault();
@@ -104,9 +113,8 @@ import Swal from 'sweetalert2';
                 </Row>
                 <Row>
                     <Col md={{ span: 6, offset: 3 }} className="formulario-donacion-content">
-                        <h2>Ingrese su Información</h2>
                         <Form onSubmit={handleSubmit}>
-                            <Form.Group controlId="formNombre">
+                            <Form.Group controlId="formNombre" className="form-input">
                                 <Form.Label>Nombre Completo</Form.Label>
                                 <Form.Control
                                     type="text"
@@ -117,7 +125,8 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formEmail">
+                            <br/>
+                            <Form.Group controlId="formEmail" className="form-input">
                                 <Form.Label>Correo Electrónico</Form.Label>
                                 <Form.Control
                                     type="email"
@@ -128,7 +137,8 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formEdad">
+                            <br/>
+                            <Form.Group controlId="formEdad" className="form-input">
                                 <Form.Label>Edad</Form.Label>
                                 <Form.Control
                                     type="number"
@@ -139,6 +149,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formDonacionesPrevias">
                                 <Form.Label>¿Cuántas veces ha donado sangre?</Form.Label>
                                 <Form.Check
@@ -163,7 +174,8 @@ import Swal from 'sweetalert2';
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formTipoSangre">
+                            <br/>
+                            <Form.Group controlId="formTipoSangre" className="form-input">
                                 <Form.Label>Tipo de Sangre</Form.Label>
                                 <Form.Control
                                     as="select"
@@ -184,6 +196,7 @@ import Swal from 'sweetalert2';
                                 </Form.Control>
                             </Form.Group>
                             {/* Preguntas adicionales */}
+                            <br/>
                             <Form.Group controlId="formProblemasSalud">
                                 <Form.Label>¿Tienes algún problema de salud actual?</Form.Label>
                                 <Form.Check
@@ -203,6 +216,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formMedicamentos">
                                 <Form.Label>¿Estás tomando algún medicamento?</Form.Label>
                                 <Form.Check
@@ -222,6 +236,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formViajes">
                                 <Form.Label>¿Has viajado fuera del país en los últimos 12 meses?</Form.Label>
                                 <Form.Check
@@ -241,8 +256,10 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formEnfermedadesSangre">
-                                <Form.Label>¿Has tenido alguna enfermedad transmisible por la sangre (como el VIH, la hepatitis, la sífilis)?</Form.Label>
+                                <Form.Label>¿Has tenido alguna enfermedad transmisible por la sangre (como el VIH, la
+                                    hepatitis, la sífilis)?</Form.Label>
                                 <Form.Check
                                     type="radio"
                                     label="Sí"
@@ -260,8 +277,10 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formNuevaPareja">
-                                <Form.Label>¿Has tenido contacto sexual con una nueva pareja en los últimos 12 meses?</Form.Label>
+                                <Form.Label>¿Has tenido contacto sexual con una nueva pareja en los últimos 12
+                                    meses?</Form.Label>
                                 <Form.Check
                                     type="radio"
                                     label="Sí"
@@ -279,6 +298,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formAlcohol">
                                 <Form.Label>¿Has consumido alcohol en los últimos 24 horas?</Form.Label>
                                 <Form.Check
@@ -298,6 +318,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formDrogas">
                                 <Form.Label>¿Has consumido drogas recreativas en los últimos 12 meses?</Form.Label>
                                 <Form.Check
@@ -317,6 +338,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formEmbarazo">
                                 <Form.Label>¿Has estado embarazada en los últimos 12 meses?</Form.Label>
                                 <Form.Check
@@ -336,8 +358,10 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formTransfusion">
-                                <Form.Label>¿Has recibido una transfusión de sangre en los últimos 12 meses?</Form.Label>
+                                <Form.Label>¿Has recibido una transfusión de sangre en los últimos 12
+                                    meses?</Form.Label>
                                 <Form.Check
                                     type="radio"
                                     label="Sí"
@@ -355,6 +379,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formCirugia">
                                 <Form.Label>¿Has sido sometido a una cirugía mayor en los últimos 12 meses?</Form.Label>
                                 <Form.Check
@@ -374,6 +399,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formEnfermedadGrave">
                                 <Form.Label>¿Has tenido alguna enfermedad grave en los últimos 12 meses?</Form.Label>
                                 <Form.Check
@@ -393,8 +419,10 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formTatuajes">
-                                <Form.Label>¿Has tenido alguna inyección de tatuajes o piercings en los últimos 12 meses?</Form.Label>
+                                <Form.Label>¿Has tenido alguna inyección de tatuajes o piercings en los últimos 12
+                                    meses?</Form.Label>
                                 <Form.Check
                                     type="radio"
                                     label="Sí"
@@ -412,6 +440,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formInfeccionBoca">
                                 <Form.Label>¿Has tenido alguna infección en los labios o la boca?</Form.Label>
                                 <Form.Check
@@ -431,6 +460,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formInfeccionOjos">
                                 <Form.Label>¿Has tenido alguna infección en los ojos?</Form.Label>
                                 <Form.Check
@@ -450,6 +480,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formInfeccionPiel">
                                 <Form.Label>¿Has tenido alguna infección en la piel?</Form.Label>
                                 <Form.Check
@@ -469,6 +500,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formInfeccionOidos">
                                 <Form.Label>¿Has tenido alguna infección en los oídos?</Form.Label>
                                 <Form.Check
@@ -488,6 +520,7 @@ import Swal from 'sweetalert2';
                                     required
                                 />
                             </Form.Group>
+                            <br/>
                             <Form.Group controlId="formInfeccionPulmones">
                                 <Form.Label>¿Has tenido alguna infección en los pulmones?</Form.Label>
                                 <Form.Check
@@ -508,13 +541,15 @@ import Swal from 'sweetalert2';
                                 />
                             </Form.Group>
                             <div className="form-buttons">
-                                <Button variant="secondary" block className="mr-2">Cancelar</Button>
-                                <Button variant="primary" type="submit" block>Enviar</Button>
+                                <md-outlined-button variant="secondary" onClick={handleNavigation}>Cancelar
+                                </md-outlined-button>
+                                <md-filled-button variant="primary" type="submit">Enviar</md-filled-button>
                             </div>
                         </Form>
                     </Col>
                 </Row>
             </Container>
+            <Footer/>
         </div>
     );
 };

@@ -9,7 +9,7 @@
     width: 100%;
 }
 
-.menu-toggle{
+.menu-toggle {
     display: none;
 }
 
@@ -48,61 +48,7 @@
     text-decoration: 2px underline #b41a1a;
 }
 
-
-/* Dropdown */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-toggle {
-    background: none;
-    border: none;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    color: black;
-}
-
-.dropdown-toggle:hover{
-    color: white;
-}
-
-/* Dropdown menú */
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    z-index: 1000;
-    display: block;
-    opacity: 1;
-    transition: opacity 0.3s;
-}
-
-/* Ocultar el dropdown si no está visible */
-.dropdown-menu.hidden {
-    display: none;
-    opacity: 0;
-}
-
-.dropdown-item {
-    display: block;
-    padding: 5px 10px;
-    text-decoration: none;
-    color: black;
-    font-weight: normal;
-}
-
-.dropdown-item:hover {
-    background-color: #f8f9fa;
-    color: #800000;
-}
-
-.exit_button{
+.exit_button {
     width: fit-content;
     padding: 5px 20px;
     border-radius: 16px;
@@ -121,7 +67,7 @@
     align-items: center;
 }
 
-.nav-logout .exitIcon{
+.nav-logout .exitIcon {
     margin-right: 10px;
 }
 
@@ -183,24 +129,6 @@
         text-align: left;
     }
 
-    .dropdown-menu {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        display: block;
-        margin-top: 10px;
-        padding: 0;
-        background-color: #fff;
-    }
-
-    .dropdown-item {
-        width: 100%;
-        padding: 10px;
-        text-align: left;
-        color: #b40b0b;
-    }
-
     .exit_button {
         width: 100%;
         padding: 10px;
@@ -209,6 +137,6 @@
 
     /* Cambiar el icono de menú a 'X' cuando el menú está abierto */
     .menu-toggle.open {
-        color: black; /* Cambia el color del ícono */
+        color: black;
     }
 }
