@@ -5,74 +5,93 @@ import CustomNavbar from '../../components/SubmenuNavbar';
 import './FormularioDonacion.style.css';
 import { db } from '../../services/firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
+import Swal from 'sweetalert2';
 
-const FormularioDonacion = () => {
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        nombre: '',
-        email: '',
-        edad: '',
-        donacionesPrevias: '',
-        tipoSangre: '',
-        problemasSalud: '',
-        medicamentos: '',
-        viajes: '',
-        enfermedadesSangre: '',
-        nuevaPareja: '',
-        alcohol: '',
-        drogas: '',
-        embarazo: '',
-        transfusion: '',
-        cirugia: '',
-        enfermedadGrave: '',
-        tatuajes: '',
-        infeccionBoca: '',
-        infeccionOjos: '',
-        infeccionPiel: '',
-        infeccionOidos: '',
-        infeccionPulmones: ''
-    });
+ const FormularioDonacion = () => {
+     const navigate = useNavigate();
+     const [formData, setFormData] = useState({
+         nombre: '',
+         email: '',
+         edad: '',
+         donacionesPrevias: '',
+         tipoSangre: '',
+         problemasSalud: '',
+         medicamentos: '',
+         viajes: '',
+         enfermedadesSangre: '',
+         nuevaPareja: '',
+         alcohol: '',
+         drogas: '',
+         embarazo: '',
+         transfusion: '',
+         cirugia: '',
+         enfermedadGrave: '',
+         tatuajes: '',
+         infeccionBoca: '',
+         infeccionOjos: '',
+         infeccionPiel: '',
+         infeccionOidos: '',
+         infeccionPulmones: ''
+     });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+     const handleChange = (e) => {
+         const { name, value } = e.target;
+         setFormData({ ...formData, [name]: value });
+     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const docRef = await addDoc(collection(db, "donaciones"), formData);
-            alert("Formulario enviado con éxito.");
-            setFormData({
-                nombre: '',
-                email: '',
-                edad: '',
-                donacionesPrevias: '',
-                tipoSangre: '',
-                problemasSalud: '',
-                medicamentos: '',
-                viajes: '',
-                enfermedadesSangre: '',
-                nuevaPareja: '',
-                alcohol: '',
-                drogas: '',
-                embarazo: '',
-                transfusion: '',
-                cirugia: '',
-                enfermedadGrave: '',
-                tatuajes: '',
-                infeccionBoca: '',
-                infeccionOjos: '',
-                infeccionPiel: '',
-                infeccionOidos: '',
-                infeccionPulmones: ''
-            });
-            navigate('/confirmacion');
-        } catch (e) {
-            console.error("Error al enviar el formulario: ", e);
-            alert("Error al enviar el formulario: " + e.message);
-        }
-    };
+     const handleSubmit = async (e) => {
+         e.preventDefault();
+         try {
+             await addDoc(collection(db, "donaciones"), formData);
+
+             // Mostrar alerta de éxito y redirigir al cerrar
+             Swal.fire({
+                 icon: 'success',
+                 title: 'Formulario enviado',
+                 text: 'Tu formulario fue enviado con éxito. Espera a su revisión.',
+                 confirmButtonText: 'OK',
+             }).then(() => {
+                 navigate('/home'); // Redirigir a /home
+             });
+
+             // Reiniciar el formulario
+             setFormData({
+                 nombre: '',
+                 email: '',
+                 edad: '',
+                 donacionesPrevias: '',
+                 tipoSangre: '',
+                 problemasSalud: '',
+                 medicamentos: '',
+                 viajes: '',
+                 enfermedadesSangre: '',
+                 nuevaPareja: '',
+                 alcohol: '',
+                 drogas: '',
+                 embarazo: '',
+                 transfusion: '',
+                 cirugia: '',
+                 enfermedadGrave: '',
+                 tatuajes: '',
+                 infeccionBoca: '',
+                 infeccionOjos: '',
+                 infeccionPiel: '',
+                 infeccionOidos: '',
+                 infeccionPulmones: ''
+             });
+
+         } catch (e) {
+             console.error("Error al enviar el formulario: ", e);
+
+             // Mostrar alerta de error
+             Swal.fire({
+                 icon: 'error',
+                 title: 'Hubo un problema',
+                 text: `No se pudo enviar el formulario. Error: ${e.message}`,
+                 confirmButtonText: 'OK',
+             });
+         }
+     };
 
     return (
         <div className="formulario-donacion-container">

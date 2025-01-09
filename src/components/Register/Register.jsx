@@ -17,34 +17,11 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("admin");
+  const [role, setRole] = useState("donante");
   const [errors, setErrors] = useState({});
   const googleProvider = new GoogleAuthProvider();
   const navigate = useNavigate();
   const selectRef = useRef(null);
-
-  useEffect(() => {
-    const selectElement = selectRef.current;
-
-    // Actualiza el estado cuando cambia el valor del select
-    const handleChange = (event) => {
-      setRole(event.target.value);
-    };
-
-    selectElement.addEventListener("change", handleChange);
-
-    // Limpia el listener al desmontar
-    return () => {
-      selectElement.removeEventListener("change", handleChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Sincroniza el valor de React con el select
-    if (selectRef.current) {
-      selectRef.current.value = role;
-    }
-  }, [role]);
 
   const validateFields = () => {
     const newErrors = {};
@@ -186,16 +163,6 @@ const Register = () => {
         </aside>
 
         <div className="register-form">
-
-          <md-outlined-select ref={selectRef} label="Rol" required>
-            <md-select-option value="admin">
-              <div slot="headline">Administrador</div>
-            </md-select-option>
-            <md-select-option value="donante">
-              <div slot="headline">Donante</div>
-            </md-select-option>
-          </md-outlined-select>
-
           <md-outlined-text-field
               label="Nombre"
               value={name}

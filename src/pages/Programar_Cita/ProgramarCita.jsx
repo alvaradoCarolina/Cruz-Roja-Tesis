@@ -22,7 +22,7 @@ import Swal from "sweetalert2";
 import { db } from "../../services/firebaseConfig";
 import { collection, query, getDocs, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { sendAppointmentEmail } from "../../services/mailerService.js"; // Asegúrate de importar la función correctamente
+import { sendAppointmentEmail } from "../../services/mailerService.js";
 import "./ProgramarCita.style.css";
 
 const ProgramarCita = () => {
@@ -32,30 +32,28 @@ const ProgramarCita = () => {
     const [selectedLocation, setSelectedLocation] = useState("");
     const [usersName, setUsersName] = useState("");
     const [usersEmail, setUsersEmail] = useState("");
-    const [userId, setUserId] = useState("");  // Almacenar el ID del usuario
-    const [bookedSlots, setBookedSlots] = useState([]); // Guardar los horarios ocupados
-    const [weekendError, setWeekendError] = useState(""); // Estado para el error de fines de semana
-    const [message, setMessage] = useState("Antes de continuar, selecciona un día para agendar tu cita:"); // Mensaje de fecha
+    const [userId, setUserId] = useState("");
+    const [bookedSlots, setBookedSlots] = useState([]);
+    const [weekendError, setWeekendError] = useState("");
+    const [message, setMessage] = useState("Antes de continuar, selecciona un día para agendar tu cita:");
 
-    const [page, setPage] = useState(0); // Estado para la página actual
-    const [rowsPerPage, setRowsPerPage] = useState(10); // Número de elementos por página
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const isMobile = useMediaQuery("(max-width:1000px)");
     const steps = ["Seleccionar sede", "Seleccionar día y hora", "Confirmar cita"];
 
     useEffect(() => {
-        // Obtener el usuario autenticado
         const auth = getAuth();
         const user = auth.currentUser;
         if (user) {
             setUsersName(user.displayName);
-            setUsersEmail(user.email);  // Obtener el correo electrónico
-            setUserId(user.uid);  // Obtener el ID del usuario
+            setUsersEmail(user.email);
+            setUserId(user.uid);
         }
     }, []);
 
     useEffect(() => {
-        // Consultar las citas ocupadas
         const fetchBookedSlots = async () => {
             const q = query(collection(db, "citas"));
             const querySnapshot = await getDocs(q);
@@ -68,13 +66,44 @@ const ProgramarCita = () => {
         fetchBookedSlots();
     }, []);
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (activeStep === 0 && !selectedLocation) {
             Swal.fire("Error", "Debes seleccionar una sede.", "error");
             return;
         }
         if (activeStep === 1 && (!selectedDay || !selectedTime)) {
             Swal.fire("Error", "Debes seleccionar un día y una hora.", "error");
+            return;
+        }
+        if (activeStep === 2) {
+            try {
+                await addDoc(collection(db, "citas"), {
+                    day: selectedDay,
+                    time: selectedTime,
+                    location: selectedLocation,
+                    usersEmail,
+                    usersName,
+                    userId,
+                });
+
+                const additionalInfo = {
+                    userName: usersName,
+                    selectedDay: selectedDay,
+                    selectedTime: selectedTime,
+                    selectedLocation: selectedLocation,
+                };
+
+                await sendAppointmentEmail(usersEmail, additionalInfo);
+
+                await Swal.fire("Éxito", "Cita registrada correctamente y correo enviado.", "success");
+
+                setSelectedDay("");
+                setSelectedTime("");
+                setSelectedLocation("");
+                setActiveStep(0);
+            } catch (error) {
+                await Swal.fire("Error", "No se pudo registrar la cita: " + error.message, "error");
+            }
             return;
         }
         setActiveStep((prev) => prev + 1);
@@ -84,53 +113,15 @@ const ProgramarCita = () => {
         setActiveStep((prev) => prev - 1);
     };
 
-    const handleConfirm = async () => {
-        try {
-            // Registrar la cita en Firebase
-            await addDoc(collection(db, "citas"), {
-                day: selectedDay,
-                time: selectedTime,
-                location: selectedLocation,
-                usersEmail,
-                usersName,
-                userId, // Aquí agregamos el ID del usuario
-            });
-
-            // Enviar el correo de confirmación
-            const additionalInfo = {
-                userName: usersName,
-                selectedDay: selectedDay,
-                selectedTime: selectedTime,
-                selectedLocation: selectedLocation,
-            };
-
-            // Asegúrate de pasar el correo del usuario aquí
-            await sendAppointmentEmail(usersEmail, additionalInfo);
-
-            // Mostrar el mensaje de éxito
-            await Swal.fire("Éxito", "Cita registrada correctamente y correo enviado.", "success");
-
-            // Limpiar los campos
-            setSelectedDay("");
-            setSelectedTime("");
-            setSelectedLocation("");
-            setActiveStep(0);
-        } catch (error) {
-            await Swal.fire("Error", "No se pudo registrar la cita: " + error.message, "error");
-        }
-    };
-
-    // Verificar si el horario está ocupado
     const isSlotBooked = (time) => {
         return bookedSlots.some(
             (slot) => slot.day === selectedDay && slot.time === time
         );
     };
 
-    // Generar las horas entre las 9 AM y 4 PM con intervalos de 15 minutos
     const generateTimeSlots = () => {
         const slots = [];
-        const hours = [9, 10, 11, 1, 2, 3, 4]; // Excluir el rango de 12-2 PM
+        const hours = [9, 10, 11, 1, 2, 3, 4];
         hours.forEach((hour) => {
             for (let min = 0; min < 60; min += 15) {
                 const time = `${hour}:${min === 0 ? "00" : min}`;
@@ -140,47 +131,40 @@ const ProgramarCita = () => {
         return slots;
     };
 
-    // Verificar si la fecha seleccionada es un día laboral
     const isWeekday = (date) => {
         const day = new Date(date).getDay();
-        return day >= 1 && day <= 5; // Lunes a Viernes
+        return day >= 1 && day <= 5;
     };
 
-    // Función para cambiar de página
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
 
-    // Función para cambiar el número de filas por página
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0); // Resetea la página cuando cambian las filas por página
+        setPage(0);
     };
 
-    // Obtener los elementos de la página actual
     const paginatedSlots = generateTimeSlots().slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     const handleDateChange = (e) => {
         const day = e.target.value;
         const date = new Date(day);
 
-        const dayOfWeek = date.toLocaleString("es-ES", { weekday: "long" }); // Día de la semana
-        const dayOfMonth = date.getDate(); // Día del mes
-        const month = date.toLocaleString("es-ES", { month: "long" }); // Mes
-        const year = date.getFullYear(); // Año
+        const dayOfWeek = date.toLocaleString("es-ES", { weekday: "long" });
+        const dayOfMonth = date.getDate();
+        const month = date.toLocaleString("es-ES", { month: "long" });
+        const year = date.getFullYear();
 
-        // Verificar si es fin de semana
         if (!isWeekday(day)) {
             setWeekendError("No se puede agendar una cita los fines de semana");
-            setSelectedDay(""); // Reseteamos la fecha
+            setSelectedDay("");
         } else {
             setWeekendError("");
-            setSelectedDay(day); // Actualizamos la fecha seleccionada
+            setSelectedDay(day);
 
-            // Formateamos la fecha en el formato deseado
             const formattedDate = `${dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1)}, ${dayOfMonth} - ${month.charAt(0).toUpperCase() + month.slice(1)} - ${year}`;
 
-            // Actualizamos el mensaje con la fecha formateada
             setMessage(formattedDate);
         }
     };
@@ -226,7 +210,7 @@ const ProgramarCita = () => {
                                     value={selectedDay}
                                     onChange={handleDateChange}
                                     sx={{ mb: 2 }}
-                                    inputProps={{ min: new Date().toISOString().split("T")[0] }} // No permite seleccionar fechas pasadas
+                                    inputProps={{ min: new Date().toISOString().split("T")[0] }}
                                 />
 
                                 {weekendError && (
@@ -255,9 +239,9 @@ const ProgramarCita = () => {
                                                         }}
                                                         sx={{
                                                             cursor: "pointer",
-                                                            backgroundColor: selectedTime === time ? "blue" : isSlotBooked(time) ? "red" : "#fff", // Azul si es la hora seleccionada, rojo si está ocupada
-                                                            color: selectedTime === time ? "white" : isSlotBooked(time) ? "white" : "black", // Texto blanco cuando está seleccionada o ocupada
-                                                            textDecoration: "none", // Eliminar subrayado
+                                                            backgroundColor: selectedTime === time ? "blue" : isSlotBooked(time) ? "red" : "#fff",
+                                                            color: selectedTime === time ? "white" : isSlotBooked(time) ? "white" : "black",
+                                                            textDecoration: "none",
                                                         }}
                                                     >
                                                         {isSlotBooked(time) ? "Ocupado" : "Disponible"}
@@ -286,15 +270,6 @@ const ProgramarCita = () => {
                                 <p>Sede: {selectedLocation}</p>
                                 <p>Día: {selectedDay}</p>
                                 <p>Hora: {selectedTime}</p>
-
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleConfirm}
-                                    sx={{ mt: 2 }}
-                                >
-                                    Confirmar cita
-                                </Button>
                             </Box>
                         )}
 
