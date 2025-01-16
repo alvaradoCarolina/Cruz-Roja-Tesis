@@ -1,11 +1,13 @@
-// src/App.js
+// src/App.jsx
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './services/firebaseConfig';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Componentes
-import AuthVerification from './middlewares/auth/AuthVerification'; // Importar AuthVerification
+import AuthVerification from './middlewares/auth/AuthVerification';
 import Login from './components/Login';
 import Home from './components/Home';
 import Register from './components/Register';

@@ -5,7 +5,7 @@ import { collection, getDocs, deleteDoc, doc, query, where } from 'firebase/fire
 import { getAuth } from 'firebase/auth';
 import { db } from '../../services/firebaseConfig';
 import { sendCancelScheduleEmail } from '../../services/mailerService.js'; // Asegúrate de ajustar la ruta correcta
-import './CancelarCita.style.css';
+import './CancelarCita.css';
 
 const CancelarCita = () => {
     const [appointments, setAppointments] = useState([]);

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import CustomNavbar from "../../components/SubmenuNavbar";
-import './Citas.style.css'; // Archivo CSS para estilos
 import Footer from "../../components/Footer";
-
 import addScheudle from '../../assets/vectors/calendar-add-svgrepo-com.svg';
 import editScheudle from '../../assets/vectors/calendar-edit-svgrepo-com.svg'
 import seeScheudle from '../../assets/vectors/calendar-search-svgrepo-com.svg'
@@ -14,6 +12,9 @@ import VerCitas from '../Ver_Citas';
 import ReprogramarCita from '../Reprogramar_Cita';
 import CancelarCita from '../Cancelar_Cita';
 import {IoClose} from "react-icons/io5";
+
+import './Citas.style.css';
+import '../../index.css';
 
 const Citas = () => {
     const [modalContent, setModalContent] = useState(null); // Estado para el contenido del modal
@@ -93,6 +94,7 @@ const Citas = () => {
                     </div>
                 </div>
             )}
+            <Footer/>
         </>
     );
 }

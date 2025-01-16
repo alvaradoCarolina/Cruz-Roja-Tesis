@@ -23,7 +23,7 @@ import { db } from "../../services/firebaseConfig";
 import { collection, query, getDocs, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { sendAppointmentEmail } from "../../services/mailerService.js";
-import "./ProgramarCita.style.css";
+import "./ProgramarCita.style.css"
 
 const ProgramarCita = () => {
     const [activeStep, setActiveStep] = useState(0);
