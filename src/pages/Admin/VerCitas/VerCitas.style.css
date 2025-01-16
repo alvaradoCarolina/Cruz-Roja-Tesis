@@ -1,0 +1,38 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main {
+    flex: 1;
+}
+
+.ver-citas-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.citas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.citas-table th, .citas-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.citas-table th {
+    background-color: #B40B0B;
+    color: white;
+}
+
+.citas-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.citas-table tr:hover {
+    background-color: #ddd;
+}

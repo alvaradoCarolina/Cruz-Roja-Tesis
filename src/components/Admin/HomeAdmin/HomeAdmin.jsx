@@ -1,11 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import NavbarAdmin from "../NavbarAdmin";
-import Footer from '../Footer';
+import Footer from '../../Footer';
 import "./HomeAdmin.style.css";
+
 
 const HomeAdmin = () => {
 
     const year_now = new Date().getFullYear() + 1;
+    const navigate = useNavigate();
 
     return (
         <>
@@ -19,16 +22,13 @@ const HomeAdmin = () => {
                 {/* Gestionar Donantes */}
                 <aside className="donantes-section">
                     <h1>Gestionar Donantes</h1>
-                    <button className="admin-button">Ver Donantes</button>
-                    <button className="admin-button">Eliminar Donante</button>
+                    <button className="admin-button" onClick={() => navigate('/gestion-donantes')}>Ver Donantes</button>
                 </aside>
 
                 {/* Administrar Citas */}
                 <aside className="citas-section">
                     <h1>Administrar Citas</h1>
-                    <button className="admin-button">Ver Citas</button>
-                    <button className="admin-button">Modificar Citas</button>
-                    <button className="admin-button">Eliminar Citas</button>
+                    <button className="admin-button" onClick={() => navigate('/citas-admin')}>Gestionar Citas</button>
                 </aside>
 
                 {/* Gestionar Formularios de Donación */}

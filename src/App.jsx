@@ -20,7 +20,15 @@ import FormularioDonacion from './pages/Formulario_Donacion';
 import ActualizarDatos from './pages/Actualizar_Datos';
 import Citas from './pages/Citas';
 import Informacion from './pages/Informacion';
-import HomeAdmin from './components/HomeAdmin/HomeAdmin';
+
+//componentes Admin
+import HomeAdmin from './components/Admin/HomeAdmin/HomeAdmin';
+import Donantes from './pages/Admin/Donantes/Donantes';
+import CitasAdmin from './pages/Admin/CitasAdmin/CitasAdmin';
+import ProgramarCitaAdmin from './pages/Admin/ProgramarCita/ProgramarCita'; 
+import VerCitasAdmin from './pages/Admin/VerCitas/VerCitas'; 
+import EditarCitaAdmin from './pages/Admin/EditarCita/EditarCita'; 
+import CancelarCitaAdmin from './pages/Admin/CancelarCita/CancelarCita';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -38,6 +46,12 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/recuperar-password" element={<RecoveryPassword />} />
+            <Route path="/gestion-donantes" element={<Donantes />} />
+            <Route path="/citas-admin" element={<CitasAdmin />} /> 
+            <Route path="/citas/programar" element={<ProgramarCitaAdmin />} /> 
+            <Route path="/citas/ver" element={<VerCitasAdmin />} /> 
+            <Route path="/citas/editar" element={<EditarCitaAdmin />} /> 
+            <Route path="/citas/cancelar" element={<CancelarCitaAdmin />} />
 
             {/* Rutas protegidas */}
             <Route

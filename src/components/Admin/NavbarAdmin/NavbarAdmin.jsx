@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { auth } from '../../services/firebaseConfig.js';
+import { auth } from '../../../services/firebaseConfig.js';
 import { signOut } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom'; // Importa Link
-import logo from '../../assets/images/logo_cre_trans.png';
+import logo from '../../../assets/images/logo_cre_trans.png';
 import './NavbarAdmin.style.css';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoMdClose } from 'react-icons/io';
-import Loader from "../Loader";
+import Loader from "../../Loader/index.jsx";
 
 const NavbarAdmin = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -56,7 +56,7 @@ const NavbarAdmin = () => {
                     <nav className={`navbar-links ${menuOpen ? 'open' : ''}`}>
                         <Link to="/home-admin" className="nav-item">Inicio</Link>
                         <Link to="/gestion-donantes" className="nav-item">Gestionar Donantes</Link>
-                        <Link to="/gestion-citas" className="nav-item">Administrar Citas</Link>
+                        <Link to="/citas-admin" className="nav-item">Administrar Citas</Link>
                         <Link to="/gestion-formularios" className="nav-item">Formularios de Donación</Link>
 
                         {/* Botón de logout */}
