@@ -1,17 +1,16 @@
-*{
+* {
     box-sizing: border-box;
-}
-
-:root{
+  }
+  
+  :root {
     --md-filled-button-container-color: #B40B0B;
     --md-outlined-text-field-focus-outline-color: #B40B0B;
     --md-outlined-text-field-label-text-font: #b40b0b;
     --md-outlined-select-text-field-outline-color: #b40b0b;
     --md-outlined-select-text-field-input-text-color: #b40b0b;
-}
-
-
-.register-container {
+  }
+  
+  .register-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -20,12 +19,12 @@
     width: 100%;
     height: auto;
     overflow-x: hidden;
-}
-
-.aside-info{
+  }
+  
+  .aside-info {
     display: flex;
     flex-direction: column;
-    justify-content:space-evenly;
+    justify-content: space-evenly;
     align-items: center;
     background-color: #B40B0B;
     width: 50%;
@@ -36,40 +35,40 @@
     background-size: cover;
     padding: 15px 20px;
     color: white;
-
-    & .logo_register{
-        width: 200px;
-        margin-bottom: 50px;
-    }
-
-    & h1{
-        font-size: 2em;
-    }
-
-    & p{
-        text-align: center;
-        font-size: 1.5em;
-    }
-
-    & .login-redirect{
-        display: flex;
-        font-size: 0.9em;
-        gap: 10px;
-        justify-content: center;
-        align-items: center;
-    }
-
-    & .hyperlink{
-        text-decoration: none;
-        background-color: white;
-        color: #B3261E;
-        padding: 5px 12px;
-        border-radius: 15px;
-        font-weight: bolder;
-    }
-}
-
-.register-form {
+  }
+  
+  .logo_register {
+    width: 200px;
+    margin-bottom: 50px;
+  }
+  
+  .aside-info h1 {
+    font-size: 2em;
+  }
+  
+  .aside-info p {
+    text-align: center;
+    font-size: 1.5em;
+  }
+  
+  .login-redirect {
+    display: flex;
+    font-size: 0.9em;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hyperlink {
+    text-decoration: none;
+    background-color: white;
+    color: #B3261E;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-weight: bolder;
+  }
+  
+  .register-form {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -79,91 +78,102 @@
     padding: 35px;
     width: 100%;
     gap: 25px;
-
-    & md-outlined-select{
-        width: 100%;
-    }
-
-    & md-outlined-text-field{
-        width: 100%;
-    }
-
-    & md-filled-button{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        & svg{
-            margin-left: 12px;
-        }
-
-    }
-
-    .error{
-        margin-top: -35px;
-        margin-bottom: -25px;
-        color: #B3261E;
-        font-size: 0.90em;
-    }
-}
-
-.non-scheudle-phrase{
+  }
+  
+  md-outlined-select, md-outlined-text-field, select {
+    width: 100%;
+  }
+  
+  select {
+    height: 40px;
+    border: 1px solid rgb(206, 202, 202);
+    border-radius: 4px;
+    padding: 0 350px;
+    font-size: 16px;
+    color: rgb(72, 72, 72);
+  }
+  
+  label[for="role"] {
+    display: block;
+    margin-bottom: 3px;
+    color: rgb(68, 67, 67);
+    font-size: 16px;
+  }
+  
+  .register-form md-filled-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .register-form md-filled-button svg {
+    margin-left: 12px;
+  }
+  
+  .error {
+    margin-top: -35px;
+    margin-bottom: -25px;
+    color: #B3261E;
+    font-size: 0.90em;
+  }
+  
+  .non-scheudle-phrase {
     text-align: center;
     font-size: 1.5em;
     color: #B3261E;
-}
-
-
-@media screen and (max-width: 1000px) {
+  }
+  
+  @media screen and (max-width: 1000px) {
     .register-container {
-        flex-direction: column; /* Cambia a diseño vertical */
-        height: auto; /* Deja que el contenido determine la altura */
+      flex-direction: column; /* Cambia a diseño vertical */
+      height: auto; /* Deja que el contenido determine la altura */
     }
-
+  
     .aside-info {
-        width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
-        height: 300px; /* Ajusta la altura según el diseño deseado */
-        border-bottom-right-radius: 25px;
-        border-bottom-left-radius: 25px;
-        color: white;
-        padding: 20px 0;
-
-        & .logo_register{
-            width: 150px;
-            margin-bottom: 30px;
-        }
-
-        & h1{
-            font-size: 1.5em;
-        }
-
-        & p{
-            text-align: center;
-            font-size: 1em;
-        }
-
-        & .login-redirect{
-            display: flex;
-            font-size: 0.9em;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
-        }
-
-        & .hyperlink{
-            text-decoration: none;
-            background-color: white;
-            color: #B3261E;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-weight: bolder;
-        }
+      width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+      height: 300px; /* Ajusta la altura según el diseño deseado */
+      border-bottom-right-radius: 25px;
+      border-bottom-left-radius: 25px;
+      color: white;
+      padding: 20px 0;
     }
-
+  
+    .logo_register {
+      width: 150px;
+      margin-bottom: 30px;
+    }
+  
+    .aside-info h1 {
+      font-size: 1.5em;
+    }
+  
+    .aside-info p {
+      text-align: center;
+      font-size: 1em;
+    }
+  
+    .login-redirect {
+      display: flex;
+      font-size: 0.9em;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .hyperlink {
+      text-decoration: none;
+      background-color: white;
+      color: #B3261E;
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-weight: bolder;
+    }
+  
     .register-form {
-        width: 100%; /* Asegúrate de que el formulario ocupe todo el ancho */
-        margin: 1rem; /* Añade un margen para espaciado */
-        padding: 25px;
+      width: 100%; /* Asegúrate de que el formulario ocupe todo el ancho */
+      margin: 1rem; /* Añade un margen para espaciado */
+      padding: 25px;
     }
-}
+  }
+  

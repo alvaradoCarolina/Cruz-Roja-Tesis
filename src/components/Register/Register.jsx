@@ -18,6 +18,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("donante");
+  const [adminCode, setAdminCode] = useState(""); // Nuevo estado para el código de administrador
   const [errors, setErrors] = useState({});
   const googleProvider = new GoogleAuthProvider();
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const Register = () => {
       newErrors.password = "La contraseña debe tener entre 6 y 12 caracteres.";
     }
     if (password !== confirmPassword) newErrors.confirmPassword = "Las contraseñas no coinciden.";
+    if (role === "admin" && !adminCode) newErrors.adminCode = "El código de administrador es obligatorio."; // Validar el código de administrador
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -51,6 +53,13 @@ const Register = () => {
       return true;
     }
     return false;
+  };
+
+  // Verifica el código de administrador
+  const checkAdminCode = async (code) => {
+    const codesQuery = query(collection(db, "adminCodes"), where("code", "==", code));
+    const querySnapshot = await getDocs(codesQuery);
+    return !querySnapshot.empty;
   };
 
   const handleRegister = async () => {
@@ -74,6 +83,20 @@ const Register = () => {
         confirmButtonText: "Aceptar",
       });
       return;
+    }
+
+    // Verifica el código de administrador si el rol es "admin"
+    if (role === "admin") {
+      const validCode = await checkAdminCode(adminCode);
+      if (!validCode) {
+        Swal.fire({
+          title: "Error",
+          text: "El código de administrador es inválido.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+        return;
+      }
     }
 
     try {
@@ -152,54 +175,76 @@ const Register = () => {
   };
 
   return (
-      <main className="register-container">
-        <aside className="aside-info">
-          <img src={logo_cruz_roja} alt="logo cruz-roja" className="logo_register" />
-          <h1>REGÍSTRATE</h1>
-          <p>Accede a los servicios de nuestro sistema mediante el registro en el aplicativo de donación.</p>
-          <span className="login-redirect">
+    <main className="register-container">
+      <aside className="aside-info">
+        <img src={logo_cruz_roja} alt="logo cruz-roja" className="logo_register" />
+        <h1>REGÍSTRATE</h1>
+        <p>Accede a los servicios de nuestro sistema mediante el registro en el aplicativo de donación.</p>
+        <span className="login-redirect">
           ¿Ya tienes una cuenta? <a className="hyperlink" href="/">Ingresa aquí</a>
         </span>
-        </aside>
+      </aside>
 
-        <div className="register-form">
+
+      <div className="register-form">
+
+      <div>
+          <label htmlFor="role">Selecciona tu rol:</label>
+          <select id="role" value={role} onChange={(e) => setRole(e.target.value)}>
+            <option value="donante">Donante</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </div>
+        
+        {role === "admin" && (
           <md-outlined-text-field
-              label="Nombre"
-              value={name}
-              onInput={(e) => setName(e.target.value)}
-              required
+            label="Código de Administrador"
+            value={adminCode}
+            onInput={(e) => setAdminCode(e.target.value)}
+            required
           ></md-outlined-text-field>
-          {errors.name && <p className="error">{errors.name}</p>}
+        )}
+        {errors.adminCode && <p className="error">{errors.adminCode}</p>}
 
-          <md-outlined-text-field
-              label="Correo Electrónico"
-              type="email"
-              value={email}
-              onInput={(e) => setEmail(e.target.value)}
-              required
-          ></md-outlined-text-field>
-          {errors.email && <p className="error">{errors.email}</p>}
+        <md-outlined-text-field
+          label="Nombre y Apellido"
+          value={name}
+          onInput={(e) => setName(e.target.value)}
+          required
+        ></md-outlined-text-field>
+        {errors.name && <p className="error">{errors.name}</p>}
 
-          <md-outlined-text-field
-              label="Contraseña"
-              type="password"
-              value={password}
-              onInput={(e) => setPassword(e.target.value)}
-              required
-          ></md-outlined-text-field>
-          {errors.password && <p className="error">{errors.password}</p>}
+        <md-outlined-text-field
+          label="Correo Electrónico"
+          type="email"
+          value={email}
+          onInput={(e) => setEmail(e.target.value)}
+          required
+        ></md-outlined-text-field>
+        {errors.email && <p className="error">{errors.email}</p>}
 
-          <md-outlined-text-field
-              label="Confirmar Contraseña"
-              type="password"
-              value={confirmPassword}
-              onInput={(e) => setConfirmPassword(e.target.value)}
-              required
-          ></md-outlined-text-field>
-          {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+        <md-outlined-text-field
+          label="Contraseña"
+          type="password"
+          value={password}
+          onInput={(e) => setPassword(e.target.value)}
+          required
+        ></md-outlined-text-field>
+        {errors.password && <p className="error">{errors.password}</p>}
 
-          <md-filled-button onClick={handleRegister}>
-            Registrarse
+        <md-outlined-text-field
+          label="Confirmar Contraseña"
+          type="password"
+          value={confirmPassword}
+          onInput={(e) => setConfirmPassword(e.target.value)}
+          required
+        ></md-outlined-text-field>
+        {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+
+        
+
+        <md-filled-button onClick={handleRegister}>
+          Registrarse
             <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="16px" height="16px" viewBox="0 0 16 16" id="register-16px">
               <path id="Path_184" data-name="Path 184" d="M57.5,41a.5.5,0,0,0-.5.5V43H47V31h2v.5a.5.5,0,0,0,.5.5h5a.5.5,0,0,0,.5-.5V31h2v.5a.5.5,0,0,0,1,0v-1a.5.5,0,0,0-.5-.5H55v-.5A1.5,1.5,0,0,0,53.5,28h-3A1.5,1.5,0,0,0,49,29.5V30H46.5a.5.5,0,0,0-.5.5v13a.5.5,0,0,0,.5.5h11a.5.5,0,0,0,.5-.5v-2A.5.5,0,0,0,57.5,41ZM50,29.5a.5.5,0,0,1,.5-.5h3a.5.5,0,0,1,.5.5V31H50Zm11.854,4.646-2-2a.5.5,0,0,0-.708,0l-6,6A.5.5,0,0,0,53,38.5v2a.5.5,0,0,0,.5.5h2a.5.5,0,0,0,.354-.146l6-6A.5.5,0,0,0,61.854,34.146ZM54,40V38.707l5.5-5.5L60.793,34.5l-5.5,5.5Zm-2,.5a.5.5,0,0,1-.5.5h-2a.5.5,0,0,1,0-1h2A.5.5,0,0,1,52,40.5Zm0-3a.5.5,0,0,1-.5.5h-2a.5.5,0,0,1,0-1h2A.5.5,0,0,1,52,37.5ZM54.5,35h-5a.5.5,0,0,1,0-1h5a.5.5,0,0,1,0,1Z" transform="translate(-46 -28)"/>
             </svg>

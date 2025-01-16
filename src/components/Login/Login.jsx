@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../services/firebaseConfig.js";
+import { auth, db } from "../../services/firebaseConfig.js"; // Importa Firestore
 import {
     signInWithEmailAndPassword,
     GoogleAuthProvider,
     signInWithPopup,
 } from "firebase/auth";
 import { FaGoogle } from "react-icons/fa";
+import { collection, getDocs, query, where } from "firebase/firestore"; // Importa Firestore
 import './Login.style.css';
 import Loader from '../Loader';
 import logo_cruz_roja from "../../assets/images/LOGOS-PARA-WEB-MARZO-02.png";
@@ -20,15 +21,15 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [isSwalActive, setIsSwalActive] = useState(false); // Estado para controlar Swal
+    const [isSwalActive, setIsSwalActive] = useState(false);
     const navigate = useNavigate();
     const googleProvider = new GoogleAuthProvider();
 
     const handleLogin = async () => {
         if (!email || !password) {
             setError("Correo y contraseña son obligatorios.");
-            setIsLoading(false); // Cerramos el Loader antes de mostrar Swal
-            setIsSwalActive(true); // Activamos el control de Swal
+            setIsLoading(false);
+            setIsSwalActive(true);
 
             await Swal.fire({
                 title: "Error",
@@ -37,7 +38,7 @@ const Login = () => {
                 confirmButtonText: "Aceptar",
             });
 
-            setIsSwalActive(false); // Desactivamos el control de Swal después de cerrar
+            setIsSwalActive(false);
             return;
         }
 
@@ -47,7 +48,6 @@ const Login = () => {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            // Verificamos si el usuario ya tiene un proveedor
             if (user.providerData.length > 1) {
                 await Swal.fire({
                     title: "Error",
@@ -59,12 +59,24 @@ const Login = () => {
                 return;
             }
 
-            // Redirigir a /home solo si el inicio de sesión es exitoso
-            navigate("/home");
+            // Consulta Firestore para obtener el rol del usuario
+            const userQuery = query(collection(db, "users"), where("email", "==", email));
+            const querySnapshot = await getDocs(userQuery);
+
+            if (!querySnapshot.empty) {
+                const userData = querySnapshot.docs[0].data();
+                if (userData.role === "admin") {
+                    navigate("/home-admin"); // Redirigir a la pantalla de administrador
+                } else {
+                    navigate("/home"); // Redirigir a la pantalla de donante
+                }
+            } else {
+                navigate("/home"); // Redirigir a la pantalla de donante como predeterminado
+            }
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
-            setIsLoading(false); // Cerramos el Loader antes de mostrar Swal
-            setIsSwalActive(true); // Activamos el control de Swal
+            setIsLoading(false);
+            setIsSwalActive(true);
 
             await Swal.fire({
                 title: "Error al iniciar sesión",
@@ -73,7 +85,7 @@ const Login = () => {
                 confirmButtonText: "Aceptar",
             });
 
-            setIsSwalActive(false); // Desactivamos el control de Swal después de cerrar
+            setIsSwalActive(false);
         } finally {
             setIsLoading(false);
         }
@@ -86,7 +98,6 @@ const Login = () => {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
 
-            // Verificamos si el usuario ya tiene un proveedor
             if (user.providerData.length > 1) {
                 await Swal.fire({
                     title: "Error",
@@ -98,11 +109,24 @@ const Login = () => {
                 return;
             }
 
-            navigate("/home");
+            // Consulta Firestore para obtener el rol del usuario
+            const userQuery = query(collection(db, "users"), where("email", "==", user.email));
+            const querySnapshot = await getDocs(userQuery);
+
+            if (!querySnapshot.empty) {
+                const userData = querySnapshot.docs[0].data();
+                if (userData.role === "admin") {
+                    navigate("/home-admin"); // Redirigir a la pantalla de administrador
+                } else {
+                    navigate("/home"); // Redirigir a la pantalla de donante
+                }
+            } else {
+                navigate("/home"); // Redirigir a la pantalla de donante como predeterminado
+            }
         } catch (error) {
             console.error("Error al iniciar sesión con Google:", error);
-            setIsLoading(false); // Cerramos el Loader antes de mostrar Swal
-            setIsSwalActive(true); // Activamos el control de Swal
+            setIsLoading(false);
+            setIsSwalActive(true);
 
             await Swal.fire({
                 title: "Error al iniciar sesión",
@@ -111,10 +135,9 @@ const Login = () => {
                 confirmButtonText: "Aceptar",
             });
 
-            setIsSwalActive(false); // Desactivamos el control de Swal después de cerrar
+            setIsSwalActive(false);
         }
     };
-
 
     const handleRegister = () => {
         navigate('/register');

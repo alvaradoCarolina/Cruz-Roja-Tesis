@@ -19,7 +19,8 @@ import CancelarCita from './pages/Cancelar_Cita';
 import FormularioDonacion from './pages/Formulario_Donacion';
 import ActualizarDatos from './pages/Actualizar_Datos';
 import Citas from './pages/Citas';
-import Informacion from './pages/Informacion'
+import Informacion from './pages/Informacion';
+import HomeAdmin from './components/HomeAdmin/HomeAdmin';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -46,6 +47,14 @@ function App() {
                         <Home />
                     </AuthVerification>
                 }
+            />
+            <Route
+                path="/home-admin" 
+                element={
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
+                        <HomeAdmin />
+                        </AuthVerification>
+                    } 
             />
             <Route
                 path="/cita"
