@@ -1,10 +1,9 @@
 /* Contenedor de la barra lateral */
-.reprogramar-cita-top-bar{
+.reprogramar-cita-top-bar {
     padding: 14px;
     border-bottom-right-radius: 14px;
     border-bottom-left-radius: 14px;
 }
-
 
 /* Botones de la barra lateral */
 .cancelar-cita-button {
@@ -31,22 +30,164 @@
     transform: scale(0.98);
 }
 
-
 .cancelar-cita-button:hover {
-    background-color: #cccecd; /* Verde al pasar el mouse */
+    background-color: #cccecd;
     color: white;
 }
 
 .cancelar-cita-button:focus {
-    outline: none; /* Elimina el borde azul */
+    outline: none;
 }
-
 
 /* Contenido principal */
 .cancelar-cita-content {
     padding: 1px;
 }
 
+/* Contenedor de la tabla */
 .cancelar-cita-table {
     margin-top: 1px;
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+}
+
+/* Estilo de las celdas de la tabla */
+.cancelar-cita-table th, .cancelar-cita-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+/* Estilo de la columna de numeración */
+.cancelar-cita-table th:nth-child(1),
+.cancelar-cita-table td:nth-child(1) {
+    width: 50px; /* Fijar el ancho de la columna de numeración */
+    font-weight: bold;
+}
+
+/* Estilo para la fila de la tabla cuando se pasa el ratón por encima */
+.cancelar-cita-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination span {
+    margin: 0 10px;
+    font-size: 16px;
+}
+
+.pagination button {
+    padding: 8px 16px;
+    font-size: 14px;
+    margin: 0 5px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Botón de cancelar cita */
+.cancelar-cita-button {
+    width: 100%;
+    max-width: 200px;
+    padding: 12px;
+    font-size: 16px;
+    text-align: center;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancelar-cita-button:hover {
+    background-color: #d32f2f;
+}
+
+.cancelar-cita-button:active {
+    transform: scale(0.98);
+}
+
+/* Modal */
+.modal-content {
+    font-family: Arial, sans-serif;
+}
+
+/* Loader */
+.loader {
+    display: block;
+    margin: 20px auto;
+}
+
+
+/* MEDIA QUERIES PARA DISPOSITIVOS PEQUEÑOS */
+
+@media (max-width: 768px) {
+    /* Barra superior */
+    .reprogramar-cita-top-bar {
+        padding: 10px;
+    }
+
+    /* Botón */
+    .cancelar-cita-button {
+        padding: 12px;
+        font-size: 16px;
+        max-width: 100%; /* Asegura que los botones ocupen el 100% del ancho en pantallas pequeñas */
+    }
+
+    /* Tabla */
+    .cancelar-cita-table {
+        font-size: 14px;
+    }
+
+    /* Modal */
+    .modal-dialog {
+        max-width: 90%;
+    }
+}
+
+/* MEDIA QUERIES PARA TABLETS */
+@media (max-width: 1024px) {
+    /* Ajuste de tabla */
+    .cancelar-cita-table {
+        font-size: 16px;
+    }
+
+    /* Columnas en la tabla */
+    .cancelar-cita-table th, .cancelar-cita-table td {
+        padding: 8px;
+    }
+
+    .cancelar-cita-button {
+        width: 100%;
+        max-width: 250px;
+        font-size: 16px;
+    }
+}
+
+/* MEDIA QUERIES PARA DESKTOPS */
+@media (min-width: 1200px) {
+    /* Ajuste de la tabla y botones en pantallas grandes */
+    .cancelar-cita-table {
+        font-size: 18px;
+    }
+
+    .cancelar-cita-button {
+        padding: 16px;
+        font-size: 18px;
+    }
 }

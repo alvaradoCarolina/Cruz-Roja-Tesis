@@ -1,3 +1,4 @@
+/* Estructura base */
 .layout {
     display: flex;
     flex-direction: column;
@@ -13,20 +14,24 @@
     text-align: center;
 }
 
+/* Tabla de citas */
 .citas-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    font-size: 18px;
 }
 
 .citas-table th, .citas-table td {
     border: 1px solid #ddd;
     padding: 8px;
+    text-align: center;
 }
 
 .citas-table th {
     background-color: #B40B0B;
     color: white;
+    font-size: 15px;
 }
 
 .citas-table tr:nth-child(even) {
@@ -37,11 +42,12 @@
     background-color: #ddd;
 }
 
+/* Botón de edición */
 .edit-button {
     background-color: #B40B0B;
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 5px 15px;
     cursor: pointer;
     border-radius: 4px;
 }
@@ -53,7 +59,6 @@
 /* Contenedor del formulario de edición */
 .editar-cita-form {
     margin-top: 20px;
-    text-align: left;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 8px;
@@ -61,9 +66,9 @@
     max-width: 500px;
     margin: 20px auto;
     border: 1px solid #ddd;
+    font-size: 1em;
 }
 
-/* Título del formulario */
 .editar-cita-form h2 {
     margin-bottom: 15px;
     font-size: 1.2em;
@@ -108,4 +113,61 @@
 
 .admin-button:hover {
     background-color: #a00a0a;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .editar-cita-container {
+        padding: 10px;
+    }
+
+    .citas-table {
+        font-size: 0.8em;
+    }
+
+    .citas-table th, .citas-table td {
+        padding: 5px;
+    }
+
+    .editar-cita-form {
+        padding: 15px;
+    }
+
+    .editar-cita-form h2 {
+        font-size: 1em;
+    }
+
+    .editar-cita-form input {
+        font-size: 0.9em;
+    }
+
+    .admin-button {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .citas-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .editar-cita-form {
+        padding: 10px;
+    }
+
+    .editar-cita-form h2 {
+        font-size: 0.9em;
+    }
+
+    .editar-cita-form input {
+        font-size: 0.8em;
+    }
+
+    .admin-button {
+        font-size: 0.8em;
+        padding: 8px;
+    }
 }

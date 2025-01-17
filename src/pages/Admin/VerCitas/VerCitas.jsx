@@ -7,7 +7,8 @@ import './VerCitas.style.css';
 
 const VerCitas = () => {
     const [citas, setCitas] = useState([]);
-    const [users, setUsers] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1); // Página actual
+    const itemsPerPage = 10; // Elementos por página
 
     useEffect(() => {
         const fetchData = async () => {
@@ -26,7 +27,7 @@ const VerCitas = () => {
                     ...doc.data()
                 }));
 
-                // Combinar los datos
+                // Combinar y ordenar los datos
                 const combinedData = citasData.map(cita => {
                     const user = usersData.find(user => user.uid === cita.userId);
                     return {
@@ -35,6 +36,9 @@ const VerCitas = () => {
                         usersEmail: user ? user.email : 'Desconocido',
                     };
                 });
+
+                // Ordenar citas por fecha (más recientes al final)
+                combinedData.sort((a, b) => new Date(a.day) - new Date(b.day));
 
                 setCitas(combinedData);
             } catch (error) {
@@ -45,15 +49,29 @@ const VerCitas = () => {
         fetchData();
     }, []);
 
+    // Calcular el número total de páginas
+    const totalPages = Math.ceil(citas.length / itemsPerPage);
+
+    // Obtener los elementos para la página actual
+    const currentItems = citas.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    // Manejador de cambio de página
+    const handlePageChange = (newPage) => {
+        if (newPage > 0 && newPage <= totalPages) {
+            setCurrentPage(newPage);
+        }
+    };
+
     return (
         <div className="layout">
             <NavbarAdmin />
             <main className="main">
                 <div className="ver-citas-container">
-                    <h1>Lista de Citas</h1>
+                    <h1>Citas Agendadas</h1>
                     <table className="citas-table">
                         <thead>
                             <tr>
+                                <th>#</th> {/* Columna de numeración */}
                                 <th>Fecha</th>
                                 <th>Hora</th>
                                 <th>Donante</th>
@@ -62,8 +80,9 @@ const VerCitas = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {citas.map((cita, index) => (
-                                <tr key={index}>
+                            {currentItems.map((cita, index) => (
+                                <tr key={cita.id}>
+                                    <td>{(currentPage - 1) * itemsPerPage + index + 1}</td> {/* Numeración */}
                                     <td>{cita.day}</td>
                                     <td>{cita.time}</td>
                                     <td>{cita.usersName}</td>
@@ -73,6 +92,23 @@ const VerCitas = () => {
                             ))}
                         </tbody>
                     </table>
+
+                    {/* Paginación */}
+                    <div className="pagination">
+                        <button 
+                            onClick={() => handlePageChange(currentPage - 1)} 
+                            disabled={currentPage === 1}
+                        >
+                            Anterior
+                        </button>
+                        <span>Página {currentPage} de {totalPages}</span>
+                        <button 
+                            onClick={() => handlePageChange(currentPage + 1)} 
+                            disabled={currentPage === totalPages}
+                        >
+                            Siguiente
+                        </button>
+                    </div>
                 </div>
             </main>
             <Footer />

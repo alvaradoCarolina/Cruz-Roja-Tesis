@@ -1,48 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import Swal from 'sweetalert2'; // Importa SweetAlert2
+import Swal from 'sweetalert2';
 import { Container, Row, Col, Table, Button, Modal, Spinner } from 'react-bootstrap';
-import { collection, getDocs, deleteDoc, doc, query, where } from 'firebase/firestore';  // Asegúrate de importar 'where' aquí
+import { collection, getDocs, deleteDoc, doc, query, where } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { db } from '../../services/firebaseConfig';
-import { sendCancelScheduleEmail } from '../../services/mailerService.js'; // Asegúrate de ajustar la ruta correcta
+import { sendCancelScheduleEmail } from '../../services/mailerService.js';
 import './CancelarCita.css';
 
 const CancelarCita = () => {
     const [appointments, setAppointments] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
-    const [userData, setUserData] = useState({ email: "", name: "", uid: "" });  // Estado para el correo, nombre e ID del usuario
-    const [loading, setLoading] = useState(false); // Estado para el indicador de carga
+    const [userData, setUserData] = useState({ email: "", name: "", uid: "" });
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10; // Máximo de 10 citas por página
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const auth = getAuth();  // Obtén la instancia de autenticación
-            const user = auth.currentUser;  // Obtén el usuario autenticado
+            const auth = getAuth();
+            const user = auth.currentUser;
             if (user) {
-                console.log("Usuario autenticado:", user); // Depuración: información del usuario
                 setUserData({
                     email: user.email || "Correo no proporcionado",
                     name: user.displayName || "Nombre no proporcionado",
-                    uid: user.uid, // Guardamos el UID del usuario
+                    uid: user.uid,
                 });
-            } else {
-                console.log("No hay usuario autenticado.");
             }
         };
 
         fetchUserData();
-    }, []); // Se ejecuta solo al montar el componente
+    }, []);
 
     useEffect(() => {
         const fetchAppointments = async () => {
-            if (!userData.uid) return;  // Asegúrate de que el UID del usuario esté disponible
-            setLoading(true); // Activar el indicador de carga
+            if (!userData.uid) return;
+            setLoading(true);
 
             try {
                 const appointmentsCollection = collection(db, "citas");
                 const appointmentsQuery = query(
                     appointmentsCollection,
-                    where("userId", "==", userData.uid) // Filtramos por ID del usuario
+                    where("userId", "==", userData.uid)
                 );
                 const appointmentsSnapshot = await getDocs(appointmentsQuery);
                 const appointmentsList = appointmentsSnapshot.docs.map(doc => ({
@@ -51,51 +50,38 @@ const CancelarCita = () => {
                     email: doc.data().email || "Correo no proporcionado",
                     name: doc.data().name || "Nombre no proporcionado",
                 }));
+
+                // Ordenar las citas por fecha (de 1 a 30)
+                appointmentsList.sort((a, b) => new Date(a.day) - new Date(b.day));
                 setAppointments(appointmentsList);
             } catch (error) {
                 console.error("Error al obtener las citas:", error);
             } finally {
-                setLoading(false); // Desactivar el indicador de carga
+                setLoading(false);
             }
         };
 
         fetchAppointments();
-    }, [userData.uid]); // Se ejecuta cuando el UID del usuario cambia
+    }, [userData.uid]);
 
     const handleShowModal = (appointment) => {
-        console.log("Cita seleccionada:", appointment);  // Imprimir cita seleccionada para depuración
         setSelectedAppointment(appointment);
         setShowModal(true);
     };
 
     const handleCancel = async (id) => {
-        if (selectedAppointment && selectedAppointment.usersEmail) { // Asegúrate de que selectedAppointment tiene valores válidos
+        if (selectedAppointment && selectedAppointment.usersEmail) {
             try {
-                // Mostrar alerta antes de enviar el correo
                 await Swal.fire({
                     title: 'Cita Cancelada',
                     text: 'La cita ha sido cancelada con éxito. Enviando correo...',
                     icon: 'success',
                     confirmButtonText: 'Aceptar',
                 }).then(() => {
-                    // Cerrar el modal cuando se cierra el SweetAlert
                     setShowModal(false);
                 });
 
-                console.log("Datos de la cita seleccionada:", selectedAppointment);
-
-                // Llamada a la función de envío de correo con los parámetros correctos
                 await sendCancelScheduleEmail({
-                    to_email: selectedAppointment.usersEmail,
-                    subject: "Cancelación de Cita",
-                    userName: selectedAppointment.usersName,  // Usamos el nombre del usuario de la cita seleccionada
-                    day: selectedAppointment.day,
-                    time: selectedAppointment.time,
-                    location: selectedAppointment.location,
-                    cancellationTime: new Date().toLocaleString(),
-                });
-
-                console.log("Enviando correo con los siguientes parámetros:", {
                     to_email: selectedAppointment.usersEmail,
                     subject: "Cancelación de Cita",
                     userName: selectedAppointment.usersName,
@@ -105,13 +91,10 @@ const CancelarCita = () => {
                     cancellationTime: new Date().toLocaleString(),
                 });
 
-                // Eliminar la cita de la base de datos
-                console.log("Eliminando cita con ID:", id);
                 await deleteDoc(doc(db, "citas", id));
                 setAppointments(appointments.filter(appointment => appointment.id !== id));
-                console.log("Cita eliminada exitosamente.");
             } catch (error) {
-                console.error("Error en el proceso de cancelación. Detalles completos:", error);
+                console.error("Error en el proceso de cancelación:", error);
                 await Swal.fire({
                     title: 'Error',
                     text: 'Hubo un problema al cancelar la cita. Por favor, intenta de nuevo.',
@@ -120,7 +103,6 @@ const CancelarCita = () => {
                 });
             }
         } else {
-            console.error("La cita seleccionada no tiene datos válidos.", selectedAppointment);
             await Swal.fire({
                 title: 'Error',
                 text: 'La cita seleccionada no tiene datos válidos.',
@@ -129,6 +111,10 @@ const CancelarCita = () => {
             });
         }
     };
+
+    const totalPages = Math.ceil(appointments.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedAppointments = appointments.slice(startIndex, startIndex + itemsPerPage);
 
     return (
         <div className="cancelar-cita-container">
@@ -141,30 +127,32 @@ const CancelarCita = () => {
                 <Row>
                     <Col md={8} className="cancelar-cita-content">
                         {loading ? (
-                            <Spinner animation="border" variant="primary" className="loader"/>  // Indicador de carga
+                            <Spinner animation="border" variant="primary" className="loader" />
                         ) : appointments.length === 0 ? (
                             <p className="non-scheudle-phrase">No tiene citas registradas.</p>
                         ) : (
                             <Table bordered className="cancelar-cita-table">
                                 <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    <th>Lugar</th>
-                                    <th>Acciones</th>
-                                </tr>
+                                    <tr>
+                                        <th>#</th> {/* Columna de numeración */}
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                        <th>Lugar</th>
+                                        <th>Acciones</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                {appointments.map(appointment => (
-                                    <tr key={appointment.id}>
-                                        <td>{appointment.day}</td>
-                                        <td>{appointment.time}</td>
-                                        <td>{appointment.location}</td>
-                                        <td>
-                                            <Button variant="danger" onClick={() => handleShowModal(appointment)}>Cancelar</Button>
-                                        </td>
-                                    </tr>
-                                ))}
+                                    {paginatedAppointments.map((appointment, index) => (
+                                        <tr key={appointment.id}>
+                                            <td>{startIndex + index + 1}</td> {/* Numeración */}
+                                            <td>{appointment.day}</td>
+                                            <td>{appointment.time}</td>
+                                            <td>{appointment.location}</td>
+                                            <td>
+                                                <Button variant="danger" onClick={() => handleShowModal(appointment)}>Cancelar</Button>
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </Table>
                         )}
@@ -185,6 +173,27 @@ const CancelarCita = () => {
                             <Button variant="danger" onClick={() => handleCancel(selectedAppointment.id)}>Sí, cancelar</Button>
                         </Modal.Footer>
                     </Modal>
+                </Row>
+
+                {/* Paginación */}
+                <Row>
+                    <Col md={3} className="pagination">
+                        <Button
+                            variant="secondary"
+                            onClick={() => setCurrentPage(Math.max(currentPage - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            Anterior
+                        </Button>
+                        <span> Página {currentPage} de {totalPages} </span>
+                        <Button
+                            variant="secondary"
+                            onClick={() => setCurrentPage(Math.min(currentPage + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                        >
+                            Siguiente
+                        </Button>
+                    </Col>
                 </Row>
             </Container>
         </div>

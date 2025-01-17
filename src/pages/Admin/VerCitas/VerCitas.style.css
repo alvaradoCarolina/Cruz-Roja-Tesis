@@ -17,6 +17,7 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    font-size: 20px;
 }
 
 .citas-table th, .citas-table td {
@@ -27,6 +28,7 @@
 .citas-table th {
     background-color: #B40B0B;
     color: white;
+    text-align: center;
 }
 
 .citas-table tr:nth-child(even) {
@@ -35,4 +37,36 @@
 
 .citas-table tr:hover {
     background-color: #ddd;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .citas-table {
+        font-size: 0.9rem;
+    }
+
+    .citas-table th, .citas-table td {
+        padding: 6px;
+    }
+}
+
+@media (max-width: 576px) {
+    .citas-table {
+        font-size: 0.8rem;
+    }
+
+    .citas-table th, .citas-table td {
+        padding: 4px;
+    }
+
+    .citas-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .citas-table th, .citas-table td {
+        display: inline-block;
+        min-width: 100px;
+    }
 }

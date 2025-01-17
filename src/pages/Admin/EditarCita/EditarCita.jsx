@@ -12,6 +12,8 @@ const EditarCita = () => {
     const [selectedCita, setSelectedCita] = useState(null);
     const [fecha, setFecha] = useState('');
     const [hora, setHora] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10; // Máximo de 10 citas por página
 
     // Cargar citas y usuarios al montar el componente
     useEffect(() => {
@@ -19,19 +21,23 @@ const EditarCita = () => {
         fetchUsers();
     }, []);
 
-    // Obtener citas desde la base de datos
     const fetchCitas = async () => {
-        const querySnapshot = await getDocs(collection(db, "citas"));
+        const querySnapshot = await getDocs(collection(db, 'citas'));
         const citasData = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
         }));
-        setCitas(citasData);
+        // Ordenar las citas por fecha de manera ascendente
+        const citasOrdenadas = citasData.sort((a, b) => {
+            const fechaA = new Date(a.day);
+            const fechaB = new Date(b.day);
+            return fechaA - fechaB; // Orden ascendente por fecha
+        });
+        setCitas(citasOrdenadas);
     };
 
-    // Obtener usuarios desde la base de datos
     const fetchUsers = async () => {
-        const querySnapshot = await getDocs(collection(db, "users"));
+        const querySnapshot = await getDocs(collection(db, 'users'));
         const usersData = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
@@ -39,65 +45,65 @@ const EditarCita = () => {
         setUsers(usersData);
     };
 
-    // Manejar la selección de una cita para editar
     const handleSelectCita = (cita) => {
         setSelectedCita(cita);
-        setFecha(cita.day); // Usar el campo `day` como fecha
-        setHora(cita.time); // Usar el campo `time` como hora
+        setFecha(cita.day);
+        setHora(cita.time);
     };
 
-    // Guardar los cambios en la cita seleccionada
     const handleEditar = async (id) => {
         if (!fecha || !hora) {
             Swal.fire({
-                title: "Campos incompletos",
-                text: "Por favor, llena todos los campos antes de continuar.",
-                icon: "warning",
-                confirmButtonText: "Aceptar",
+                title: 'Campos incompletos',
+                text: 'Por favor, llena todos los campos antes de continuar.',
+                icon: 'warning',
+                confirmButtonText: 'Aceptar',
             });
             return;
         }
 
         try {
-            await updateDoc(doc(db, "citas", id), {
+            await updateDoc(doc(db, 'citas', id), {
                 day: fecha,
                 time: hora,
             });
             Swal.fire({
-                title: "Cita Editada",
-                text: "La cita ha sido editada exitosamente.",
-                icon: "success",
-                confirmButtonText: "Aceptar",
+                title: 'Cita Editada',
+                text: 'La cita ha sido editada exitosamente.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
             });
             setSelectedCita(null);
             setFecha('');
             setHora('');
-            fetchCitas(); // Actualizar la lista de citas
+            fetchCitas();
         } catch (error) {
             Swal.fire({
-                title: "Error al editar cita",
+                title: 'Error al editar cita',
                 text: error.message,
-                icon: "error",
-                confirmButtonText: "Aceptar",
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
             });
         }
     };
 
-    // Obtener el nombre del donante desde la lista de usuarios
     const getUserName = (userId) => {
         const user = users.find((user) => user.uid === userId);
-        return user ? user.name || "Sin nombre" : "Desconocido";
+        return user ? user.name || 'Sin nombre' : 'Desconocido';
     };
+
+    const totalPages = Math.ceil(citas.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedCitas = citas.slice(startIndex, startIndex + itemsPerPage);
 
     return (
         <div className="layout">
             <NavbarAdmin />
             <main className="main">
                 <div className="editar-cita-container">
-                    <h1>Editar Cita</h1>
+                    <h1>Editar Citas</h1>
                     {selectedCita && (
                         <div className="editar-cita-form">
-                            <h2>Editar Cita</h2>
                             <input
                                 type="date"
                                 value={fecha}
@@ -121,6 +127,7 @@ const EditarCita = () => {
                     <table className="citas-table">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Fecha</th>
                                 <th>Hora</th>
                                 <th>Donante</th>
@@ -129,12 +136,13 @@ const EditarCita = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {citas.map((cita) => (
+                            {paginatedCitas.map((cita, index) => (
                                 <tr key={cita.id}>
+                                    <td>{startIndex + index + 1}</td>
                                     <td>{cita.day}</td>
                                     <td>{cita.time}</td>
                                     <td>{getUserName(cita.userId)}</td>
-                                    <td>{cita.usersEmail}</td>
+                                    <td>{cita.usersEmail || 'Desconocido'}</td>
                                     <td>
                                         <button
                                             className="edit-button"
@@ -147,7 +155,21 @@ const EditarCita = () => {
                             ))}
                         </tbody>
                     </table>
-                    
+                    <div className="pagination">
+                        <button
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            Anterior
+                        </button>
+                        <span>Página {currentPage} de {totalPages}</span>
+                        <button
+                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                        >
+                            Siguiente
+                        </button>
+                    </div>
                 </div>
             </main>
             <Footer />
