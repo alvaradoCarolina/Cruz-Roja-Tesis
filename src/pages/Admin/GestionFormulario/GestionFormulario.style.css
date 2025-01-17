@@ -10,10 +10,6 @@
     padding: 20px;
 }
 
-.h1 {
-    color: #B40B0B;
-}
-
 .gestionar-donaciones-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -26,6 +22,7 @@
     color: #333;
 }
 
+/* Tabla de donaciones */
 .donaciones-table {
     width: 100%;
     border-collapse: collapse;
@@ -59,23 +56,82 @@
     transform: scale(0.98);
 }
 
+/* Estilos para vista previa */
 .vista-previa-table {
-    width: 100%;
+    width: 50%;
     border-collapse: collapse;
     margin-top: 20px;
-  }
-  
-  .vista-previa-table th, .vista-previa-table td {
+}
+
+.vista-previa-table th, .vista-previa-table td {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
-  }
-  
-  .vista-previa-table th {
+}
+
+.vista-previa-table th {
     background-color: #f4f4f4;
-  }
-  
-  .vista-previa {
+    text-align: center;
+}
+
+.vista-previa {
     margin-bottom: 20px;
-  }
-  
+    text-align: center;
+}
+
+/* Hacer las tablas responsive */
+@media (max-width: 768px) {
+    .donaciones-table, .vista-previa-table {
+        font-size: 14px;
+    }
+
+    .donaciones-table th, .donaciones-table td, .vista-previa-table th, .vista-previa-table td {
+        padding: 8px;
+    }
+
+    .donaciones-table button, .vista-previa-table button {
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+
+    .donaciones-table th, .donaciones-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .donaciones-table th {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .donaciones-table td {
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .donaciones-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: bold;
+    }
+}
+
+/* Mejorar la visualización en pantallas más pequeñas */
+@media (max-width: 480px) {
+    .gestion-donaciones-container h1 {
+        font-size: 1.5rem;
+    }
+
+    .donaciones-table th, .donaciones-table td {
+        padding: 6px;
+    }
+
+    .donaciones-table button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}

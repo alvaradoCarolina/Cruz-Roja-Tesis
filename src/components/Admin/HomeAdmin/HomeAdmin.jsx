@@ -15,7 +15,7 @@ const HomeAdmin = () => {
         <div className="layout">
             <NavbarAdmin/>
             <div className="home-admin-container"> 
-                <h1>Bienvenido, Administrador</h1>  
+                <h1>Bienvenido Administrador</h1>  
             </div>
             
             <section className="admin-section">

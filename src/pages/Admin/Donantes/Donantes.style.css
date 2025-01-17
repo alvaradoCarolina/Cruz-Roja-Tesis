@@ -1,3 +1,4 @@
+/* Estilos generales */
 .layout {
     display: flex;
     flex-direction: column;
@@ -8,35 +9,43 @@
     flex: 1;
 }
 
+/* Contenedor de donantes */
 .donantes-container {
     padding: 20px;
     text-align: center;
 }
 
+/* Estilos de la tabla */
 .donantes-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
+/* Estilos para las celdas de la tabla */
 .donantes-table th, .donantes-table td {
     border: 1px solid #ddd;
     padding: 8px;
+    text-align: left;
 }
 
+/* Cabecera de la tabla */
 .donantes-table th {
     background-color: #B40B0B;
     color: white;
 }
 
+/* Fila par en la tabla */
 .donantes-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
+/* Efecto hover en las filas */
 .donantes-table tr:hover {
     background-color: #ddd;
 }
 
+/* Botón de eliminar */
 .delete-button {
     background-color: #B40B0B;
     color: white;
@@ -48,4 +57,32 @@
 
 .delete-button:hover {
     background-color: #a00a0a;
+}
+
+/* Media Queries para hacer la tabla responsiva */
+@media (max-width: 768px) {
+    .donantes-table th, .donantes-table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .delete-button {
+        padding: 4px 8px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .donantes-table {
+        font-size: 12px;
+    }
+
+    .donantes-table th, .donantes-table td {
+        padding: 8px;
+    }
+
+    .delete-button {
+        padding: 3px 6px;
+        font-size: 12px;
+    }
 }
