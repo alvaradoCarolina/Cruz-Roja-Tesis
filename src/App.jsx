@@ -46,14 +46,68 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/recuperar-password" element={<RecoveryPassword />} />
-            <Route path="/gestion-donantes" element={<Donantes />} />
-            <Route path="/citas-admin" element={<CitasAdmin />} /> 
-            <Route path="/citas/ver" element={<VerCitasAdmin />} /> 
-            <Route path="/citas/editar" element={<EditarCitaAdmin />} /> 
-            <Route path="/citas/cancelar" element={<CancelarCitaAdmin />} />
-            <Route path="gestion-formulario" element={<GestionFormulario />} />
+            
+            {/* Rutas protegidas Admin*/}
+            <Route
+                path="/home/admin" 
+                element={
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
+                        <HomeAdmin />
+                        </AuthVerification>
+                    } 
+            />
+            <Route
+                path="/gestion/donantes" 
+                element={
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
+                        <Donantes />
+                        </AuthVerification>
+                    } 
+            />
+            <Route
+                path="/citas/admin" 
+                element={
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
+                        <CitasAdmin />
+                        </AuthVerification>
+                    } 
+            />
+            <Route
+                path="/citas/ver" 
+                element={
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
+                        <VerCitasAdmin />
+                        </AuthVerification>
+                    } 
+            />
+            <Route
+                path="/citas/editar" 
+                element={
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
+                        <EditarCitaAdmin />
+                        </AuthVerification>
+                    } 
+            />
+            <Route
+                path="/citas/cancelar" 
+                element={
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
+                        CancelarCitaAdmin />
+                        </AuthVerification>
+                    } 
+            />
+            <Route
+                path="/gestion/formulario" 
+                element={
+                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
+                        <GestionFormulario />
+                        </AuthVerification>
+                    } 
+            />
 
-            {/* Rutas protegidas */}
+
+
+            {/* Rutas protegidas Donante*/}
             <Route
                 path="/home"
                 element={
@@ -61,14 +115,6 @@ function App() {
                         <Home />
                     </AuthVerification>
                 }
-            />
-            <Route
-                path="/home-admin" 
-                element={
-                    <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
-                        <HomeAdmin />
-                        </AuthVerification>
-                    } 
             />
             <Route
                 path="/cita"

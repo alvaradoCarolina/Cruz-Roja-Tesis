@@ -4,7 +4,7 @@
     padding: 0;
 }
 
-:root{
+:root {
     --md-filled-tonal-button-container-color: #971a1a;
     --md-filled-tonal-button-label-text-color: white;
 }
@@ -22,7 +22,8 @@
     width: 100%;
 }
 
-.left-section, .right-section {
+.left-section,
+.right-section {
     flex: 1;
     display: flex;
     align-items: center;
@@ -66,7 +67,7 @@ md-filled-button {
     align-items: center;
 }
 
-.login-hr{
+.login-hr {
     width: 80%;
     border: 1px solid #c13434;
 }
@@ -90,6 +91,47 @@ md-filled-button {
     padding: 5px 18px;
     border: none;
     border-radius: 15px;
+}
+
+/* Estilos para el contenedor de la contraseña con ojito */
+.password-input-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-input-container input {
+    width: 100%;
+    padding-right: 40px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+}
+
+.password-input-container button.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #971a1a;
+    font-size: 1.2rem;
+}
+
+.password-input-container button.toggle-password:hover {
+    color: #b3261e;
+}
+
+/* Estilo para mensajes de error */
+.error-message {
+    color: #b3261e;
+    font-size: 0.9rem;
+    margin-top: -10px;
+    text-align: left;
+    width: 100%;
 }
 
 @media screen and (max-width: 1000px) {

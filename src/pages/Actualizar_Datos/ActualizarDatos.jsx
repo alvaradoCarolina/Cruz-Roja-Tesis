@@ -4,12 +4,11 @@ import CustomNavbar from '../../components/SubmenuNavbar';
 import { db } from '../../services/firebaseConfig';
 import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider, updateProfile } from 'firebase/auth';
 import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
-import profilePic from '../../assets/images/img1.png';
 import changeKey from '../../assets/images/c.png';
 import updateData from '../../assets/images/update-data.png';
 import changeBloodType from '../../assets/images/change-blood-type.png';
-import updatePhoto from '../../assets/images/update-photo.png';
 import './ActualizarDatos.style.css';
+import Footer from '../../components/Footer/Footer';
 
 const ActualizarDatos = () => {
     const [donantes, setDonantes] = useState([]);
@@ -115,25 +114,6 @@ const ActualizarDatos = () => {
         }
     };
 
-    const handleUpdatePhoto = async () => {
-        try {
-            const auth = getAuth();
-            const users = auth.currentUser;
-
-            // Aquí deberías subir la foto a tu sistema de almacenamiento (como Firebase Storage) y luego actualizar la URL de la foto en el perfil del usuario.
-            // Ejemplo:
-            // const storageRef = ref(storage, 'fotos-perfil/' + user.uid);
-            // await uploadBytes(storageRef, newPhoto);
-            // const photoURL = await getDownloadURL(storageRef);
-            // await updateProfile(user, { photoURL });
-
-            alert("Foto de perfil actualizada exitosamente.");
-            setShowUpdatePhoto(false);
-        } catch (error) {
-            console.error("Error al actualizar la foto de perfil: ", error);
-            alert("Error al actualizar la foto de perfil.");
-        }
-    };
 
     const handleSelectDonante = (donante) => {
         setSelectedDonante(donante);
@@ -146,32 +126,31 @@ const ActualizarDatos = () => {
     return (
         <div className="actualizar-datos-container">
             <CustomNavbar />
+            
+        <br></br>
+        <br></br>
+        <br></br>
             <div className="actualizar-datos-main-content">
-                <Row className="actualizar-datos-top-bar align-items-center">
-
-                    <Col md={11}>
-                        <h1 className="text-white">{userName}</h1>
-                    </Col>
-                </Row>
-                <Container fluid className="mt-4">
+            <Row className="actualizar-datos-top-bar align-items-center"></Row>
+            <Container fluid className="mt-4">
                     <Row className="justify-content-center">
                         <Col md={3} className="text-center">
                             <Button className="actualizar-datos-option" onClick={(e) => {e.target.blur(); setShowChangePassword(true);}}>
                                 <Image src={changeKey} className="actualizar-datos-option-icon" />
                             </Button>
-                            <div>Cambiar Clave</div>
+                            <div>Actualizar Contraseña</div>
                         </Col>
                         <Col md={3} className="text-center">
                             <Button className="actualizar-datos-option" onClick={(e) => {e.target.blur(); setShowUpdateData(true);}}>
                                 <Image src={updateData} className="actualizar-datos-option-icon" />
                             </Button>
-                            <div>Cambiar Datos Personales</div>
+                            <div>Actualizar Nombre</div>
                         </Col>
                         <Col md={3} className="text-center">
                             <Button className="actualizar-datos-option" onClick={(e) => {e.target.blur(); setShowChangeBloodType(true);}}>
                                 <Image src={changeBloodType} className="actualizar-datos-option-icon"/>
                             </Button>
-                            <div>Cambiar Tipo de Sangre</div>
+                            <div>Actualizar Correo Electronico</div>
                         </Col>
                     </Row>
                 </Container>
@@ -179,7 +158,7 @@ const ActualizarDatos = () => {
                 {/* Modal para Cambiar Clave */}
                 <Modal show={showChangePassword} onHide={() => setShowChangePassword(false)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Cambiar Clave</Modal.Title>
+                        <Modal.Title>Actualizar Contraseña</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -213,55 +192,55 @@ const ActualizarDatos = () => {
 
                 {/* Modal para Cambiar Datos Personales */}
                 <Modal show={showUpdateData} onHide={() => setShowUpdateData(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Cambiar Datos Personales</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group controlId="formName">
-                                <Form.Label>Nombre</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={nombre}
-                                    onChange={(e) => setNombre(e.target.value)}/>
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button style={{backgroundColor: '#b40b0b', color: 'white', border: 'none', }} onClick={() => setShowUpdateData(false)}>
-                            Cancelar
-                        </Button>
-                        <Button variant="secondary" onClick={handleUpdateData}>
-                            Actualizar Datos
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+    <Modal.Header closeButton>
+        <Modal.Title>Actualizar Nombre</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+        <Form>
+            {/* Campo para el nombre */}
+            <Form.Group controlId="formName">
+                <Form.Label>Nombre</Form.Label>
+                <Form.Control
+                    type="text"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                />
+            </Form.Group>
+        </Form>
+    </Modal.Body>
+    <Modal.Footer>
+        {/* Botón de cancelar */}
+        <Button
+            style={{ backgroundColor: '#b40b0b', color: 'white', border: 'none' }}
+            onClick={() => setShowUpdateData(false)}
+        >
+            Cancelar
+        </Button>
+
+        {/* Botón de actualizar */}
+        <Button variant="secondary" onClick={handleUpdateData}>
+            Actualizar Datos
+        </Button>
+    </Modal.Footer>
+</Modal>
+
 
                 {/* Modal para Cambiar Tipo de Sangre */}
                 <Modal show={showChangeBloodType} onHide={() => setShowChangeBloodType(false)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Cambiar Tipo de Sangre</Modal.Title>
+                        <Modal.Title>Actualizar correo</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
-                            <Form.Group controlId="formBloodType">
-                                <Form.Label>Tipo de Sangre</Form.Label>
-                                <Form.Control
-                                    as="select"
-                                    value={tipoSangre}
-                                    onChange={(e) => setTipoSangre(e.target.value)}
-                                >
-                                    <option value="">Seleccione su tipo de sangre</option>
-                                    <option value="A+">A+</option>
-                                    <option value="A-">A-</option>
-                                    <option value="B+">B+</option>
-                                    <option value="B-">B-</option>
-                                    <option value="AB+">AB+</option>
-                                    <option value="AB-">AB-</option>
-                                    <option value="O+">O+</option>
-                                    <option value="O-">O-</option>
-                                </Form.Control>
-                            </Form.Group>
+                        <Form.Group controlId="formEmail" className="mt-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+            </Form.Group>
+                            
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
@@ -274,9 +253,15 @@ const ActualizarDatos = () => {
                     </Modal.Footer>
                 </Modal>
             </div>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+            <Footer />
         </div>
-
     );
+    
 };
 
 export default ActualizarDatos;

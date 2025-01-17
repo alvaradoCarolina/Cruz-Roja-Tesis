@@ -11,6 +11,7 @@
     margin: 20px;
     color: #B40B0B;
     text-align: center;
+    padding: 80px;
 }
 
 .admin-section {
@@ -21,8 +22,7 @@
     flex-wrap: wrap; /* Permitir que los elementos se acomoden en varias filas */
 }
 
-.mision-section, 
-.vision-section, 
+
 .donantes-section, 
 .citas-section, 
 .formularios-section {
@@ -34,14 +34,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     min-width: 250px; /* Ancho mínimo para evitar que los elementos se deformen */
     text-align: center;
-}
-
-h1 {
-    color: #B40B0B;
-}
-
-p {
-    color: black;
 }
 
 .admin-button {

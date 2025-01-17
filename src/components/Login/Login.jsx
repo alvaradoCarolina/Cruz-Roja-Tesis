@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 import "@material/web/button/filled-button.js";
 import "@material/web/button/filled-tonal-button.js";
 import "@material/web/textfield/outlined-text-field.js";
+//import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -24,6 +25,12 @@ const Login = () => {
     const [isSwalActive, setIsSwalActive] = useState(false);
     const navigate = useNavigate();
     const googleProvider = new GoogleAuthProvider();
+    const [showPassword, setShowPassword] = useState(false);
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Patrón de validación
+        return emailRegex.test(email);
+    };
 
     const handleLogin = async () => {
         if (!email || !password) {
@@ -66,7 +73,7 @@ const Login = () => {
             if (!querySnapshot.empty) {
                 const userData = querySnapshot.docs[0].data();
                 if (userData.role === "admin") {
-                    navigate("/home-admin"); // Redirigir a la pantalla de administrador
+                    navigate("/home/admin"); // Redirigir a la pantalla de administrador
                 } else {
                     navigate("/home"); // Redirigir a la pantalla de donante
                 }
@@ -116,7 +123,7 @@ const Login = () => {
             if (!querySnapshot.empty) {
                 const userData = querySnapshot.docs[0].data();
                 if (userData.role === "admin") {
-                    navigate("/home-admin"); // Redirigir a la pantalla de administrador
+                    navigate("/home/admin"); // Redirigir a la pantalla de administrador
                 } else {
                     navigate("/home"); // Redirigir a la pantalla de donante
                 }

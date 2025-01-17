@@ -22,19 +22,19 @@ const HomeAdmin = () => {
                 {/* Gestionar Donantes */}
                 <aside className="donantes-section">
                     <h1>Gestionar Donantes</h1>
-                    <button className="admin-button" onClick={() => navigate('/gestion-donantes')}>Ver Donantes</button>
+                    <button className="admin-button" onClick={() => navigate('/gestion/donantes')}>Ver Donantes</button>
                 </aside>
 
                 {/* Administrar Citas */}
                 <aside className="citas-section">
                     <h1>Administrar Citas</h1>
-                    <button className="admin-button" onClick={() => navigate('/citas-admin')}>Gestionar Citas</button>
+                    <button className="admin-button" onClick={() => navigate('/citas/admin')}>Gestionar Citas</button>
                 </aside>
 
                 {/* Gestionar Formularios de Donación */}
                 <aside className="formularios-section">
                     <h1>Gestionar Formularios de Donación</h1>
-                    <button className="admin-button" onClick={() => navigate('/gestion-formulario')}>Ver Formularios</button>
+                    <button className="admin-button" onClick={() => navigate('/gestion/formulario')}>Ver Formularios</button>
                 </aside>
             </section>
 

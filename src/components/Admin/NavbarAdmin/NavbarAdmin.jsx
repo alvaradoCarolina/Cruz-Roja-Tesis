@@ -40,7 +40,7 @@ const NavbarAdmin = () => {
             <header className="custom-navbar">
                 <div className="navbar-container">
                     {/* Logo */}
-                    <Link to="/home-admin" className="navbar-logo">
+                    <Link to="/home/admin" className="navbar-logo">
                         <img src={logo} alt="Logo" />
                     </Link>
 
@@ -54,10 +54,10 @@ const NavbarAdmin = () => {
 
                     {/* Menú de navegación */}
                     <nav className={`navbar-links ${menuOpen ? 'open' : ''}`}>
-                        <Link to="/home-admin" className="nav-item">Inicio</Link>
-                        <Link to="/gestion-donantes" className="nav-item">Gestionar Donantes</Link>
-                        <Link to="/citas-admin" className="nav-item">Administrar Citas</Link>
-                        <Link to="/gestion-formulario" className="nav-item">Formularios de Donación</Link>
+                        <Link to="/home/admin" className="nav-item">Inicio</Link>
+                        <Link to="/gestion/donantes" className="nav-item">Gestionar Donantes</Link>
+                        <Link to="/citas/admin" className="nav-item">Administrar Citas</Link>
+                        <Link to="/gestion/formulario" className="nav-item">Formularios de Donación</Link>
 
                         {/* Botón de logout */}
                         <button className="exit_button">
