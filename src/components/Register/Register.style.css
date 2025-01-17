@@ -123,6 +123,32 @@
     font-size: 1.5em;
     color: #B3261E;
   }
+
+  .password-field-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .password-field-container md-outlined-text-field {
+    width: 100%;
+  }
+  
+  .password-field-container button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #888;
+  }
+  
+  .password-field-container button svg {
+    width: 20px;
+    height: 20px;
+  }
+  
   
   @media screen and (max-width: 1000px) {
     .register-container {

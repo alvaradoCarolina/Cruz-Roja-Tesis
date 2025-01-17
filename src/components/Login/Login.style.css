@@ -94,36 +94,41 @@ md-filled-button {
 }
 
 /* Estilos para el contenedor de la contraseña con ojito */
-.password-input-container {
+/* Contenedor para el campo de contraseña y el ícono */
+.password-container {
     position: relative;
     width: 100%;
 }
 
-.password-input-container input {
+/* Campo de contraseña */
+.password-field {
     width: 100%;
-    padding-right: 40px;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    outline: none;
 }
 
-.password-input-container button.toggle-password {
+/* Botón para el ícono del ojo */
+.password-toggle {
     position: absolute;
+    right: 15px; /* Ajusta el espacio a la derecha */
     top: 50%;
-    right: 10px;
     transform: translateY(-50%);
-    background: none;
+    background: transparent;
     border: none;
     cursor: pointer;
-    color: #971a1a;
-    font-size: 1.2rem;
+    color: #888;
 }
 
-.password-input-container button.toggle-password:hover {
-    color: #b3261e;
+/* Ajuste del tamaño del ícono */
+.password-toggle svg {
+    width: 20px;
+    height: 20px;
 }
+
+/* Asegúrate de que el input tenga suficiente espacio en el lado derecho para el ícono */
+md-outlined-text-field {
+    padding-right: 40px; /* Ajusta este valor si es necesario */
+}
+
+
 
 /* Estilo para mensajes de error */
 .error-message {

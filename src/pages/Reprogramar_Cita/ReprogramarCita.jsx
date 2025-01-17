@@ -4,6 +4,8 @@ import { db } from '../../services/firebaseConfig';
 import { collection, query, where, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import './ReprogramarCita.style.css';
+import TextField from '@mui/material/TextField';
+
 
 const ReprogramarCita = () => {
     const [appointments, setAppointments] = useState([]);
@@ -12,6 +14,9 @@ const ReprogramarCita = () => {
     const [newTime, setNewTime] = useState('');
     const [userId, setUserId] = useState('');
     const [isLoading, setIsLoading] = useState(true); // Estado de carga
+    const [paginatedSlots, setPaginatedSlots] = useState([]);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [page, setPage] = useState(0);
 
     useEffect(() => {
         const fetchUserData = () => {
@@ -66,6 +71,27 @@ const ReprogramarCita = () => {
         }
     };
 
+    const generateTimeSlots = () => {
+        let slots = [];
+        for (let i = 9; i <= 16; i++) {
+            slots.push(`${i}:00`);
+        }
+        return slots;
+    };
+
+    const handleDateChange = (event) => {
+        setNewDay(event.target.value);
+    };
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
     return (
         <div className="reprogramar-cita-container">
             <Container fluid className="reprogramar-cita-main-content">
@@ -79,7 +105,7 @@ const ReprogramarCita = () => {
                         {isLoading ? (
                             <div className="d-flex justify-content-center">
                                 <Spinner animation="border" variant="light" />
-                            </div>  // Indicador de carga
+                            </div>
                         ) : (
                             appointments.length === 0 ? (
                                 <p className="non-scheudle-phrase">Sin citas registradas</p>
@@ -119,45 +145,45 @@ const ReprogramarCita = () => {
                                 <Row>
                                     <Col md={3}>
                                         <Form.Group controlId="reprogramar-cita-formDay">
-                                            <Form.Label className='reprogramar-cita-formDay'>Selecciona el Nuevo Día</Form.Label>
-                                            <Form.Control
+                                            <Form.Label>Selecciona el Nuevo Día</Form.Label>
+                                            <TextField
+                                                label="Seleccionar día"
                                                 type="date"
+                                                fullWidth
+                                                InputLabelProps={{ shrink: true }}
                                                 value={newDay}
-                                                onChange={(e) => setNewDay(e.target.value)}
-                                                className="custom-date-picker"
+                                                onChange={handleDateChange}
+                                                sx={{ mb: 2 }}
+                                                inputProps={{ min: new Date().toISOString().split("T")[0] }}
                                             />
                                         </Form.Group>
                                     </Col>
                                     <Col md={9}>
                                         <Form.Group controlId="reprogramar-cita-formTime">
-                                            <Form.Label className='reprogramar-cita-formDay'>Selecciona la Nueva Hora</Form.Label>
+                                            <Form.Label>Selecciona la Nueva Hora</Form.Label>
                                             <Table bordered className="programar-cita-table">
                                                 <thead>
                                                 <tr>
                                                     <th>Hora</th>
-                                                    <th>Lunes</th>
-                                                    <th>Martes</th>
-                                                    <th>Miércoles</th>
-                                                    <th>Jueves</th>
-                                                    <th>Viernes</th>
-                                                    <th>Sábado</th>
-                                                    <th>Domingo</th>
+                                                    <th>Disponibilidad</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                {Array.from({ length: 8 }, (_, i) => 9 + i).map((hour) => (
-                                                    <tr key={hour}>
-                                                        <td>{`${hour}:00 `}</td>
-                                                        {['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'].map(day => (
-                                                            <td key={day}>
-                                                                <div
-                                                                    className={`programar-cita-available-slot ${newTime === `${day} ${hour}:00` ? 'selected' : ''}`}
-                                                                    onClick={() => setNewTime(`${day} ${hour}:00`)}
-                                                                >
-                                                                    Disponible
-                                                                </div>
-                                                            </td>
-                                                        ))}
+                                                {generateTimeSlots().map((time) => (
+                                                    <tr key={time}>
+                                                        <td>{time}</td>
+                                                        <td
+                                                            onClick={() => {
+                                                                setNewTime(time);
+                                                            }}
+                                                            style={{
+                                                                cursor: "pointer",
+                                                                backgroundColor: newTime === time ? "blue" : "#fff",
+                                                                color: newTime === time ? "white" : "black",
+                                                            }}
+                                                        >
+                                                            {newTime === time ? "Seleccionada" : "Disponible"}
+                                                        </td>
                                                     </tr>
                                                 ))}
                                                 </tbody>
@@ -167,7 +193,7 @@ const ReprogramarCita = () => {
                                 </Row>
                                 <Row className="mt-3 justify-content-center">
                                     <Col md={3}>
-                                        <Button variant="success" onClick={handleReprogram} block className="programar-cita-ml-2">Reprogramar</Button>
+                                        <Button variant="success" onClick={handleReprogram} block>Reprogramar</Button>
                                     </Col>
                                 </Row>
                             </Form>

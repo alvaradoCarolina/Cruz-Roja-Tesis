@@ -13,6 +13,9 @@ const Informacion = () => {
 
             <main className="main-component">
                 {/* Título */}
+                <br></br>
+                <br></br>
+                <br></br>
                 <div className="info-header">
                     <h1>Información sobre la Donación de Sangre</h1>
                 </div>

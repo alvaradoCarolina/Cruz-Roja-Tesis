@@ -6,7 +6,7 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
 } from "firebase/auth";
-import { FaGoogle } from "react-icons/fa";
+import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa"; // Importa los íconos de "ojo"
 import { collection, getDocs, query, where } from "firebase/firestore"; // Importa Firestore
 import './Login.style.css';
 import Loader from '../Loader';
@@ -15,7 +15,6 @@ import Swal from "sweetalert2";
 import "@material/web/button/filled-button.js";
 import "@material/web/button/filled-tonal-button.js";
 import "@material/web/textfield/outlined-text-field.js";
-//import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -25,7 +24,7 @@ const Login = () => {
     const [isSwalActive, setIsSwalActive] = useState(false);
     const navigate = useNavigate();
     const googleProvider = new GoogleAuthProvider();
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false); // Estado para controlar la visibilidad de la contraseña
 
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Patrón de validación
@@ -175,13 +174,21 @@ const Login = () => {
                                 onInput={(e) => setEmail(e.target.value)}
                                 required
                             ></md-outlined-text-field>
-                            <md-outlined-text-field
-                                label="Contraseña"
-                                type="password"
-                                value={password}
-                                onInput={(e) => setPassword(e.target.value)}
-                                required
-                            ></md-outlined-text-field>
+                            
+                            {/* Contenedor para el campo de contraseña y el botón de mostrar/ocultar */}
+                            <div className="password-container">
+                                <md-outlined-text-field
+                                    label="Contraseña"
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onInput={(e) => setPassword(e.target.value)}
+                                    required
+                                    className="password-field"
+                                />
+                                <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </button>
+                            </div>
 
                             <md-filled-button onClick={handleLogin}>
                                 Iniciar Sesión

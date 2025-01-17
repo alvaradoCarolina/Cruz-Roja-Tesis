@@ -105,6 +105,7 @@ import "@material/web/textfield/outlined-text-field.js";
     return (
         <div className="formulario-donacion-container">
             <CustomNavbar />
+            <br></br>
             <Container fluid className="formulario-donacion-main-content">
                 <Row className="formulario-donacion-top-bar">
                     <Col md={12}>
