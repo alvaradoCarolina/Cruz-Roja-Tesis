@@ -51,6 +51,7 @@ const GestionFormulario = () => {
 
     // Agregar título y logo (si lo necesitas)
     doc.text(`Formulario de Donación: ${donacionSeleccionada.nombre}`, 20, 20);
+    doc.text(`Email: ${formularioSeleccionado.email}`, 20, 30);
 
     // Crear la tabla con los datos
     const tablaData = [
@@ -93,17 +94,17 @@ const GestionFormulario = () => {
         <div className="gestion-formulario-container">
           <h1>Gestión de Donaciones</h1>
 
-          {/* Vista Previa (antes de la primera tabla) */}
+          {/* Vista Previa */}
           {showPreview && donacionSeleccionada && (
             <div className="vista-previa">
-              <h3>Vista Previa del Formulario: {donacionSeleccionada.nombre}</h3>
+              <h3>Vista Formulario de Donante {donacionSeleccionada.nombre}</h3>
 
               {/* Mostrar los datos del formulario completo en una tabla */}
               <table className="vista-previa-table">
                 <thead>
                   <tr>
-                    <th>Campo</th>
-                    <th>Valor</th>
+                    <th>Preguntas</th>
+                    <th>respuestas</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -149,8 +150,8 @@ const GestionFormulario = () => {
                   <td>{donacion.edad}</td>
                   <td>
                     <button onClick={() => handleSeleccionarDonacion(donacion)}>Vista Previa</button>
-                    <button onClick={() => handleEliminarDonacion(donacion.id)}>Eliminar</button>
                     <button onClick={() => generarPDF(donacion)}>Generar PDF</button> {/* Botón PDF en Acciones */}
+                    <button onClick={() => handleEliminarDonacion(donacion.id)}>Eliminar</button>
                   </td>
                 </tr>
               ))}

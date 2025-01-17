@@ -12,12 +12,11 @@
 /* Contenedor de donantes */
 .donantes-container {
     padding: 20px;
-    text-align: center;
 }
 
 /* Estilos de la tabla */
 .donantes-table {
-    width: 100%;
+    width: 130%;
     border-collapse: collapse;
     margin-top: 20px;
 }
@@ -25,7 +24,7 @@
 /* Estilos para las celdas de la tabla */
 .donantes-table th, .donantes-table td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 9px;
     text-align: left;
 }
 
@@ -33,6 +32,7 @@
 .donantes-table th {
     background-color: #B40B0B;
     color: white;
+    text-align: center;
 }
 
 /* Fila par en la tabla */
@@ -50,7 +50,7 @@
     background-color: #B40B0B;
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 8px 30px;
     cursor: pointer;
     border-radius: 4px;
 }
@@ -58,6 +58,34 @@
 .delete-button:hover {
     background-color: #a00a0a;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.pagination button {
+    padding: 5px 10px;
+    background-color: #B40B0B;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.pagination button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    font-size: 1rem;
+    color: #333;
+}
+
 
 /* Media Queries para hacer la tabla responsiva */
 @media (max-width: 768px) {
