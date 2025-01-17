@@ -16,7 +16,7 @@
 
 /* Estilos de la tabla */
 .donantes-table {
-    width: 130%;
+    width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
@@ -86,7 +86,6 @@
     color: #333;
 }
 
-
 /* Media Queries para hacer la tabla responsiva */
 @media (max-width: 768px) {
     .donantes-table th, .donantes-table td {
@@ -97,6 +96,31 @@
     .delete-button {
         padding: 4px 8px;
         font-size: 14px;
+    }
+
+    .donantes-table th, .donantes-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .donantes-table th {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .donantes-table td {
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .donantes-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: bold;
     }
 }
 
