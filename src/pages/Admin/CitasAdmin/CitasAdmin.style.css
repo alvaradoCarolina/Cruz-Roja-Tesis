@@ -8,19 +8,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px;
+    margin: 10px;
     color: #B40B0B;
+    text-align: center;
 }
 
 .admin-section {
     display: flex;
     justify-content: space-around;
-    padding: 20px;
+    padding: 5px;
     background-color: #f5f5f5;
+    flex-wrap: wrap; /* Permite que los elementos se acomoden en múltiples filas */
 }
 
 .citas-section {
-    flex: 1;
+    flex: 0.5;
     margin: 10px;
     padding: 20px;
     background-color: white;
@@ -28,6 +30,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Botones */
 .admin-button {
     display: block;
     width: 100%;
@@ -43,4 +46,39 @@
 
 .admin-button:hover {
     background-color: #a00a0a;
+}
+
+/* Responsividad */
+@media screen and (max-width: 768px) {
+    .admin-section {
+        flex-direction: column;
+        align-items: center; /* Centrar los elementos en pantallas pequeñas */
+        gap: 15px; /* Separación entre elementos */
+    }
+
+    .citas-section {
+        width: 90%; /* Ajusta el ancho de la sección en pantallas pequeñas */
+        margin: 10px auto;
+        padding: 15px;
+    }
+
+    .admin-button {
+        font-size: 0.9em; /* Reducir tamaño de fuente en pantallas pequeñas */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .admin-section {
+        padding: 10px;
+    }
+
+    .citas-section {
+        width: 100%; /* Ocupa el 100% del ancho disponible */
+        margin: 5px auto;
+    }
+
+    .admin-button {
+        font-size: 0.85em; /* Reducir aún más el tamaño en pantallas muy pequeñas */
+        padding: 8px;
+    }
 }

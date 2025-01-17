@@ -35,7 +35,6 @@ const HomeAdmin = () => {
                 <aside className="formularios-section">
                     <h1>Gestionar Formularios de Donación</h1>
                     <button className="admin-button">Ver Formularios</button>
-                    <button className="admin-button">Eliminar Formulario</button>
                 </aside>
             </section>
 

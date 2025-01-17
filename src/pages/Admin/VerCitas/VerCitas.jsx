@@ -5,26 +5,49 @@ import NavbarAdmin from '../../../components/Admin/NavbarAdmin/NavbarAdmin';
 import Footer from '../../../components/Footer';
 import './VerCitas.style.css';
 
-
 const VerCitas = () => {
     const [citas, setCitas] = useState([]);
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        const fetchCitas = async () => {
-            const querySnapshot = await getDocs(collection(db, "citas"));
-            const citasData = querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-            setCitas(citasData);
+        const fetchData = async () => {
+            try {
+                // Obtener las citas
+                const citasSnapshot = await getDocs(collection(db, "citas"));
+                const citasData = citasSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                // Obtener los usuarios
+                const usersSnapshot = await getDocs(collection(db, "users"));
+                const usersData = usersSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                // Combinar los datos
+                const combinedData = citasData.map(cita => {
+                    const user = usersData.find(user => user.uid === cita.userId);
+                    return {
+                        ...cita,
+                        usersName: user ? user.name : 'Desconocido',
+                        usersEmail: user ? user.email : 'Desconocido',
+                    };
+                });
+
+                setCitas(combinedData);
+            } catch (error) {
+                console.error("Error al obtener los datos:", error);
+            }
         };
 
-        fetchCitas();
+        fetchData();
     }, []);
 
     return (
         <div className="layout">
-            <NavbarAdmin/>
+            <NavbarAdmin />
             <main className="main">
                 <div className="ver-citas-container">
                     <h1>Lista de Citas</h1>
@@ -34,7 +57,7 @@ const VerCitas = () => {
                                 <th>Fecha</th>
                                 <th>Hora</th>
                                 <th>Donante</th>
-                                <th>Correo Electronico</th>
+                                <th>Correo Electrónico</th>
                                 <th>Sede</th>
                             </tr>
                         </thead>
@@ -45,14 +68,14 @@ const VerCitas = () => {
                                     <td>{cita.time}</td>
                                     <td>{cita.usersName}</td>
                                     <td>{cita.usersEmail}</td>
-                                    <th>{cita.location}</th>
+                                    <td>{cita.location}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
             </main>
-            <Footer/>
+            <Footer />
         </div>
     );
 };

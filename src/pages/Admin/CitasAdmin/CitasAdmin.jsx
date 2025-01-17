@@ -16,7 +16,6 @@ const CitasAdmin = () => {
             
             <section className="admin-section">
                 <aside className="citas-section">
-                    <button className="admin-button" onClick={() => navigate('/citas/programar')}>Programar Cita</button>
                     <button className="admin-button" onClick={() => navigate('/citas/ver')}>Ver Citas</button>
                     <button className="admin-button" onClick={() => navigate('/citas/editar')}>Editar Citas</button>
                     <button className="admin-button" onClick={() => navigate('/citas/cancelar')}>Cancelar Cita</button>
