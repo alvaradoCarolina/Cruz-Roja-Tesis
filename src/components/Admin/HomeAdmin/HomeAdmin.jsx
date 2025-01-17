@@ -34,7 +34,7 @@ const HomeAdmin = () => {
                 {/* Gestionar Formularios de Donación */}
                 <aside className="formularios-section">
                     <h1>Gestionar Formularios de Donación</h1>
-                    <button className="admin-button">Ver Formularios</button>
+                    <button className="admin-button" onClick={() => navigate('/gestion-formulario')}>Ver Formularios</button>
                 </aside>
             </section>
 

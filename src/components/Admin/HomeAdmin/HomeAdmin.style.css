@@ -39,6 +39,10 @@ h1 {
     color: #B40B0B;
 }
 
+p {
+    color: black;
+}
+
 .admin-button {
     display: block;
     width: 100%;
@@ -91,6 +95,7 @@ h1 {
         font-size: 0.9em; /* Ajustar tamaño del texto */
         padding: 8px;
     }
+
 }
 
 @media screen and (max-width: 480px) {

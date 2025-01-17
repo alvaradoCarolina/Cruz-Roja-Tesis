@@ -57,7 +57,7 @@ const NavbarAdmin = () => {
                         <Link to="/home-admin" className="nav-item">Inicio</Link>
                         <Link to="/gestion-donantes" className="nav-item">Gestionar Donantes</Link>
                         <Link to="/citas-admin" className="nav-item">Administrar Citas</Link>
-                        <Link to="/gestion-formularios" className="nav-item">Formularios de Donación</Link>
+                        <Link to="/gestion-formulario" className="nav-item">Formularios de Donación</Link>
 
                         {/* Botón de logout */}
                         <button className="exit_button">

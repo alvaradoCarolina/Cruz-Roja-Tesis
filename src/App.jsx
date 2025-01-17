@@ -29,6 +29,7 @@ import ProgramarCitaAdmin from './pages/Admin/ProgramarCita/ProgramarCita';
 import VerCitasAdmin from './pages/Admin/VerCitas/VerCitas'; 
 import EditarCitaAdmin from './pages/Admin/EditarCita/EditarCita'; 
 import CancelarCitaAdmin from './pages/Admin/CancelarCita/CancelarCita';
+import GestionFormulario from './pages/Admin/GestionFormulario/GestionFormulario';
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -52,6 +53,7 @@ function App() {
             <Route path="/citas/ver" element={<VerCitasAdmin />} /> 
             <Route path="/citas/editar" element={<EditarCitaAdmin />} /> 
             <Route path="/citas/cancelar" element={<CancelarCitaAdmin />} />
+            <Route path="gestion-formulario" element={<GestionFormulario />} />
 
             {/* Rutas protegidas */}
             <Route

@@ -1,0 +1,81 @@
+/* Estilos generales */
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.h1 {
+    color: #B40B0B;
+}
+
+.gestionar-donaciones-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.gestionar-donaciones-container h1 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #333;
+}
+
+.donaciones-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.donaciones-table th, .donaciones-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.donaciones-table th {
+    background-color: #f4f4f4;
+}
+
+.donaciones-table button {
+    background-color: #B40B0B;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.donaciones-table button:hover {
+    background-color: #B40B0B;
+}
+
+.donaciones-table button:active {
+    transform: scale(0.98);
+}
+
+.vista-previa-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .vista-previa-table th, .vista-previa-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .vista-previa-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .vista-previa {
+    margin-bottom: 20px;
+  }
+  
