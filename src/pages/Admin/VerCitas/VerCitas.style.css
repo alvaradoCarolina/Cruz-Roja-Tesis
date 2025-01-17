@@ -1,3 +1,4 @@
+/* Estilos generales */
 .layout {
     display: flex;
     flex-direction: column;
@@ -48,6 +49,32 @@
     .citas-table th, .citas-table td {
         padding: 6px;
     }
+
+    .citas-table th, .citas-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .citas-table th {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .citas-table td {
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .citas-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: bold;
+        white-space: nowrap;
+    }
 }
 
 @media (max-width: 576px) {
@@ -57,16 +84,5 @@
 
     .citas-table th, .citas-table td {
         padding: 4px;
-    }
-
-    .citas-table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    .citas-table th, .citas-table td {
-        display: inline-block;
-        min-width: 100px;
     }
 }

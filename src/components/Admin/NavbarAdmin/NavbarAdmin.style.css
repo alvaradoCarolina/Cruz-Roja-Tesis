@@ -1,13 +1,20 @@
+/* Estilos generales */
 .custom-navbar {
     width: 100%;
+    position: fixed; /* Hace que la navbar sea fija */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Asegura que esté encima de otros elementos */
     background-color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20 20px;
+    padding: 0 20px;
     height: 80px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Añade una sombra para destacar la navbar */
 }
 
+/* Contenedor de la navbar */
 .navbar-container {
     display: flex;
     align-items: center;
@@ -15,11 +22,13 @@
     width: 100%;
 }
 
+/* Logo de la navbar */
 .navbar-logo img {
     height: 40px;
     cursor: pointer;
 }
 
+/* Botón de menú para móviles */
 .menu-toggle {
     display: none;
     background: none;
@@ -29,12 +38,15 @@
     cursor: pointer;
 }
 
+/* Links de la navbar */
 .navbar-links {
     display: flex;
     align-items: center;
     gap: 20px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+/* Estilos de los ítems del menú */
 .nav-item {
     color: rgb(0, 0, 0);
     text-decoration: none;
@@ -46,6 +58,7 @@
     text-decoration: underline;
 }
 
+/* Botón de logout */
 .exit_button {
     background: none;
     border: none;
@@ -64,33 +77,48 @@
     margin-right: 5px;
 }
 
+/* Estilos responsivos */
 @media (max-width: 768px) {
+    /* Mostrar botón de menú en dispositivos pequeños */
     .menu-toggle {
         display: block;
     }
 
+    /* Ocultar links por defecto */
     .navbar-links {
         display: none;
         flex-direction: column;
         align-items: flex-start;
         background-color: #ffffff;
         position: absolute;
-        top: 60px;
+        top: 80px; /* Debajo de la navbar */
         left: 0;
         width: 100%;
         padding: 20px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para el menú desplegable */
+        transform: translateY(-20px);
+        opacity: 0;
+        visibility: hidden;
     }
 
+    /* Menú desplegado */
     .navbar-links.open {
         display: flex;
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
     }
 
+    /* Estilos para ítems del menú */
     .nav-item {
         width: 100%;
         padding: 10px 0;
+        font-size: 18px;
     }
 
+    /* Estilos para logout */
     .nav-logout {
         padding: 10px 0;
+        font-size: 18px;
     }
 }
