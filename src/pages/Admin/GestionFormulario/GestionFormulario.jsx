@@ -51,7 +51,7 @@ const GestionFormulario = () => {
 
     // Agregar título y logo (si lo necesitas)
     doc.text(`Formulario de Donación: ${donacionSeleccionada.nombre}`, 20, 20);
-    doc.text(`Email: ${formularioSeleccionado.email}`, 20, 30);
+    //doc.text(`Email: ${formularioSeleccionado.email}`, 20, 30);
 
     // Crear la tabla con los datos
     const tablaData = [
