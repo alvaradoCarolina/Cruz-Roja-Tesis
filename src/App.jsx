@@ -92,7 +92,7 @@ function App() {
                 path="/citas/cancelar" 
                 element={
                     <AuthVerification isAuthenticated={isAuthenticated}> {/* Protección de ruta */}
-                        CancelarCitaAdmin />
+                        <CancelarCitaAdmin />
                         </AuthVerification>
                     } 
             />
