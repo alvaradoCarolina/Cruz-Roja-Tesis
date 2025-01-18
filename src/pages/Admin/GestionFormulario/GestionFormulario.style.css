@@ -32,6 +32,15 @@
     margin-top: 20px;
 }
 
+.vista-prev {
+    margin-top: 20px;
+    margin-right: 20px;
+    padding: 8px;
+    color: #ffffff;
+    background-color: #B40B0B;    
+    border: 1px solid #ddd;
+  }  
+
 .donaciones-table th, .donaciones-table td {
     padding: 18px;
     text-align: left;

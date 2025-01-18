@@ -49,9 +49,12 @@ const GestionFormulario = () => {
   const generarPDF = () => {
     const doc = new jsPDF();
 
-    // Agregar título y logo (si lo necesitas)
-    doc.text(`Formulario de Donación: ${donacionSeleccionada.nombre}`, 20, 20);
-    //doc.text(`Email: ${formularioSeleccionado.email}`, 20, 30);
+    // Agregar el logo (reemplaza 'logoBase64' con tu imagen en formato base64 o ruta local)
+    const logoBase64 = 'data:image/jpeg;base64,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'; // Reemplaza con tu imagen codificada en base64
+    doc.addImage(logoBase64, 'PNG', 10, 10, 30, 30); // (imagen, formato, x, y, ancho, alto)
+
+    // Agregar título
+    doc.text(`                     Formulario de Donación: ${donacionSeleccionada.nombre}`, 20, 30);
 
     // Crear la tabla con los datos
     const tablaData = [
@@ -76,7 +79,7 @@ const GestionFormulario = () => {
     ];
 
     doc.autoTable({
-      startY: 40,
+      startY: 50, // Ajustar para que no se superponga con el logo
       head: tablaData.slice(0, 1),
       body: tablaData.slice(1),
       theme: 'striped',
@@ -85,7 +88,8 @@ const GestionFormulario = () => {
     });
 
     doc.save(`${donacionSeleccionada.nombre}_formulario.pdf`);
-  };
+};
+
 
   return (
     <div>
@@ -128,7 +132,8 @@ const GestionFormulario = () => {
                 </tbody>
               </table>
 
-              <button onClick={() => setShowPreview(false)}>Cerrar Vista Previa</button>
+              <button className='vista-prev' onClick={generarPDF}>Generar PDF</button>
+              <button className='vista-prev' onClick={() => setShowPreview(false)}>Cerrar Vista Previa</button>
             </div>
           )}
 
@@ -150,7 +155,6 @@ const GestionFormulario = () => {
                   <td>{donacion.edad}</td>
                   <td>
                     <button onClick={() => handleSeleccionarDonacion(donacion)}>Vista Previa</button>
-                    <button onClick={() => generarPDF(donacion)}>Generar PDF</button> {/* Botón PDF en Acciones */}
                     <button onClick={() => handleEliminarDonacion(donacion.id)}>Eliminar</button>
                   </td>
                 </tr>

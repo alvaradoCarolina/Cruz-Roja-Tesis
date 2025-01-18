@@ -84,11 +84,12 @@
     width: 100%;
   }
   
+
   select {
     height: 40px;
     border: 1px solid rgb(206, 202, 202);
     border-radius: 4px;
-    padding: 0 350px;
+    padding: 0 326px;
     font-size: 16px;
     color: rgb(72, 72, 72);
   }
