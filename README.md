@@ -41,8 +41,6 @@ npm install
 yarn install
 ```
 
-   ```
-
 ### 5. Iniciar la aplicación
 Inicia el servidor de desarrollo:
 ```bash
